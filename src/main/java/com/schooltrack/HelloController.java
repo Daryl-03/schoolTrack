@@ -1,4 +1,4 @@
-package com.schooltrack.schooltrack;
+package com.schooltrack;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

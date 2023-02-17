@@ -10,7 +10,8 @@ module com.schooltrack.schooltrack {
     requires org.kordamp.bootstrapfx.core;
 //    requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.sql;
     
-    opens com.schooltrack.schooltrack to javafx.fxml;
-    exports com.schooltrack.schooltrack;
+    opens com.schooltrack to javafx.fxml;
+    exports com.schooltrack;
 }

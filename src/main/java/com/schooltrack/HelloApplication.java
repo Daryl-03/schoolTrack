@@ -1,4 +1,4 @@
-package com.schooltrack.schooltrack;
+package com.schooltrack;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
