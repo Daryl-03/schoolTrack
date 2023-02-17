@@ -9,59 +9,71 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <AnchorPane prefHeight="65.0" prefWidth="600.0" style="-fx-background-color: #048b9a;" BorderPane.alignment="CENTER">
-         <children>
-            <Label layoutX="32.0" layoutY="24.0" text="SchoolTrack" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Label>
-            <MenuButton layoutX="941.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: black;">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
-              </items>
-               <graphic>
-                  <FontAwesomeIconView fill="WHITE" glyphName="USER" size="17" />
-               </graphic>
-            </MenuButton>
-            <Separator layoutX="14.0" layoutY="64.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-         </children></AnchorPane>
-   </top>
-   <left>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #048b9a;" BorderPane.alignment="CENTER">
-         <children>
-            <JFXButton alignment="BASELINE_LEFT" layoutX="58.0" layoutY="39.0" prefHeight="38.0" prefWidth="196.0" text="Dashboard" textFill="WHITE" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="100.0">
-               <graphic>
-                  <FontAwesomeIconView fill="WHITESMOKE" glyphName="TACHOMETER" size="17" />
-               </graphic>
-               <padding>
-                  <Insets left="18.0" />
-               </padding>
-            </JFXButton>
-            <JFXButton alignment="BASELINE_LEFT" layoutX="6.0" layoutY="119.0" prefHeight="38.0" prefWidth="196.0" text="Classes" textFill="WHITE" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="140.0">
-               <graphic>
-                  <FontAwesomeIconView fill="WHITESMOKE" glyphName="UNIVERSITY" size="17" />
-               </graphic>
-               <padding>
-                  <Insets left="18.0" />
-               </padding>
-            </JFXButton>
-            <JFXButton alignment="BASELINE_LEFT" layoutX="14.0" layoutY="169.0" prefHeight="38.0" prefWidth="196.0" text="Inscription" textFill="WHITE" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="180.0">
-               <graphic>
-                  <FontAwesomeIconView fill="WHITESMOKE" glyphName="USER_PLUS" size="17" text="" />
-               </graphic>
-               <padding>
-                  <Insets left="18.0" />
-               </padding>
-            </JFXButton>
-         </children></AnchorPane>
-   </left>
-   <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </center>
-</BorderPane>
+
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0">
+         <top>
+            <AnchorPane prefHeight="65.0" prefWidth="600.0" style="-fx-background-color: #048b9a;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="32.0" layoutY="24.0" text="SchoolTrack" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <MenuButton layoutX="941.0" layoutY="22.0" mnemonicParsing="false" style="-fx-background-color: black;">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                    </items>
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="USER" size="17" />
+                     </graphic>
+                  </MenuButton>
+                  <Separator layoutX="14.0" layoutY="64.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </top>
+         <left>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #048b9a;" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox layoutX="2.0" layoutY="100.0">
+                     <children>
+                        <JFXButton alignment="BASELINE_LEFT" prefHeight="38.0" prefWidth="196.0" text="Dashboard" textFill="WHITE">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITESMOKE" glyphName="TACHOMETER" size="17" />
+                           </graphic>
+                           <padding>
+                              <Insets left="18.0" />
+                           </padding>
+                        </JFXButton>
+                        <JFXButton alignment="BASELINE_LEFT" prefHeight="38.0" prefWidth="196.0" text="Classes" textFill="WHITE">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITESMOKE" glyphName="UNIVERSITY" size="17" />
+                           </graphic>
+                           <padding>
+                              <Insets left="18.0" />
+                           </padding>
+                        </JFXButton>
+                        <JFXButton alignment="BASELINE_LEFT" prefHeight="38.0" prefWidth="196.0" text="Inscription" textFill="WHITE">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITESMOKE" glyphName="USER_PLUS" size="17" text="" />
+                           </graphic>
+                           <padding>
+                              <Insets left="18.0" />
+                           </padding>
+                        </JFXButton>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </left>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

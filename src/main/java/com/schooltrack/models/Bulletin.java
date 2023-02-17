@@ -8,68 +8,67 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 
 public class Bulletin {
-	protected IntegerProperty id;
-	protected StringProperty trimestre;
-	protected FloatProperty moyenne;
-	protected ListProperty<Note> notes;
+	private IntegerProperty id;
+	private StringProperty trimestre;
+	private FloatProperty moyenne;
+	private ListProperty<Note> notes;
 	
-	public Integer getId() {
+	public int getId() {
 		return id.get();
 	}
-
-	public void setId(Integer id) {
-		this.id.set(id);
-	}
-
-	public IntegerProperty IdProperty() {
-		
+	
+	public IntegerProperty idProperty() {
 		return id;
 	}
-
-
-	public Float getMoyenne() {
-		return moyenne.get();
+	
+	public void setId(int id) {
+		this.id.set(id);
 	}
-
-	public void setMoyenne(Float moyenne ) {
-		this.moyenne.set(moyenne);
-	}
-
-	public FloatProperty moyenneProperty() {
-		return moyenne;
-	}
-
+	
 	public String getTrimestre() {
 		return trimestre.get();
 	}
-
+	
+	public StringProperty trimestreProperty() {
+		return trimestre;
+	}
+	
 	public void setTrimestre(String trimestre) {
 		this.trimestre.set(trimestre);
 	}
-	public StringProperty trimestre()
-	{
-		return trimestre;
+	
+	public float getMoyenne() {
+		return moyenne.get();
 	}
-
-	public ListProperty<Note> getNote() {
+	
+	public FloatProperty moyenneProperty() {
+		return moyenne;
+	}
+	
+	public void setMoyenne(float moyenne) {
+		this.moyenne.set(moyenne);
+	}
+	
+	public ObservableList<Note> getNotes() {
+		return notes.get();
+	}
+	
+	public ListProperty<Note> notesProperty() {
 		return notes;
 	}
-	public void setNote(ListProperty<Note> note) {
-		this.notes = note;
+	
+	public void setNotes(ObservableList<Note> notes) {
+		this.notes.set(notes);
 	}
-	public ListProperty<Note> noteProperty() {
-		return notes;
-	}
-
-	public Bulletin(Integer id, String trimestre, Float moyenne, ListProperty<Note> note) {
+	
+	public Bulletin(int id, String trimestre, float moyenne, ObservableList<Note> note) {
 		
 		this.id =new SimpleIntegerProperty(id);
 		this.trimestre = new SimpleStringProperty(trimestre);
 		this.moyenne = new SimpleFloatProperty(moyenne);
 		this.notes = new SimpleListProperty<Note>(note);
 	}
-	
-	
 }
