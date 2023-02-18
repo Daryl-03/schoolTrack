@@ -6,41 +6,31 @@ import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Note {
-	protected IntegerProperty id;
-	protected FloatProperty valeur;
+	private IntegerProperty id;
+	private FloatProperty valeur;
 
-	public Integer getId() {
+	public int getId() {
 		return id.get();
 	}
 
-	public void setId(Integer id) {
-		this.id.set(id);
-		;
-	}
-
-	public IntegerProperty IdProperty() {
-		
+	public IntegerProperty idProperty() {
 		return id;
 	}
 
-
-	public Float getValeur() {
-		return valeur.get();
+	public void setId(int id) {
+		this.id.set(id);
 	}
 
-	public void setValeur(Float Valeur ) {
-		this.valeur.set(Valeur);
-		if( Valeur < 0) {
-			this.valeur.set(0);
-		}if( Valeur > 20) {
-			this.valeur.set(20);
-		}
-			
-		
+	public float getValeur() {
+		return valeur.get();
 	}
 
 	public FloatProperty valeurProperty() {
 		return valeur;
+	}
+
+	public void setValeur(float valeur) {
+		this.valeur.set(valeur);
 	}
 
 	public Note(Integer id, Float valeur ) {

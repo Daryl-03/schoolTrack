@@ -6,47 +6,44 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Matiere {
-	protected IntegerProperty id;
-	protected StringProperty nom;
-	protected IntegerProperty coefficient;
+	private IntegerProperty id;
+	private StringProperty nom;
+	private IntegerProperty coefficient;
 
-	public Integer getId() {
+	public int getId() {
 		return id.get();
 	}
 
-	public void setId(Integer id) {
-		this.id.set(id);
-		;
-	}
-
-	public IntegerProperty IdProperty() {
+	public IntegerProperty idProperty() {
 		return id;
 	}
-	
-	public Integer getcoefficient() {
-		return coefficient.get();
+
+	public void setId(int id) {
+		this.id.set(id);
 	}
 
-	public void setcoefficient(Integer coefficient) {
-		this.coefficient.set(coefficient);
-		;
+	public String getNom() {
+		return nom.get();
+	}
+
+	public StringProperty nomProperty() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom.set(nom);
+	}
+
+	public int getCoefficient() {
+		return coefficient.get();
 	}
 
 	public IntegerProperty coefficientProperty() {
 		return coefficient;
 	}
 
-
-	public String getIntitule() {
-		return nom.get();
-	}
-
-	public void setIntitule(String nom) {
-		this.nom.set(nom);
-	}
-
-	public StringProperty IntituleProperty() {
-		return nom;
+	public void setCoefficient(int coefficient) {
+		this.coefficient.set(coefficient);
 	}
 
 	public Matiere(Integer id, String nom, Integer coefficient ) {

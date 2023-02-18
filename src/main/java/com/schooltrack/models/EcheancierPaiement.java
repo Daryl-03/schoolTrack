@@ -8,66 +8,64 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 
 public class EcheancierPaiement {
-	protected IntegerProperty id;
-	protected IntegerProperty nbPaiements;
-	protected ObjectProperty<LocalDate> premiereEcheance;
+	private IntegerProperty id;
+	private IntegerProperty nbPaiements;
+	private ObjectProperty<LocalDate> premiereEcheance;
 	//attribut liste de date de paiement
-	protected ListProperty<LocalDate> echeances;
-	
-	//getters and setters de 
-	
-	public Integer getId() {
+	private ListProperty<LocalDate> echeances;
+
+	public int getId() {
 		return id.get();
 	}
 
-	public void setId(Integer id) {
-		this.id.set(id);
-		;
+	public IntegerProperty idProperty() {
+		return id;
 	}
 
-	public IntegerProperty IdProperty() {
-		return id;
+	public void setId(int id) {
+		this.id.set(id);
 	}
 
 	public LocalDate getPremiereEcheance() {
 		return premiereEcheance.get();
 	}
 
-	public void setDate(LocalDate PremierEch) {
-		this.premiereEcheance.set(PremierEch);
-		;
-	}
-
-	public ObjectProperty<LocalDate> PremierEchProperty() {
+	public ObjectProperty<LocalDate> premiereEcheanceProperty() {
 		return premiereEcheance;
-
 	}
-//getters and setters de nbPaiements
-	public Integer getNbPaiements() {
+
+	public void setPremiereEcheance(LocalDate premiereEcheance) {
+		this.premiereEcheance.set(premiereEcheance);
+	}
+
+	public int getNbPaiements() {
 		return nbPaiements.get();
-	}
-
-	public void setNbPaiements(Integer nbPaiements) {
-		this.nbPaiements.set(nbPaiements);
-		;
 	}
 
 	public IntegerProperty nbPaiementsProperty() {
 		return nbPaiements;
 	}
 
-	//getters and setters de echeances
-	public ListProperty<LocalDate> getEcheances() {
-		return echeances;
+	public void setNbPaiements(int nbPaiements) {
+		this.nbPaiements.set(nbPaiements);
 	}
-	
+
+	public ObservableList<LocalDate> getEcheances() {
+		return echeances.get();
+	}
+
 	public ListProperty<LocalDate> echeancesProperty() {
 		return echeances;
 	}
-	//constructeur
-	public EcheancierPaiement(Integer id , Integer nbPaiements, LocalDate premiereEcheance, ListProperty<LocalDate> echeances) {
+
+	public void setEcheances(ObservableList<LocalDate> echeances) {
+		this.echeances.set(echeances);
+	}
+
+	public EcheancierPaiement(Integer id , Integer nbPaiements, LocalDate premiereEcheance, ObservableList<LocalDate> echeances) {
 		this.id = new SimpleIntegerProperty(id);
 		this.nbPaiements = new SimpleIntegerProperty(nbPaiements);
 		this.premiereEcheance = new SimpleObjectProperty<LocalDate>(premiereEcheance);

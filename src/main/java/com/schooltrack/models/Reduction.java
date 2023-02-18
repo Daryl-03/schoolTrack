@@ -8,58 +8,57 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Reduction {
-	protected IntegerProperty id;
-	protected StringProperty observation;
-	protected StringProperty Intitule;
-	protected DoubleProperty montant;
+	private IntegerProperty id;
+	private StringProperty observation;
+	private StringProperty Intitule;
+	private DoubleProperty montant;
 
-	public Integer getId() {
+	public int getId() {
 		return id.get();
 	}
 
-	public void setId(Integer id) {
-		this.id.set(id);
-		;
-	}
-
-	public IntegerProperty IdProperty() {
+	public IntegerProperty idProperty() {
 		return id;
 	}
 
-	public String getIntitule() {
-		return Intitule.get();
-	}
-
-	public void setIntitule(String Intitule) {
-		this.Intitule.set(Intitule);
-	}
-
-	public StringProperty IntituleProperty() {
-		return Intitule;
+	public void setId(int id) {
+		this.id.set(id);
 	}
 
 	public String getObservation() {
 		return observation.get();
 	}
 
+	public StringProperty observationProperty() {
+		return observation;
+	}
+
 	public void setObservation(String observation) {
 		this.observation.set(observation);
 	}
 
-	public StringProperty obseProperty() {
-		return observation;
+	public String getIntitule() {
+		return Intitule.get();
 	}
 
-	public Double getMontant() {
+	public StringProperty intituleProperty() {
+		return Intitule;
+	}
+
+	public void setIntitule(String intitule) {
+		this.Intitule.set(intitule);
+	}
+
+	public double getMontant() {
 		return montant.get();
-	}
-
-	public void setMontant(Double montant) {
-		this.montant.set(montant);
 	}
 
 	public DoubleProperty montantProperty() {
 		return montant;
+	}
+
+	public void setMontant(double montant) {
+		this.montant.set(montant);
 	}
 
 	public Reduction(Integer id, String observation, String intitule, Double montant) {

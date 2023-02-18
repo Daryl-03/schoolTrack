@@ -9,43 +9,44 @@ import javafx.beans.property.StringProperty;
 
 public class Rubrique {
 
-	protected IntegerProperty id;
-	protected DoubleProperty montant;
-	protected StringProperty Intitule;
+	private IntegerProperty id;
+	private DoubleProperty montant;
+	private StringProperty Intitule;
 
-	public Integer getId() {
+	public int getId() {
 		return id.get();
 	}
 
-	public void setId(Integer id) {
-		this.id.set(id);
-		;
-	}
-
-	public IntegerProperty IdProperty() {
+	public IntegerProperty idProperty() {
 		return id;
 	}
-	//getter and setter for montant
-	public Double getMontant() {
+
+	public void setId(int id) {
+		this.id.set(id);
+	}
+
+	public double getMontant() {
 		return montant.get();
 	}
-	public void setMontant(Double montant) {
-		this.montant.set(montant);
-		;
-	}
+
 	public DoubleProperty montantProperty() {
 		return montant;
 	}
+
+	public void setMontant(double montant) {
+		this.montant.set(montant);
+	}
+
 	public String getIntitule() {
 		return Intitule.get();
 	}
 
-	public void setIntitule(String Intitule) {
-		this.Intitule.set(Intitule);
+	public StringProperty intituleProperty() {
+		return Intitule;
 	}
 
-	public StringProperty IntituleProperty() {
-		return Intitule;
+	public void setIntitule(String intitule) {
+		this.Intitule.set(intitule);
 	}
 
 	public Rubrique(Integer id, Double montant, String intitule) {
