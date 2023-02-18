@@ -10,13 +10,13 @@ import javafx.beans.property.StringProperty;
 
 public class Eleve {
 	
-	protected IntegerProperty id ;
-	protected StringProperty matricule ;
-	protected StringProperty nom ;
-	protected StringProperty prenom ;
-	protected StringProperty adresse ;
-	protected ObjectProperty<LocalDate> birthday;
-	protected StringProperty lieuDeNaissance;
+	private IntegerProperty id ;
+	private StringProperty matricule ;
+	private StringProperty nom ;
+	private StringProperty prenom ;
+	private StringProperty adresse ;
+	private ObjectProperty<LocalDate> birthday;
+	private StringProperty lieuDeNaissance;
 	
 	
 	
@@ -37,75 +37,81 @@ public class Eleve {
 		this.birthday = new SimpleObjectProperty<LocalDate>(birthday);
 	}
 
-	public Integer getId() {
+	public int getId() {
 		return id.get();
-	}
-	
-	public void setId(Integer id) {
-		this.id.set(id);
 	}
 	public IntegerProperty idProperty() {
 		return id;
 	}
-	
+	public void setId(int id) {
+		this.id.set(id);
+	}
 	public String getMatricule() {
 		return matricule.get();
+	}
+	public StringProperty matriculeProperty() {
+		return matricule;
 	}
 	public void setMatricule(String matricule) {
 		this.matricule.set(matricule);
 	}
-	public StringProperty MatriculeProperty() {
-		return matricule;
-	}
 	public String getNom() {
 		return nom.get();
 	}
+
+	public StringProperty nomProperty() {
+		return nom;
+	}
+
 	public void setNom(String nom) {
 		this.nom.set(nom);
 	}
-	
-	public StringProperty NomProperty() {
-		return nom;
-	}
+
 	public String getPrenom() {
 		return prenom.get();
 	}
+
+	public StringProperty prenomProperty() {
+		return prenom;
+	}
+
 	public void setPrenom(String prenom) {
 		this.prenom.set(prenom);
 	}
-	public StringProperty PrenomProperty() {
-		return prenom;
-	}
+
 	public String getAdresse() {
 		return adresse.get();
 	}
+
+	public StringProperty adresseProperty() {
+		return adresse;
+	}
+
 	public void setAdresse(String adresse) {
 		this.adresse.set(adresse);
 	}
-	public StringProperty AdresseProperty() {
-		return adresse;
-	}
-	public String getLieuDeNaissance() {
-		return lieuDeNaissance.get();
-	}
-	public void setLieuDeNaissance(String lieuDeNaissance) {
-		this.lieuDeNaissance.set(lieuDeNaissance);
-	}
-	public StringProperty LieuDeNaissanceProperty() {
-		return lieuDeNaissance;
-	}
-	
 
 	public LocalDate getBirthday() {
 		return birthday.get();
+	}
+
+	public ObjectProperty<LocalDate> birthdayProperty() {
+		return birthday;
 	}
 
 	public void setBirthday(LocalDate birthday) {
 		this.birthday.set(birthday);
 	}
 
-	public ObjectProperty<LocalDate> BirthdayProperty() {
-		return birthday;
+	public String getLieuDeNaissance() {
+		return lieuDeNaissance.get();
 	}
 
+	public StringProperty lieuDeNaissanceProperty() {
+		return lieuDeNaissance;
+	}
+
+	public void setLieuDeNaissance(String lieuDeNaissance) {
+		this.lieuDeNaissance.set(lieuDeNaissance);
+	}
 }

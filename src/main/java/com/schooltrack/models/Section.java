@@ -9,47 +9,47 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
 public class Section{
-	protected IntegerProperty id;
-	protected StringProperty Intitule;
-	protected ListProperty<Classe> classe;
+	private IntegerProperty id;
+	private StringProperty Intitule;
+	private ListProperty<Classe> classe;
 
-	public Integer getId() {
+	public int getId() {
 		return id.get();
 	}
 
-	public void setId(Integer id) {
-		this.id.set(id);
-		;
-	}
-
-	public IntegerProperty IdProperty() {
+	public IntegerProperty idProperty() {
 		return id;
 	}
 
+	public void setId(int id) {
+		this.id.set(id);
+	}
 
 	public String getIntitule() {
 		return Intitule.get();
 	}
 
-	public void setIntitule(String Intitule) {
-		this.Intitule.set(Intitule);
-	}
-
-	public StringProperty IntituleProperty() {
+	public StringProperty intituleProperty() {
 		return Intitule;
 	}
-//getter and setter for classe
+
+	public void setIntitule(String intitule) {
+		this.Intitule.set(intitule);
+	}
+
+	public ObservableList<Classe> getClasse() {
+		return classe.get();
+	}
 
 	public ListProperty<Classe> classeProperty() {
 		return classe;
 	}
-	public void setClasse(ListProperty<Classe> classe) {
+
+	public void setClasse(ObservableList<Classe> classe) {
 		this.classe.set(classe);
 	}
-	public ObservableList<Classe> getClasse() {
-		return classe.get();
-	}
-	public Section(Integer id, String intitule , ListProperty<Classe> classe) {
+
+	public Section(Integer id, String intitule , ObservableList<Classe> classe) {
 	
 		this.id = new SimpleIntegerProperty(id);
 		this.Intitule =new SimpleStringProperty(intitule);
