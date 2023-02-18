@@ -10,20 +10,16 @@ import javafx.beans.property.StringProperty;
 
 public class Eleve {
 	
-	private IntegerProperty id ;
-	private StringProperty matricule ;
-	private StringProperty nom ;
-	private StringProperty prenom ;
-	private StringProperty adresse ;
+	private IntegerProperty id;
+	private StringProperty matricule;
+	private StringProperty nom;
+	private StringProperty prenom;
+	private StringProperty adresse;
 	private ObjectProperty<LocalDate> birthday;
 	private StringProperty lieuDeNaissance;
 	
 	
-	
-	
-	
 	public Eleve() {
-		super();
 	}
 
 	public Eleve( String matricule, String nom,
