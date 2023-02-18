@@ -9,9 +9,9 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
 public class Classe {
-	private IntegerProperty id;
-private StringProperty nom;
-private ListProperty<Rubrique> rubriques;
+	private  IntegerProperty id;
+private  StringProperty nom;
+private  ListProperty<Rubrique> rubriques;
 
 	public int getId() {
 		return id.get();

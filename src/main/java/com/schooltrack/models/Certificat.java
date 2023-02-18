@@ -9,8 +9,8 @@ import javafx.beans.property.SimpleObjectProperty;
 
 
 public class Certificat {
-	private IntegerProperty id;
-	private ObjectProperty<LocalDate> date;
+	private   IntegerProperty id;
+	private   ObjectProperty<LocalDate> date;
 
 
 	public int getId() {

@@ -11,11 +11,11 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 
 public class EcheancierPaiement {
-	private IntegerProperty id;
-	private IntegerProperty nbPaiements;
-	private ObjectProperty<LocalDate> premiereEcheance;
+	private  IntegerProperty id;
+	private  IntegerProperty nbPaiements;
+	private  ObjectProperty<LocalDate> premiereEcheance;
 	//attribut liste de date de paiement
-	private ListProperty<LocalDate> echeances;
+	private  ListProperty<LocalDate> echeances;
 
 	public int getId() {
 		return id.get();
