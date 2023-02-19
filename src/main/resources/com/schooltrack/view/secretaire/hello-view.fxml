@@ -4,9 +4,10 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -19,6 +20,11 @@
                         <TextField layoutX="183.0" layoutY="157.0" prefHeight="25.0" prefWidth="224.0" promptText="enter login" style="-fx-background-color: gluon; -fx-border-color: white; -fx-text-fill: white;" />
                         <PasswordField layoutX="183.0" layoutY="223.0" prefHeight="25.0" prefWidth="224.0" promptText="enter password" style="-fx-border-color: white; -fx-text-fill: white;" />
                         <Button layoutX="243.0" layoutY="290.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="105.0" styleClass="boutonAccueil" stylesheets="@jolie.css" text="Login" />
+                        <ImageView fitHeight="121.0" fitWidth="173.0" layoutX="209.0" layoutY="14.0">
+                           <image>
+                              <Image url="@103310.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </Pane>
                </children>
