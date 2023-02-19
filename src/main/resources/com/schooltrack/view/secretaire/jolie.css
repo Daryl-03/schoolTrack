@@ -1,9 +1,7 @@
-.background{
-    -fx-background-color: linear-gradient(to right,#4fe0b6,#3e54d3);
-}
+
 .boutonAccueil{
-    -fx-background-color: gluant;
-    -fx-background-radius: 30;
+    -fx-background-color:#4fe0b6;
+    -fx-background-radius:12 ;
     -fx-border-color: white;
     -fx-border-radius: 30;
     -fx-text-fill: white;
@@ -11,15 +9,47 @@
     -fx-font-family: "Arial";
     -fx-padding: 10 20 10 20;
     }
-  .boutonAccueil:hover{
-    -fx-border-color: #3e54d3;
-    -fx-background-color:white;
-    -fx-text-fill:  linear-gradient(to right,#4fe0b6,#3e54d3);
-    }
-.Carte{
- -fx-background-color: #15CDCA;
-  -fx-text-fill:  linear-gradient(to right,#4fe0b6,#3e54d3);
-  -fx-background-radius: 15;
+
+.CarteColorer{
+ -fx-background-color: linear-gradient(to left,#4fe0b6,#e4f5ff), linear-gradient(to left,#15cdca,#4f80e2);
+  -fx-background-radius: 50;
  -fx-text-fill: whitesmoke;
+}
+.CarteBlanche{
+ -fx-background-color:white;
+  -fx-background-radius: 50;
+ -fx-text-fill:linear-gradient(to left,#4fe0b6,#e4f5ff);
 
 }
+.textFieldColorer{
+    -fx-background-color: gluant;
+    -fx-background-radius: 15;
+     -fx-border-color: xlinear-gradient(to left,#15cdca,#4f80e2);
+    -fx-text-fill: #4f80e2;
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial";
+    -fx-padding: 10 20 10 20;
+    }
+    .textFieldBlanche{
+    -fx-background-color: whitesmoke;
+    -fx-background-radius: 50;
+    -fx-text-fill:linear-gradient(to left,#4fe0b6,#e4f5ff);
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial";
+    -fx-padding: 10 20 10 20;
+    }
+    .text{
+-fx-text-fill:white;
+    }
+
+
+    .bouton{
+    -fx-background-color: linear-gradient(to left,#4fe0b6,#e4f5ff), ;
+    -fx-background-radius: 15;
+    -fx-text-fill: whitesmoke;
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial";
+
+    }
+
+
