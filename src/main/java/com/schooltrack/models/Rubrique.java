@@ -1,17 +1,17 @@
 package com.schooltrack.models;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import javafx.collections.ObservableList;
+
+import java.util.List;
 
 public class Rubrique {
 
 	private IntegerProperty id;
 	private DoubleProperty montant;
-	private StringProperty Intitule;
+	private StringProperty intitule;
+	
+	private ListProperty<EcheancierPaiement> echeanciers;
 
 	public int getId() {
 		return id.get();
@@ -38,23 +38,39 @@ public class Rubrique {
 	}
 
 	public String getIntitule() {
-		return Intitule.get();
+		return intitule.get();
 	}
 
 	public StringProperty intituleProperty() {
-		return Intitule;
+		return intitule;
 	}
 
 	public void setIntitule(String intitule) {
-		this.Intitule.set(intitule);
+		this.intitule.set(intitule);
 	}
-
-	public Rubrique(Integer id, Double montant, String intitule) {
 	
+	public ObservableList<EcheancierPaiement> getEcheanciers() {
+		return echeanciers.get();
+	}
+	
+	public ListProperty<EcheancierPaiement> echeanciersProperty() {
+		return echeanciers;
+	}
+	
+	public void setEcheanciers(ObservableList<EcheancierPaiement> echeanciers) {
+		this.echeanciers.set(echeanciers);
+	}
+	
+	public Rubrique(Integer id, Double montant, String intitule) {
 		this.id = new SimpleIntegerProperty(id);
 		this.montant = new SimpleDoubleProperty(montant);
-		this.Intitule =new SimpleStringProperty(intitule);
+		this.intitule =new SimpleStringProperty(intitule);
 	}
 	
-
+	public Rubrique(Integer id, Double montant, String intitule, ObservableList<EcheancierPaiement> echeanciers) {
+		this.id = new SimpleIntegerProperty(id);
+		this.montant = new SimpleDoubleProperty(montant);
+		this.intitule =new SimpleStringProperty(intitule);
+		this.echeanciers = new SimpleListProperty<EcheancierPaiement>(echeanciers);
+	}
 }

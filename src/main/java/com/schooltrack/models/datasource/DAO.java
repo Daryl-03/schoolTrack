@@ -1,4 +1,4 @@
-package com.schooltrack.models;
+package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
 

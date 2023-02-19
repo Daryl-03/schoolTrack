@@ -64,11 +64,11 @@ public class Bulletin {
 		this.notes.set(notes);
 	}
 	
-	public Bulletin(int id, String trimestre, float moyenne, ObservableList<Note> note) {
+	public Bulletin(int id, String trimestre, float moyenne, ObservableList<Note> notes) {
 		
 		this.id =new SimpleIntegerProperty(id);
 		this.trimestre = new SimpleStringProperty(trimestre);
 		this.moyenne = new SimpleFloatProperty(moyenne);
-		this.notes = new SimpleListProperty<Note>(note);
+		this.notes = new SimpleListProperty<Note>(notes);
 	}
 }
