@@ -96,9 +96,9 @@
             <Button layoutX="237.0" layoutY="88.0" mnemonicParsing="false" prefHeight="106.0" prefWidth="167.0" style="-fx-background-color: #32CD32;" text="ELEMENTAIRE" />
             <Button layoutX="205.0" layoutY="247.0" mnemonicParsing="false" prefHeight="106.0" prefWidth="251.0" style="-fx-background-color: #DA70D6;" text="FROID ET CLIMATISATION">
                <graphic>
-                  <ImageView fitHeight="69.0" fitWidth="65.0">
+                  <ImageView fitHeight="75.0" fitWidth="73.0">
                      <image>
-                        <Image url="@../../../../../34970.png" />
+                        <Image url="@34970.png" />
                      </image>
                   </ImageView>
                </graphic>
