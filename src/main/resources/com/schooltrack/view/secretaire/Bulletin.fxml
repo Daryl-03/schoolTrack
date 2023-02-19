@@ -2,52 +2,68 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <AnchorPane prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="198.0" layoutY="6.0" prefHeight="43.0" prefWidth="206.0" text="BULLETIN DE NOTES">
-               <font>
-                  <Font name="Berlin Sans FB Demi Bold" size="13.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-   </top>
-   <center>
-      <AnchorPane prefHeight="241.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <children>
-            <Pane layoutX="159.0" layoutY="1.0" prefHeight="276.0" prefWidth="281.0" />
-            <TableView layoutX="133.0" layoutY="2.0" prefHeight="276.0" prefWidth="332.0">
-               <columns>
-                  <TableColumn prefWidth="75.0" text="Matiere" />
-                  <TableColumn prefWidth="94.0" text="coefficient" />
-                  <TableColumn prefWidth="88.0" text="Note" />
-                  <TableColumn prefWidth="88.0" text="moyenne" />
-               </columns>
-            </TableView>
-         </children>
-      </AnchorPane>
-   </center>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #96c7d5;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <bottom>
-      <AnchorPane prefHeight="71.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="71.0" prefWidth="600.0" style="-fx-background-color: #;" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="119.0" layoutY="23.0" mnemonicParsing="false" text="&lt;">
+            <Button layoutX="124.0" layoutY="30.0" mnemonicParsing="false" text="&lt;">
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="17.0" />
                </font></Button>
-            <Button layoutX="465.0" layoutY="23.0" mnemonicParsing="false" text="&gt;">
+            <Button layoutX="466.0" layoutY="30.0" mnemonicParsing="false" text="&gt;">
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="17.0" />
                </font></Button>
          </children>
       </AnchorPane>
    </bottom>
+   <top>
+      <AnchorPane prefHeight="161.0" prefWidth="600.0" style="-fx-background-color: #e4f5ff;" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="234.0" layoutY="14.0" prefHeight="17.0" prefWidth="123.0" text="Bulletin">
+               <font>
+                  <Font name="Bell MT Bold" size="32.0" />
+               </font>
+            </Label>
+            <Label layoutX="29.0" layoutY="56.0" text="Nom" />
+            <Label layoutX="29.0" layoutY="90.0" text="Prenom" />
+            <Label layoutX="29.0" layoutY="119.0" text="Classe" />
+            <TextField layoutX="77.0" layoutY="52.0" />
+            <TextField layoutX="77.0" layoutY="86.0" />
+            <TextField layoutX="77.0" layoutY="115.0" />
+            <MenuButton layoutX="461.0" layoutY="52.0" mnemonicParsing="false" style="-fx-background-color: #96c7d5;" text="Trimestre">
+              <items>
+                <MenuItem mnemonicParsing="false" text="trimestre1" />
+                <MenuItem mnemonicParsing="false" text="trimestre2" />
+                  <MenuItem mnemonicParsing="false" text="trimestre3" />
+              </items>
+            </MenuButton>
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <AnchorPane prefHeight="188.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView layoutX="122.0" layoutY="6.0" prefHeight="118.0" prefWidth="322.0">
+              <columns>
+                <TableColumn prefWidth="147.0" text="Matiere" />
+                <TableColumn prefWidth="174.0" text="Note" />
+              </columns>
+            </TableView>
+            <Label layoutX="19.0" layoutY="137.0" prefHeight="17.0" prefWidth="73.0" text="Moyenne :" />
+            <Label layoutX="92.0" layoutY="137.0" />
+            <Button layoutX="407.0" layoutY="133.0" mnemonicParsing="false" style="-fx-background-color: #2d7a9c;" text="Enregistrer" />
+            <Button layoutX="512.0" layoutY="133.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" style="-fx-background-color: #2d7a9c;" text="Quitter" />
+         </children>
+      </AnchorPane>
+   </center>
 </BorderPane>
