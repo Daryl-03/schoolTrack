@@ -1,0 +1,25 @@
+.background{
+    -fx-background-color: linear-gradient(to right,#4fe0b6,#3e54d3);
+}
+.boutonAccueil{
+    -fx-background-color: gluant;
+    -fx-background-radius: 30;
+    -fx-border-color: white;
+    -fx-border-radius: 30;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial";
+    -fx-padding: 10 20 10 20;
+    }
+  .boutonAccueil:hover{
+    -fx-border-color: #3e54d3;
+    -fx-background-color:white;
+    -fx-text-fill:  linear-gradient(to right,#4fe0b6,#3e54d3);
+    }
+.Carte{
+ -fx-background-color: #15CDCA;
+  -fx-text-fill:  linear-gradient(to right,#4fe0b6,#3e54d3);
+  -fx-background-radius: 15;
+ -fx-text-fill: whitesmoke;
+
+}
