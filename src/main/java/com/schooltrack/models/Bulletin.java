@@ -11,10 +11,10 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
 public class Bulletin {
-	private   IntegerProperty id;
-	private  StringProperty trimestre;
-	private  FloatProperty moyenne;
-	private  ListProperty<Note> notes;
+	private final IntegerProperty id;
+	private final StringProperty trimestre;
+	private final FloatProperty moyenne;
+	private final ListProperty<Note> notes;
 	
 	public int getId() {
 		return id.get();

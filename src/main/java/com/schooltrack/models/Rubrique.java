@@ -3,15 +3,13 @@ package com.schooltrack.models;
 import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 
-import java.util.List;
-
 public class Rubrique {
 
-	private IntegerProperty id;
-	private DoubleProperty montant;
-	private StringProperty intitule;
-	
-	private ListProperty<EcheancierPaiement> echeanciers;
+	private final IntegerProperty id;
+	private final StringProperty intitule;
+	private StringProperty description;
+	private final DoubleProperty montant;
+	SimpleObjectProperty<EcheancierPaiement> echeancier;
 
 	public int getId() {
 		return id.get();
@@ -24,19 +22,7 @@ public class Rubrique {
 	public void setId(int id) {
 		this.id.set(id);
 	}
-
-	public double getMontant() {
-		return montant.get();
-	}
-
-	public DoubleProperty montantProperty() {
-		return montant;
-	}
-
-	public void setMontant(double montant) {
-		this.montant.set(montant);
-	}
-
+	
 	public String getIntitule() {
 		return intitule.get();
 	}
@@ -49,28 +35,53 @@ public class Rubrique {
 		this.intitule.set(intitule);
 	}
 	
-	public ObservableList<EcheancierPaiement> getEcheanciers() {
-		return echeanciers.get();
+	public EcheancierPaiement getEcheancier() {
+		return echeancier.get();
 	}
 	
-	public ListProperty<EcheancierPaiement> echeanciersProperty() {
-		return echeanciers;
+	SimpleObjectProperty<EcheancierPaiement> echeancierProperty() {
+		return echeancier;
 	}
 	
-	public void setEcheanciers(ObservableList<EcheancierPaiement> echeanciers) {
-		this.echeanciers.set(echeanciers);
+	public void setEcheancier(EcheancierPaiement echeancier) {
+		this.echeancier.set(echeancier);
 	}
 	
-	public Rubrique(Integer id, Double montant, String intitule) {
+	public double getMontant() {
+		return montant.get();
+	}
+	
+	public DoubleProperty montantProperty() {
+		return montant;
+	}
+	
+	public void setMontant(double montant) {
+		this.montant.set(montant);
+	}
+	
+	public String getDescription() {
+		return description.get();
+	}
+	
+	public StringProperty descriptionProperty() {
+		return description;
+	}
+	
+	public void setDescription(String description) {
+		this.description.set(description);
+	}
+	
+	public Rubrique(int id, double montant, String intitule) {
 		this.id = new SimpleIntegerProperty(id);
 		this.montant = new SimpleDoubleProperty(montant);
 		this.intitule =new SimpleStringProperty(intitule);
 	}
 	
-	public Rubrique(Integer id, Double montant, String intitule, ObservableList<EcheancierPaiement> echeanciers) {
+	public Rubrique(int id, double montant, String intitule,String description, EcheancierPaiement echeancier) {
 		this.id = new SimpleIntegerProperty(id);
 		this.montant = new SimpleDoubleProperty(montant);
 		this.intitule =new SimpleStringProperty(intitule);
-		this.echeanciers = new SimpleListProperty<EcheancierPaiement>(echeanciers);
+		this.description = new SimpleStringProperty(description);
+		this.echeancier = new SimpleObjectProperty<EcheancierPaiement>(echeancier);
 	}
 }

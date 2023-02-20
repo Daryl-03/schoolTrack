@@ -1,13 +1,11 @@
 package com.schooltrack.models;
 
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 
 public class Note {
-	private IntegerProperty id;
-	private FloatProperty valeur;
+	private final IntegerProperty id;
+	private final DoubleProperty valeur;
+	private ObjectProperty<Matiere> matiere;
 
 	public int getId() {
 		return id.get();
@@ -21,22 +19,42 @@ public class Note {
 		this.id.set(id);
 	}
 
-	public float getValeur() {
+	public double getValeur() {
 		return valeur.get();
 	}
 
-	public FloatProperty valeurProperty() {
+	public DoubleProperty valeurProperty() {
 		return valeur;
 	}
 
 	public void setValeur(float valeur) {
 		this.valeur.set(valeur);
 	}
-
-	public Note(Integer id, Float valeur ) {
 	
-		this.id = new SimpleIntegerProperty(id);
-		this.valeur =new SimpleFloatProperty(valeur);
+	public void setValeur(double valeur) {
+		this.valeur.set(valeur);
 	}
-
+	
+	public Matiere getMatiere() {
+		return matiere.get();
+	}
+	
+	public ObjectProperty<Matiere> matiereProperty() {
+		return matiere;
+	}
+	
+	public void setMatiere(Matiere matiere) {
+		this.matiere.set(matiere);
+	}
+	
+	public Note(int id, Double valeur ) {
+		this.id = new SimpleIntegerProperty(id);
+		this.valeur =new SimpleDoubleProperty(valeur);
+	}
+	
+	public Note(IntegerProperty id, DoubleProperty valeur, ObjectProperty<Matiere> matiere) {
+		this.id = id;
+		this.valeur = valeur;
+		this.matiere = matiere;
+	}
 }

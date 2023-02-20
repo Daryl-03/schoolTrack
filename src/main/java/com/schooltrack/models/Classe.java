@@ -1,19 +1,14 @@
 package com.schooltrack.models;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 
 import java.util.List;
 
 public class Classe {
-    private IntegerProperty id;
-    private StringProperty nom;
-    private ListProperty<Rubrique> rubriques;
+    private final IntegerProperty id;
+    private final StringProperty nom;
+    private final ListProperty<Rubrique> rubriques;
     private ListProperty<Matiere> matieres;
     private ListProperty<Eleve> eleves;
     
@@ -83,7 +78,7 @@ public class Classe {
         this.rubriques = new SimpleListProperty<Rubrique>(rubriques);
     }
     
-    public Classe(Integer id, String nom, ObservableList<Rubrique> rubriques, ObservableList<Matiere> matieres, ObservableList<Eleve> eleves) {
+    public Classe(int id, String nom, ObservableList<Rubrique> rubriques, ObservableList<Matiere> matieres, ObservableList<Eleve> eleves) {
         this.id = new SimpleIntegerProperty(id);
         this.nom = new SimpleStringProperty(nom);
         this.rubriques = new SimpleListProperty<Rubrique>(rubriques);

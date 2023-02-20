@@ -2,19 +2,15 @@ package com.schooltrack.models;
 
 import java.time.LocalDate;
 
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import com.schooltrack.models.datasource.RubriqueDAO;
+import javafx.beans.property.*;
 
 public class Paiement {
-	private IntegerProperty id;
-	private ObjectProperty<LocalDate> date;
-	private StringProperty observation;
-	private FloatProperty montant;
+	private final IntegerProperty id;
+	private final ObjectProperty<LocalDate> date;
+	private final StringProperty observation;
+	private final DoubleProperty montant;
+	private final ObjectProperty<Rubrique> rubrique;
 
 	public int getId() {
 		return id.get();
@@ -52,24 +48,39 @@ public class Paiement {
 		this.observation.set(observation);
 	}
 
-	public float getMontant() {
+	public double getMontant() {
 		return montant.get();
 	}
 
-	public FloatProperty montantProperty() {
+	public DoubleProperty montantProperty() {
 		return montant;
 	}
 
 	public void setMontant(float montant) {
 		this.montant.set(montant);
 	}
-
-	public Paiement(Integer id, LocalDate date, String observation) {
-		
-		this.id = new SimpleIntegerProperty(id);
-		this.date = new SimpleObjectProperty<LocalDate>(date);
-		this.observation = new SimpleStringProperty(observation);
-	}
-
 	
+	public void setMontant(double montant) {
+		this.montant.set(montant);
+	}
+	
+	public Rubrique getRubrique() {
+		return rubrique.get();
+	}
+	
+	public ObjectProperty<Rubrique> rubriqueProperty() {
+		return rubrique;
+	}
+	
+	public void setRubrique(Rubrique rubrique) {
+		this.rubrique.set(rubrique);
+	}
+	
+	public Paiement(int id, LocalDate datePaiement, String observation, double montant, Rubrique rubrique) {
+		this.id = new SimpleIntegerProperty(id);
+		this.date = new SimpleObjectProperty<LocalDate>(datePaiement);
+		this.observation = new SimpleStringProperty(observation);
+		this.montant = new SimpleDoubleProperty(montant);
+		this.rubrique = new SimpleObjectProperty<Rubrique>(rubrique);
+	}
 }
