@@ -1,14 +1,13 @@
 package com.schooltrack.models;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class Matiere {
 	private IntegerProperty id;
 	private StringProperty nom;
+	private StringProperty description;
 	private IntegerProperty coefficient;
+	private ObjectProperty<Classe> classe;
 
 	public int getId() {
 		return id.get();
@@ -45,12 +44,39 @@ public class Matiere {
 	public void setCoefficient(int coefficient) {
 		this.coefficient.set(coefficient);
 	}
-
-	public Matiere(Integer id, String nom, Integer coefficient ) {
 	
-		this.id = new SimpleIntegerProperty(id);
-		this.nom=new SimpleStringProperty(nom);
-		this.coefficient = new SimpleIntegerProperty(coefficient);
+	public Classe getClasse() {
+		return classe.get();
 	}
-
+	
+	public ObjectProperty<Classe> classeProperty() {
+		return classe;
+	}
+	
+	public void setClasse(Classe classe) {
+		this.classe.set(classe);
+	}
+	
+	public String getDescription() {
+		return description.get();
+	}
+	
+	public StringProperty descriptionProperty() {
+		return description;
+	}
+	
+	public void setDescription(String description) {
+		this.description.set(description);
+	}
+	
+	public Matiere() {
+	}
+	
+	public Matiere(int id, String nom, String description, int coefficient, Classe classe) {
+		this.id = new SimpleIntegerProperty(id);
+		this.nom = new SimpleStringProperty(nom);
+		this.description = new SimpleStringProperty(description);
+		this.coefficient = new SimpleIntegerProperty(coefficient);
+		this.classe = new SimpleObjectProperty<>(classe);
+	}
 }

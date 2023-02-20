@@ -23,6 +23,8 @@
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="17.0" />
                </font></Button>
+            <Button layoutX="208.0" layoutY="34.0" mnemonicParsing="false" style="-fx-background-color: #2d7a9c;" text="Enregistrer" />
+            <Button layoutX="353.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" style="-fx-background-color: #2d7a9c;" text="Quitter" />
          </children>
       </AnchorPane>
    </bottom>
@@ -61,8 +63,6 @@
             </TableView>
             <Label layoutX="19.0" layoutY="137.0" prefHeight="17.0" prefWidth="73.0" text="Moyenne :" />
             <Label layoutX="92.0" layoutY="137.0" />
-            <Button layoutX="407.0" layoutY="133.0" mnemonicParsing="false" style="-fx-background-color: #2d7a9c;" text="Enregistrer" />
-            <Button layoutX="512.0" layoutY="133.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="65.0" style="-fx-background-color: #2d7a9c;" text="Quitter" />
          </children>
       </AnchorPane>
    </center>
