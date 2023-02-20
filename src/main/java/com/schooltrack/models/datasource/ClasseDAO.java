@@ -4,6 +4,8 @@ import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.exceptions.DBHandlingException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Classe;
+import com.schooltrack.models.Eleve;
+import com.schooltrack.models.Rubrique;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
@@ -57,7 +59,17 @@ public class ClasseDAO implements DAO<Classe>{
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-            
+                RubriqueDAO rubriqueDAO = new RubriqueDAO();
+                rubriqueDAO.setId_annee(new AnneeScolaireDAO().readLastId());
+                EleveDAO eleveDAO = new EleveDAO();
+                eleveDAO.setId_annee(new AnneeScolaireDAO().readLastId());
+                Classe classe = new Classe(
+                        resultSet.getInt("id"),
+                        resultSet.getString("nom"),
+                        FXCollections.observableArrayList(new RubriqueDAO().readAll()),
+                        FXCollections.observableArrayList(new MatiereDAO().readAll()),
+                        FXCollections.observableArrayList(new EleveDAO().readAll())
+                );
             }
         } catch (DBHandlingException | SQLException e) {
             throw new DAOException(e.getMessage());
@@ -87,13 +99,17 @@ public class ClasseDAO implements DAO<Classe>{
             String sql = "SELECT * FROM classe";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
+            RubriqueDAO rubriqueDAO = new RubriqueDAO();
+            rubriqueDAO.setId_annee(new AnneeScolaireDAO().readLastId());
+            EleveDAO eleveDAO = new EleveDAO();
+            eleveDAO.setId_annee(new AnneeScolaireDAO().readLastId());
             while (resultSet.next()) {
                 Classe classe = new Classe(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
-                        FXCollections.observableArrayList(new RubriqueDAO().readAll()),
+                        FXCollections.observableArrayList(rubriqueDAO.readAll()),
                         FXCollections.observableArrayList(new MatiereDAO().readAll()),
-                        FXCollections.observableArrayList(new EleveDAO().readAll())
+                        FXCollections.observableArrayList(eleveDAO.readAll())
                 );
                 classes.add(classe);
             }
@@ -116,13 +132,18 @@ public class ClasseDAO implements DAO<Classe>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, idSection);
             ResultSet resultSet = preparedStatement.executeQuery();
+            RubriqueDAO rubriqueDAO = new RubriqueDAO();
+            rubriqueDAO.setId_annee(new AnneeScolaireDAO().readLastId());
+            EleveDAO eleveDAO = new EleveDAO();
+            eleveDAO.setId_annee(new AnneeScolaireDAO().readLastId());
             while (resultSet.next()) {
+            
                 Classe classe = new Classe(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
-                        FXCollections.observableArrayList(new RubriqueDAO().readAll()),
+                        FXCollections.observableArrayList(rubriqueDAO.readAll()),
                         FXCollections.observableArrayList(new MatiereDAO().readAll()),
-                        FXCollections.observableArrayList(new EleveDAO().readAll())
+                        FXCollections.observableArrayList(eleveDAO.readAll())
                 );
                 classes.add(classe);
             }

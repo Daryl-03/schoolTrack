@@ -74,6 +74,8 @@ public class EleveDAO implements DAO<Eleve>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, eleve.getId());
             preparedStatement.setInt(2, id_classe);
+            if (id_classe == 0)
+                throw new DAOException("La classe n'est pas définie");
             preparedStatement.setDate(3, java.sql.Date.valueOf(LocalDate.now()));
             preparedStatement.executeUpdate();
         } catch (DBHandlingException | SQLException e) {
@@ -91,6 +93,8 @@ public class EleveDAO implements DAO<Eleve>{
             String sql = "UPDATE inscription SET id_classe = ? WHERE id_eleve = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id_classe);
+            if (id_classe == 0)
+                throw new DAOException("La classe n'est pas définie");
             preparedStatement.setInt(2, eleve.getId());
             preparedStatement.executeUpdate();
         } catch (DBHandlingException | SQLException e) {
@@ -151,6 +155,8 @@ public class EleveDAO implements DAO<Eleve>{
             preparedStatement.setString(7, eleve.getEmail());
             preparedStatement.setString(8, eleve.getSexe());
             preparedStatement.setInt(9, id_classe);
+            if (id_classe == 0)
+                throw new DAOException("La classe n'est pas définie");
             preparedStatement.setInt(10, eleve.getId());
             preparedStatement.executeUpdate();
         } catch (DBHandlingException | SQLException e) {
@@ -218,6 +224,8 @@ public class EleveDAO implements DAO<Eleve>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id_classe);
             preparedStatement.setInt(2, id_annee);
+            if(id_classe == 0 || id_annee == 0 )
+                throw new DAOException("La classe ou l'année n'est pas définie");
             ResultSet resultSet = preparedStatement.executeQuery();
             PaiementDAO paiementDAO = new PaiementDAO();
             while (resultSet.next()) {

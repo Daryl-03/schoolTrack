@@ -52,9 +52,9 @@ public class Note {
 		this.valeur =new SimpleDoubleProperty(valeur);
 	}
 	
-	public Note(IntegerProperty id, DoubleProperty valeur, ObjectProperty<Matiere> matiere) {
-		this.id = id;
-		this.valeur = valeur;
-		this.matiere = matiere;
+	public Note(int id, Double valeur, Matiere matiere) {
+		this.id = new SimpleIntegerProperty(id);
+		this.valeur =new SimpleDoubleProperty(valeur);
+		this.matiere = new SimpleObjectProperty<Matiere>(matiere);
 	}
 }
