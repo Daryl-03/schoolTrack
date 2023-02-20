@@ -20,9 +20,9 @@
       <AnchorPane layoutX="114.0" layoutY="14.0" prefHeight="356.0" prefWidth="220.0" styleClass="CarteColorer" stylesheets="@secretaire/jolie.css">
          <children>
             <FontAwesomeIconView fill="WHITE" glyphName="UNIVERSITY" layoutX="93.0" layoutY="116.0" selectionEnd="0" selectionStart="2" size="30.0" wrappingWidth="34.30000019073486" />
-            <Label layoutX="54.0" layoutY="134.0" prefHeight="36.0" prefWidth="128.0" styleClass="tex" stylesheets="@secretaire/jolie.css" text="School track" textFill="WHITE">
+            <Label layoutX="22.0" layoutY="142.0" prefHeight="36.0" prefWidth="175.0" styleClass="tex" stylesheets="@secretaire/jolie.css" text="  SchoolTrack" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="System Bold Italic" size="20.0" />
+                  <Font name="System Bold" size="25.0" />
                </font>
             </Label>
          </children>

@@ -2,15 +2,14 @@ package com.schooltrack.models;
 
 import java.time.LocalDate;
 
-import com.schooltrack.models.datasource.RubriqueDAO;
 import javafx.beans.property.*;
 
 public class Paiement {
-	private final IntegerProperty id;
-	private final ObjectProperty<LocalDate> date;
-	private final StringProperty observation;
-	private final DoubleProperty montant;
-	private final ObjectProperty<Rubrique> rubrique;
+	private IntegerProperty id;
+	private ObjectProperty<LocalDate> date;
+	private StringProperty observation;
+	private DoubleProperty montant;
+	private ObjectProperty<Rubrique> rubrique;
 
 	public int getId() {
 		return id.get();
