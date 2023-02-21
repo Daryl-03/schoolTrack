@@ -2,7 +2,7 @@
 .boutonAccueil{
     -fx-background-color:#4fe0b6;
     -fx-background-radius:12 ;
-    -fx-border-color: white;
+    -fx-border-color: gluant;
     -fx-border-radius: 30;
     -fx-text-fill: white;
     -fx-font-weight: bold;

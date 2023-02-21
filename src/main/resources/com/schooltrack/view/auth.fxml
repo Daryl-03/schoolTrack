@@ -12,9 +12,9 @@
    <children>
       <AnchorPane layoutX="260.0" layoutY="115.0" prefHeight="200.0" prefWidth="286.0" styleClass="CarteBlanche" stylesheets="@secretaire/jolie.css">
          <children>
-            <TextField layoutX="81.0" layoutY="82.0" prefHeight="36.0" prefWidth="168.0" promptText="enter login" styleClass="textFieldColorer" stylesheets="@secretaire/jolie.css" />
+            <TextField layoutX="81.0" layoutY="43.0" prefHeight="36.0" prefWidth="168.0" promptText="enter login" styleClass="textFieldColorer" stylesheets="@secretaire/jolie.css" />
             <Button layoutX="132.0" layoutY="160.0" mnemonicParsing="false" styleClass="boutonAccueil" stylesheets="@secretaire/jolie.css" text="Login" />
-            <PasswordField layoutX="81.0" layoutY="118.0" prefHeight="36.0" prefWidth="168.0" promptText=" enter password" styleClass="textFieldColorer" stylesheets="@secretaire/jolie.css" />
+            <PasswordField layoutX="81.0" layoutY="100.0" prefHeight="36.0" prefWidth="168.0" promptText=" enter password" styleClass="textFieldColorer" stylesheets="@secretaire/jolie.css" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="114.0" layoutY="14.0" prefHeight="356.0" prefWidth="220.0" styleClass="CarteColorer" stylesheets="@secretaire/jolie.css">
@@ -25,6 +25,11 @@
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
+            <Button layoutX="173.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="23.0" style="-fx-background-color: gluant;" text=" ">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="TIMES" />
+               </graphic>
+            </Button>
          </children>
       </AnchorPane>
    </children>
