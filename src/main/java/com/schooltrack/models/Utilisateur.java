@@ -98,6 +98,9 @@ public  abstract class Utilisateur {
 		this.telephone.set(telephone);
 	}
 	
+	public Utilisateur() {
+	}
+	
 	public Utilisateur(String login, String password) {
 		this.login = new SimpleStringProperty(login);
 		this.password = new SimpleStringProperty(password);

@@ -5,6 +5,9 @@ import javafx.beans.property.StringProperty;
 
 public class Caissier extends Secretaire{
 
+	public Caissier() {
+		super();
+	}
 	public Caissier(String login, String code) {
 		super(login, code);
 	}
