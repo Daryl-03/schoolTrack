@@ -8,10 +8,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Reduction {
-	private final IntegerProperty id;
-	private final StringProperty observation;
-	private final StringProperty Intitule;
-	private final DoubleProperty montant;
+	private IntegerProperty id;
+	private StringProperty observation;
+	private StringProperty Intitule;
+	private DoubleProperty montant;
 
 	public int getId() {
 		return id.get();
@@ -62,7 +62,6 @@ public class Reduction {
 	}
 
 	public Reduction(Integer id, String observation, String intitule, Double montant) {
-		
 		this.id = new SimpleIntegerProperty(id);
 		this.observation =new SimpleStringProperty(observation);
 		Intitule = new SimpleStringProperty(intitule);

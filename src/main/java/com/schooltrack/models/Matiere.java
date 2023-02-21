@@ -7,7 +7,7 @@ public class Matiere {
 	private StringProperty nom;
 	private StringProperty description;
 	private IntegerProperty coefficient;
-	private ObjectProperty<Classe> classe;
+	private IntegerProperty id_classe;
 
 	public int getId() {
 		return id.get();
@@ -45,16 +45,16 @@ public class Matiere {
 		this.coefficient.set(coefficient);
 	}
 	
-	public Classe getClasse() {
-		return classe.get();
+	public int getId_classe() {
+		return id_classe.get();
 	}
 	
-	public ObjectProperty<Classe> classeProperty() {
-		return classe;
+	public IntegerProperty id_classeProperty() {
+		return id_classe;
 	}
 	
-	public void setClasse(Classe classe) {
-		this.classe.set(classe);
+	public void setId_classe(int id_classe) {
+		this.id_classe.set(id_classe);
 	}
 	
 	public String getDescription() {
@@ -72,11 +72,11 @@ public class Matiere {
 	public Matiere() {
 	}
 	
-	public Matiere(int id, String nom, String description, int coefficient, Classe classe) {
+	public Matiere(int id, String nom, String description, int coefficient, int id_classe) {
 		this.id = new SimpleIntegerProperty(id);
 		this.nom = new SimpleStringProperty(nom);
 		this.description = new SimpleStringProperty(description);
 		this.coefficient = new SimpleIntegerProperty(coefficient);
-		this.classe = new SimpleObjectProperty<>(classe);
+		this.id_classe = new SimpleIntegerProperty(id_classe);
 	}
 }

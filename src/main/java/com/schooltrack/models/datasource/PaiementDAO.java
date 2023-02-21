@@ -11,33 +11,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class PaiementDAO implements DAO<Paiement> {
-    private int id_rubrique;
-    private int id_eleve;
-    private int id_annee;
-    
-    public int getId_eleve() {
-        return id_eleve;
-    }
-    
-    public void setId_eleve(int id_eleve) {
-        this.id_eleve = id_eleve;
-    }
-    
-    public int getId_rubrique() {
-        return id_rubrique;
-    }
-    
-    public void setId_rubrique(int id_rubrique) {
-        this.id_rubrique = id_rubrique;
-    }
-    
-    public int getId_annee() {
-        return id_annee;
-    }
-    
-    public void setId_annee(int id_annee) {
-        this.id_annee = id_annee;
-    }
     
     /**
      * insère un nouveau paiement dans la base de données
@@ -47,21 +20,25 @@ public class PaiementDAO implements DAO<Paiement> {
     @Override
     public void create(Paiement paiement) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
-            String sql = "INSERT INTO paiement(id, montant, date, id_rubrique, id_eleve, id_annee) VALUES (NULL, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO paiement(montant, date, id_rubrique, id_eleve, id_annee) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDouble(1, paiement.getMontant());
             preparedStatement.setDate(2, Date.valueOf(paiement.getDate()));
-            if(id_annee == 0 || id_eleve == 0 || id_rubrique == 0)
-                throw new DAOException("L'année ou l'élève n'est pas défini");
-            preparedStatement.setInt(3, id_rubrique);
-            preparedStatement.setInt(4, id_eleve);
-            preparedStatement.setInt(5, id_annee);
+            preparedStatement.setInt(3, paiement.getId_rubrique());
+            preparedStatement.setInt(4, paiement.getId_eleve());
+            preparedStatement.setInt(5, paiement.getId_annee());
             preparedStatement.executeUpdate();
         } catch (DBHandlingException | SQLException e) {
             throw new DAOException(e.getMessage());
         }
     }
 
+    /**
+     * Lecture d'un paiement dans la base de données à partir de son id
+     * @param id
+     * @return
+     * @throws DAOException
+     */
     @Override
     public Paiement read(int id) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
@@ -75,7 +52,9 @@ public class PaiementDAO implements DAO<Paiement> {
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
-                        new RubriqueDAO().read(resultSet.getInt("id_rubrique"))
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
                 );
                 return paiement;
             }
@@ -84,17 +63,24 @@ public class PaiementDAO implements DAO<Paiement> {
         }
         return null;
     }
-
+    
+    /**
+     * Mise à jour d'un paiement dans la base de données
+     * @param paiement
+     * @throws DAOException
+     */
     @Override
     public void update(Paiement paiement) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
-            String sql = "UPDATE paiement SET montant = ?, date = ?, observation = ?, id_rubrique = ? WHERE id = ?";
+            String sql = "UPDATE paiement SET montant = ?, date = ?, observation = ?, id_rubrique = ?, id_eleve = ?, id_annee = ? WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDouble(1, paiement.getMontant());
             preparedStatement.setDate(2, Date.valueOf(paiement.getDate()));
             preparedStatement.setString(3, paiement.getObservation());
-            preparedStatement.setInt(4, paiement.getRubrique().getId());
-            preparedStatement.setInt(5, paiement.getId());
+            preparedStatement.setInt(4, paiement.getId_rubrique());
+            preparedStatement.setInt(5, paiement.getId_eleve());
+            preparedStatement.setInt(6, paiement.getId_annee());
+            preparedStatement.setInt(7, paiement.getId());
             preparedStatement.executeUpdate();
         } catch (DBHandlingException | SQLException e) {
             throw new DAOException(e.getMessage());
@@ -113,6 +99,11 @@ public class PaiementDAO implements DAO<Paiement> {
         }
     }
 
+    /**
+     * retourne la liste de tous les paiements
+     * @return
+     * @throws DAOException
+     */
     @Override
     public List<Paiement> readAll() throws DAOException {
         List<Paiement> paiements = FXCollections.observableArrayList();
@@ -126,7 +117,9 @@ public class PaiementDAO implements DAO<Paiement> {
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
-                        new RubriqueDAO().read(resultSet.getInt("id_rubrique"))
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
                 );
                 paiements.add(paiement);
             }
@@ -141,7 +134,7 @@ public class PaiementDAO implements DAO<Paiement> {
      * @return
      * @throws DAOException
      */
-    public List<Paiement> readAllByEleveAndAnnee() throws DAOException {
+    public List<Paiement> readAllByEleveAndAnnee(int id_eleve, int id_annee) throws DAOException {
         List<Paiement> paiements = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
             String sql = "SELECT * FROM paiement WHERE id_eleve = ? AND id_annee = ?";
@@ -158,7 +151,9 @@ public class PaiementDAO implements DAO<Paiement> {
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
-                        new RubriqueDAO().read(resultSet.getInt("id_rubrique"))
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
                 );
                 paiements.add(paiement);
             }
@@ -173,7 +168,7 @@ public class PaiementDAO implements DAO<Paiement> {
      * @return
      * @throws DAOException
      */
-    public List<Paiement> readAllByEleveAndAnneeAndRubrique() throws DAOException {
+    public List<Paiement> readAllByEleveAndAnneeAndRubrique(int id_eleve, int id_annee, int id_rubrique) throws DAOException {
         List<Paiement> paiements = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
             String sql = "SELECT * FROM paiement WHERE id_eleve = ? AND id_annee = ? AND id_rubrique = ?";
@@ -191,7 +186,9 @@ public class PaiementDAO implements DAO<Paiement> {
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
-                        new RubriqueDAO().read(resultSet.getInt("id_rubrique"))
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
                 );
                 paiements.add(paiement);
             }
@@ -206,7 +203,7 @@ public class PaiementDAO implements DAO<Paiement> {
      * @return
      * @throws DAOException
      */
-    public List<Paiement> readAllByEleveAndRubriqueAndDate() throws DAOException {
+    public List<Paiement> readAllByEleveAndRubriqueAndDate(int id_eleve, int id_rubrique) throws DAOException {
         List<Paiement> paiements = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
             String sql = "SELECT * FROM paiement WHERE id_eleve = ? AND id_rubrique = ? AND date = ?";
@@ -224,7 +221,9 @@ public class PaiementDAO implements DAO<Paiement> {
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
-                        new RubriqueDAO().read(resultSet.getInt("id_rubrique"))
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
                 );
                 paiements.add(paiement);
             }
@@ -239,7 +238,7 @@ public class PaiementDAO implements DAO<Paiement> {
      * @return
      * @throws DAOException
      */
-    public List<Paiement> readAllByEleveAndRubriqueAndWeek() throws DAOException {
+    public List<Paiement> readAllByEleveAndRubriqueAndWeek(int id_eleve, int id_rubrique) throws DAOException {
         List<Paiement> paiements = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
             String sql = "SELECT * FROM paiement WHERE id_eleve = ? AND id_rubrique = ? AND date BETWEEN ? AND ?";
@@ -258,7 +257,9 @@ public class PaiementDAO implements DAO<Paiement> {
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
-                        new RubriqueDAO().read(resultSet.getInt("id_rubrique"))
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
                 );
                 paiements.add(paiement);
             }
@@ -273,7 +274,7 @@ public class PaiementDAO implements DAO<Paiement> {
      * @return
      * @throws DAOException
      */
-    public List<Paiement> readAllByEleveAndRubriqueAndMonth() throws DAOException {
+    public List<Paiement> readAllByEleveAndRubriqueAndMonth(int id_eleve, int id_rubrique) throws DAOException {
         List<Paiement> paiements = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
             String sql = "SELECT * FROM paiement WHERE id_eleve = ? AND id_rubrique = ? AND date BETWEEN ? AND ?";
@@ -292,7 +293,9 @@ public class PaiementDAO implements DAO<Paiement> {
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
-                        new RubriqueDAO().read(resultSet.getInt("id_rubrique"))
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
                 );
                 paiements.add(paiement);
             }
@@ -307,7 +310,7 @@ public class PaiementDAO implements DAO<Paiement> {
      * @return
      * @throws DAOException
      */
-    public List<Paiement> readAllByRubriqueAndDate() throws DAOException {
+    public List<Paiement> readAllByRubriqueAndDate(int id_rubrique) throws DAOException {
         List<Paiement> paiements = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
             String sql = "SELECT * FROM paiement WHERE id_rubrique = ? AND date = ?";
@@ -324,7 +327,9 @@ public class PaiementDAO implements DAO<Paiement> {
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
-                        new RubriqueDAO().read(resultSet.getInt("id_rubrique"))
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
                 );
                 paiements.add(paiement);
             }
@@ -339,7 +344,7 @@ public class PaiementDAO implements DAO<Paiement> {
      * @return
      * @throws DAOException
      */
-    public List<Paiement> readAllByRubriqueAndWeek() throws DAOException {
+    public List<Paiement> readAllByRubriqueAndWeek(int id_rubrique) throws DAOException {
         List<Paiement> paiements = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
             String sql = "SELECT * FROM paiement WHERE id_rubrique = ? AND date BETWEEN ? AND ?";
@@ -357,7 +362,9 @@ public class PaiementDAO implements DAO<Paiement> {
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
-                        new RubriqueDAO().read(resultSet.getInt("id_rubrique"))
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
                 );
                 paiements.add(paiement);
             }
@@ -372,7 +379,7 @@ public class PaiementDAO implements DAO<Paiement> {
      * @return
      * @throws DAOException
      */
-    public List<Paiement> readAllByRubriqueAndMonth() throws DAOException {
+    public List<Paiement> readAllByRubriqueAndMonth(int id_rubrique) throws DAOException {
         List<Paiement> paiements = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
             String sql = "SELECT * FROM paiement WHERE id_rubrique = ? AND date BETWEEN ? AND ?";
@@ -390,7 +397,9 @@ public class PaiementDAO implements DAO<Paiement> {
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
-                        new RubriqueDAO().read(resultSet.getInt("id_rubrique"))
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
                 );
                 paiements.add(paiement);
             }

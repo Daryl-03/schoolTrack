@@ -1,10 +1,24 @@
 package com.schooltrack.models;
 
-public class Secretaire extends Utilisateurs {
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 
+public class Secretaire extends Utilisateur {
+
+	public Secretaire() {
+		super();
+	}
 	public Secretaire(String login, String code) {
 		super(login, code);
-		// TODO Auto-generated constructor stub
 	}
-
+	
+	public Secretaire(IntegerProperty id, StringProperty nom, StringProperty prenom, StringProperty login, StringProperty password, StringProperty email, StringProperty telephone) {
+		super(id, nom, prenom, login, password, email, telephone);
+	}
+	
+	@Override
+	public String getType() {
+		return this.getClass().getSimpleName();
+	}
+	
 }
