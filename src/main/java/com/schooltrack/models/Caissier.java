@@ -6,4 +6,8 @@ public class Caissier extends Secretaire{
 		super(login, code);
 	}
 
+	@Override
+	public String getType() {
+		return this.getClass().getSimpleName();
+	}
 }

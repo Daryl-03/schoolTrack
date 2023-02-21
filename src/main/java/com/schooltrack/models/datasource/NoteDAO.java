@@ -4,18 +4,20 @@ import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.exceptions.DBHandlingException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Note;
+import javafx.collections.FXCollections;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NoteDAO implements DAO<Note>{
     private int id_bulletin;
     
     /**
-     *
+     * insère une note dans la base de données
      * @param note
      * @throws DAOException
      */
@@ -27,6 +29,8 @@ public class NoteDAO implements DAO<Note>{
             preparedStatement.setDouble(1, note.getValeur());
             preparedStatement.setInt(2, note.getMatiere().getId());
             preparedStatement.setInt(3, id_bulletin);
+            if( id_bulletin == 0)
+                throw new DAOException("L'id du bulletin est nul");
             preparedStatement.executeUpdate();
         } catch (DBHandlingException | SQLException e) {
             throw new DAOException(e.getMessage());
@@ -34,7 +38,7 @@ public class NoteDAO implements DAO<Note>{
     }
     
     /**
-     *
+     * lit une note à partir de son id
      * @param id
      * @return
      * @throws DAOException
@@ -61,7 +65,7 @@ public class NoteDAO implements DAO<Note>{
     }
     
     /**
-     *
+     * met à jour une note
      * @param note
      * @throws DAOException
      */
@@ -79,6 +83,11 @@ public class NoteDAO implements DAO<Note>{
         }
     }
     
+    /**
+     * supprime une note
+     * @param id
+     * @throws DAOException
+     */
     @Override
     public void delete(int id) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
@@ -91,9 +100,32 @@ public class NoteDAO implements DAO<Note>{
         }
     }
     
+    /**
+     * lit toutes les notes d'un bulletin
+     * @return
+     * @throws DAOException
+     */
     @Override
     public List<Note> readAll() throws DAOException {
-        
-        return null;
+        List<Note> notes = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM note WHERE id_bulletin = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id_bulletin);
+            if( id_bulletin == 0)
+                throw new DAOException("L'id du bulletin est nul");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Note note = new Note(
+                        rs.getInt("id"),
+                        rs.getDouble("valeur"),
+                        new MatiereDAO().read(rs.getInt("id_matiere"))
+                );
+                notes.add(note);
+            }
+        } catch (DBHandlingException | SQLException e) {
+            throw new DAOException(e.getMessage());
+        }
+        return notes;
     }
 }

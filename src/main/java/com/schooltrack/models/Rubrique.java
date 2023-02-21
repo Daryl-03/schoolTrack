@@ -5,11 +5,12 @@ import javafx.collections.ObservableList;
 
 public class Rubrique {
 
-	private final IntegerProperty id;
-	private final StringProperty intitule;
+	private IntegerProperty id;
+	private StringProperty intitule;
 	private StringProperty description;
-	private final DoubleProperty montant;
-	SimpleObjectProperty<EcheancierPaiement> echeancier;
+	private DoubleProperty montant;
+	private SimpleObjectProperty<EcheancierPaiement> echeancier;
+	
 
 	public int getId() {
 		return id.get();

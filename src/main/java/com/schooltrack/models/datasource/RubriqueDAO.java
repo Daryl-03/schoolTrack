@@ -126,8 +126,8 @@ public class RubriqueDAO implements DAO<Rubrique>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                if(id_annee == 0 || id_classe == 0)
-                        throw new DAOException("L'année et la classe doivent être définies");
+                if(id_annee == 0 )
+                        throw new DAOException("L'année doit être définie");
                 Rubrique rubrique = new Rubrique(
                         resultSet.getInt("id"),
                         resultSet.getDouble("montant"),
