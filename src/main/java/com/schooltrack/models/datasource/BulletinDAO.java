@@ -20,7 +20,7 @@ public class BulletinDAO implements DAO<Bulletin>{
         try (Connection connection = DBManager.getConnection()) {
             String sql = "INSERT INTO bulletin (trimestre, moyenne, id_eleve, id_classe, id_annee) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, bulletin.getTrimestre());
+            preparedStatement.setInt(   1, bulletin.getTrimestre());
             preparedStatement.setFloat(2, bulletin.getMoyenne());
             preparedStatement.setInt(3, id_eleve);
             preparedStatement.setInt(4, id_classe);
@@ -52,7 +52,7 @@ public class BulletinDAO implements DAO<Bulletin>{
         try (Connection connection = DBManager.getConnection()) {
             String sql = "UPDATE bulletin SET trimestre = ?, moyenne = ?, id_eleve = ?, id_classe = ?, id_annee = ? WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, bulletin.getTrimestre());
+            preparedStatement.setInt(1, bulletin.getTrimestre());
             preparedStatement.setFloat(2, bulletin.getMoyenne());
             preparedStatement.setInt(3, id_eleve);
             preparedStatement.setInt(4, id_classe);

@@ -5,6 +5,9 @@ import javafx.beans.property.StringProperty;
 
 public class Secretaire extends Utilisateur {
 
+	public Secretaire() {
+		super();
+	}
 	public Secretaire(String login, String code) {
 		super(login, code);
 	}
