@@ -13,26 +13,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class RubriqueDAO implements DAO<Rubrique>{
-
-    private int id_annee;
-    private int id_classe;
-    
-    public int getId_annee() {
-        return id_annee;
-    }
-    
-    public void setId_annee(int id_annee) {
-        this.id_annee = id_annee;
-    }
-    
-    public int getId_classe() {
-        return id_classe;
-    }
-    
-    public void setId_classe(int id_classe) {
-        this.id_classe = id_classe;
-    }
-    
     /**
      * Insertion d'une rubrique dans la base de données
      * @param rubrique
@@ -50,7 +30,7 @@ public class RubriqueDAO implements DAO<Rubrique>{
             
             PreparedStatement preparedStatement2 = connection.prepareStatement(sql2);
             preparedStatement2.setInt(1, rubrique.getId());
-            preparedStatement2.setInt(2, id_classe);
+            preparedStatement2.setInt(2, rubrique.getId_classe());
             preparedStatement2.setDouble(3, rubrique.getMontant());
             preparedStatement2.setString(4, rubrique.getDescription());
             preparedStatement2.executeUpdate();
@@ -68,22 +48,18 @@ public class RubriqueDAO implements DAO<Rubrique>{
     @Override
     public Rubrique read(int id) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
-            String sql = "SELECT * FROM rubrique JOIN rubriqueClasse ON rubrique.id = rubriqueClasse.id_rubrique WHERE rubrique.id = ? AND rubriqueClasse.id_classe = ?";
+            String sql = "SELECT * FROM rubrique JOIN rubriqueClasse ON rubrique.id = rubriqueClasse.id_rubrique WHERE rubriqueClasse.id_rubriqueClasse = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            if(id_annee == 0 || id_classe == 0)
-                throw new DAOException("L'année et la classe doivent être définies");
-            preparedStatement.setInt(2, id_classe);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                if(id_annee == 0 || id_classe == 0)
-                    throw new DAOException("L'année et la classe doivent être définies");
                 Rubrique rubrique = new Rubrique(
-                        resultSet.getInt("id"),
+                        resultSet.getInt("id_rubriqueClasse"),
                         resultSet.getDouble("montant"),
                         resultSet.getString("intitule"),
                         resultSet.getString("description"),
-                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id"), id_classe, id_annee)
+                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id_rubriqueClasse"), resultSet.getInt("id_classe"), new AnneeScolaireDAO().readLastId()),
+                        resultSet.getInt("id_classe")
                 );
                 return rubrique;
             }
@@ -126,14 +102,13 @@ public class RubriqueDAO implements DAO<Rubrique>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                if(id_annee == 0 )
-                        throw new DAOException("L'année doit être définie");
                 Rubrique rubrique = new Rubrique(
                         resultSet.getInt("id"),
                         resultSet.getDouble("montant"),
                         resultSet.getString("intitule"),
                         resultSet.getString("description"),
-                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id"), resultSet.getInt("id_classe"), id_annee)
+                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id"), resultSet.getInt("id_classe"), new AnneeScolaireDAO().readLastId()),
+                        resultSet.getInt("id_classe")
                 );
                 rubriques.add(rubrique);
             }
@@ -157,14 +132,13 @@ public class RubriqueDAO implements DAO<Rubrique>{
             preparedStatement.setInt(1, id_classe);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                if(id_annee == 0 || id_classe == 0)
-                        throw new DAOException("L'année et la classe doivent être définies");
                 Rubrique rubrique = new Rubrique(
                         resultSet.getInt("id"),
                         resultSet.getDouble("montant"),
                         resultSet.getString("intitule"),
                         resultSet.getString("description"),
-new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id"), resultSet.getInt("id_classe"), id_annee)
+                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id"), resultSet.getInt("id_classe"), new AnneeScolaireDAO().readLastId()),
+                        resultSet.getInt("id_classe")
                 );
                 rubriques.add(rubrique);
             }

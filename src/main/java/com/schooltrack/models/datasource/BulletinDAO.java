@@ -112,13 +112,13 @@ public class BulletinDAO implements DAO<Bulletin>{
     /**
      * lire un bulletin d'un eleve par année et par trimestre
      */
-    public Bulletin read(int id_eleve, int id_annee, String trimestre) throws DAOException {
+    public Bulletin read(int id_eleve, int id_annee, int trimestre) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
             String sql = "SELECT * FROM bulletin WHERE id_eleve = ? AND id_annee = ? AND trimestre = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id_eleve);
             preparedStatement.setInt(2, id_annee);
-            preparedStatement.setString(3, trimestre);
+            preparedStatement.setInt(3, trimestre);
             preparedStatement.executeQuery();
         } catch (DBHandlingException | SQLException e) {
             throw new DAOException(e.getMessage());

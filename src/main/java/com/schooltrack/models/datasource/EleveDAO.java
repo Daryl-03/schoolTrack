@@ -4,6 +4,7 @@ import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.exceptions.DBHandlingException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Eleve;
+import com.schooltrack.models.Paiement;
 import javafx.collections.FXCollections;
 
 import java.sql.Connection;
@@ -14,26 +15,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class EleveDAO implements DAO<Eleve>{
-    private int id_classe;
-    private int id_annee;
-    
-    
-    public int getId_annee() {
-        return id_annee;
-    }
-    
-    public void setId_annee(int id_annee) {
-        this.id_annee = id_annee;
-    }
-    
-    public int getId_classe() {
-        return id_classe;
-    }
-    
-    public void setId_classe(int id_classe) {
-        this.id_classe = id_classe;
-    }
-    
     /**
      * Crée un nouvel élève dans la base de données
      * @param eleve
@@ -52,9 +33,7 @@ public class EleveDAO implements DAO<Eleve>{
             preparedStatement.setString(6, eleve.getNumtelephone());
             preparedStatement.setString(7, eleve.getEmail());
             preparedStatement.setString(8, eleve.getSexe());
-            preparedStatement.setInt(9, id_classe);
-            if(id_classe == 0)
-                throw new DAOException("La classe n'est pas définie");
+            preparedStatement.setInt(9, eleve.getId_classe());
             preparedStatement.executeUpdate();
             inscription(eleve);
         } catch (DBHandlingException | SQLException e) {
@@ -72,9 +51,7 @@ public class EleveDAO implements DAO<Eleve>{
             String sql = "INSERT INTO inscription (id_eleve, id_classe, id_annee, dateInscription) VALUES (?, ?,(SELECT id FROM anneescolaire ODER BY id DESC LIMIT 1), ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, eleve.getId());
-            preparedStatement.setInt(2, id_classe);
-            if (id_classe == 0)
-                throw new DAOException("La classe n'est pas définie");
+            preparedStatement.setInt(2, eleve.getId_classe());
             preparedStatement.setDate(3, java.sql.Date.valueOf(LocalDate.now()));
             preparedStatement.executeUpdate();
         } catch (DBHandlingException | SQLException e) {
@@ -91,9 +68,7 @@ public class EleveDAO implements DAO<Eleve>{
             // Insertion de l'élève dans la table inscription
             String sql = "UPDATE inscription SET id_classe = ? WHERE id_eleve = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id_classe);
-            if (id_classe == 0)
-                throw new DAOException("La classe n'est pas définie");
+            preparedStatement.setInt(1, eleve.getId_classe());
             preparedStatement.setInt(2, eleve.getId());
             preparedStatement.executeUpdate();
         } catch (DBHandlingException | SQLException e) {
@@ -114,9 +89,6 @@ public class EleveDAO implements DAO<Eleve>{
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.first()) {
-                PaiementDAO paiementDAO = new PaiementDAO();
-                paiementDAO.setId_eleve(id);
-                paiementDAO.setId_annee(id_annee);
                 return new Eleve(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
@@ -127,7 +99,9 @@ public class EleveDAO implements DAO<Eleve>{
                         resultSet.getString("numTel"),
                         resultSet.getString("email"),
                         resultSet.getString("sexe"),
-                        FXCollections.observableArrayList(paiementDAO.readAllByEleveAndAnnee())
+                        FXCollections.observableArrayList( new PaiementDAO().readAllByEleveAndAnnee(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId()) ),
+                        FXCollections.observableArrayList(new BulletinDAO().readAll(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId())),
+                        resultSet.getInt("id_classe")
                 );
             }
         } catch (DBHandlingException | SQLException e) {
@@ -153,9 +127,7 @@ public class EleveDAO implements DAO<Eleve>{
             preparedStatement.setString(6, eleve.getNumtelephone());
             preparedStatement.setString(7, eleve.getEmail());
             preparedStatement.setString(8, eleve.getSexe());
-            preparedStatement.setInt(9, id_classe);
-            if (id_classe == 0)
-                throw new DAOException("La classe n'est pas définie");
+            preparedStatement.setInt(9, eleve.getId_classe());
             preparedStatement.setInt(10, eleve.getId());
             preparedStatement.executeUpdate();
         } catch (DBHandlingException | SQLException e) {
@@ -203,7 +175,9 @@ public class EleveDAO implements DAO<Eleve>{
                         resultSet.getString("numTel"),
                         resultSet.getString("email"),
                         resultSet.getString("sexe"),
-                        FXCollections.observableArrayList()
+                        FXCollections.observableArrayList(new PaiementDAO().readAllByEleveAndAnnee(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId())),
+                        FXCollections.observableArrayList(new BulletinDAO().readAll(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId())),
+                        resultSet.getInt("id_classe")
                 ));
             }
         } catch (DBHandlingException | SQLException e) {
@@ -216,7 +190,7 @@ public class EleveDAO implements DAO<Eleve>{
      * Retourne la liste de tous les élèves d'une classe
      * @return List<Eleve> eleves ou null si aucun élève n'existe
      */
-    public List<Eleve> readAllByClasse() throws DAOException {
+    public List<Eleve> readAllByClasse(int id_classe, int id_annee) throws DAOException {
         List<Eleve> eleves = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
             String sql = "SELECT * FROM eleve JOIN inscription ON eleve.id = inscription.id_eleve WHERE inscription.id_classe = ? AND inscription.id_annee = ?";
@@ -228,8 +202,6 @@ public class EleveDAO implements DAO<Eleve>{
             ResultSet resultSet = preparedStatement.executeQuery();
             PaiementDAO paiementDAO = new PaiementDAO();
             while (resultSet.next()) {
-                paiementDAO.setId_eleve(resultSet.getInt("id"));
-                paiementDAO.setId_annee(id_annee);
                 eleves.add(new Eleve(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
@@ -240,7 +212,9 @@ public class EleveDAO implements DAO<Eleve>{
                         resultSet.getString("numTel"),
                         resultSet.getString("email"),
                         resultSet.getString("sexe"),
-                        FXCollections.observableArrayList(paiementDAO.readAllByEleveAndAnnee())
+                        FXCollections.observableArrayList(paiementDAO.readAllByEleveAndAnnee(resultSet.getInt("id"), id_annee)),
+                        FXCollections.observableArrayList(new BulletinDAO().readAll(resultSet.getInt("id"), id_annee)),
+                        resultSet.getInt("id_classe")
                 ));
             }
         } catch (DBHandlingException | SQLException e) {

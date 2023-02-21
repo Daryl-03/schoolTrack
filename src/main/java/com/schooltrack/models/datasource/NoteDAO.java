@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoteDAO implements DAO<Note>{
-    private int id_bulletin;
     
     /**
      * insère une note dans la base de données
@@ -27,10 +26,8 @@ public class NoteDAO implements DAO<Note>{
             String sql = "INSERT INTO note (valeur, id_matiere, id_bulletin) VALUES (?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDouble(1, note.getValeur());
-            preparedStatement.setInt(2, note.getMatiere().getId());
-            preparedStatement.setInt(3, id_bulletin);
-            if( id_bulletin == 0)
-                throw new DAOException("L'id du bulletin est nul");
+            preparedStatement.setInt(2, note.getId_matiere());
+            preparedStatement.setInt(3, note.getId_bulletin());
             preparedStatement.executeUpdate();
         } catch (DBHandlingException | SQLException e) {
             throw new DAOException(e.getMessage());
@@ -54,7 +51,8 @@ public class NoteDAO implements DAO<Note>{
                 Note note = new Note(
                         rs.getInt("id"),
                         rs.getDouble("valeur"),
-                        new MatiereDAO().read(rs.getInt("id_matiere"))
+                        rs.getInt("id_matiere"),
+                        rs.getInt("id_bulletin")
                 );
                 return note;
             }
@@ -75,7 +73,7 @@ public class NoteDAO implements DAO<Note>{
             String sql = "UPDATE note SET valeur = ?, id_matiere = ? WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDouble(1, note.getValeur());
-            preparedStatement.setInt(2, note.getMatiere().getId());
+            preparedStatement.setInt(2, note.getId_matiere());
             preparedStatement.setInt(3, note.getId());
             preparedStatement.executeUpdate();
         } catch (DBHandlingException | SQLException e) {
@@ -101,7 +99,7 @@ public class NoteDAO implements DAO<Note>{
     }
     
     /**
-     * lit toutes les notes d'un bulletin
+     * lit toutes les notes
      * @return
      * @throws DAOException
      */
@@ -109,17 +107,15 @@ public class NoteDAO implements DAO<Note>{
     public List<Note> readAll() throws DAOException {
         List<Note> notes = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
-            String sql = "SELECT * FROM note WHERE id_bulletin = ?";
+            String sql = "SELECT * FROM note ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id_bulletin);
-            if( id_bulletin == 0)
-                throw new DAOException("L'id du bulletin est nul");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 Note note = new Note(
                         rs.getInt("id"),
                         rs.getDouble("valeur"),
-                        new MatiereDAO().read(rs.getInt("id_matiere"))
+                        rs.getInt("id_matiere"),
+                        rs.getInt("id_bulletin")
                 );
                 notes.add(note);
             }

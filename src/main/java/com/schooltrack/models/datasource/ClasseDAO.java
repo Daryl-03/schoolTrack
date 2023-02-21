@@ -59,16 +59,13 @@ public class ClasseDAO implements DAO<Classe>{
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                RubriqueDAO rubriqueDAO = new RubriqueDAO();
-                rubriqueDAO.setId_annee(new AnneeScolaireDAO().readLastId());
-                EleveDAO eleveDAO = new EleveDAO();
-                eleveDAO.setId_annee(new AnneeScolaireDAO().readLastId());
                 Classe classe = new Classe(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
-                        FXCollections.observableArrayList(new RubriqueDAO().readAll()),
-                        FXCollections.observableArrayList(new MatiereDAO().readAll()),
-                        FXCollections.observableArrayList(new EleveDAO().readAll())
+                        FXCollections.observableArrayList(new RubriqueDAO().readAllByClasse(id)),
+                        FXCollections.observableArrayList(new MatiereDAO().readAllByClasse(id)),
+                        FXCollections.observableArrayList(new EleveDAO().readAllByClasse(id, new AnneeScolaireDAO().readLastId())),
+                        resultSet.getInt("id_section")
                 );
             }
         } catch (DBHandlingException | SQLException e) {
@@ -99,17 +96,14 @@ public class ClasseDAO implements DAO<Classe>{
             String sql = "SELECT * FROM classe";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
-            RubriqueDAO rubriqueDAO = new RubriqueDAO();
-            rubriqueDAO.setId_annee(new AnneeScolaireDAO().readLastId());
-            EleveDAO eleveDAO = new EleveDAO();
-            eleveDAO.setId_annee(new AnneeScolaireDAO().readLastId());
             while (resultSet.next()) {
                 Classe classe = new Classe(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
-                        FXCollections.observableArrayList(rubriqueDAO.readAll()),
+                        FXCollections.observableArrayList(new RubriqueDAO().readAll()),
                         FXCollections.observableArrayList(new MatiereDAO().readAll()),
-                        FXCollections.observableArrayList(eleveDAO.readAll())
+                        FXCollections.observableArrayList(new EleveDAO().readAll()),
+                        resultSet.getInt("id_section")
                 );
                 classes.add(classe);
             }
@@ -132,18 +126,14 @@ public class ClasseDAO implements DAO<Classe>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, idSection);
             ResultSet resultSet = preparedStatement.executeQuery();
-            RubriqueDAO rubriqueDAO = new RubriqueDAO();
-            rubriqueDAO.setId_annee(new AnneeScolaireDAO().readLastId());
-            EleveDAO eleveDAO = new EleveDAO();
-            eleveDAO.setId_annee(new AnneeScolaireDAO().readLastId());
             while (resultSet.next()) {
-            
                 Classe classe = new Classe(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
-                        FXCollections.observableArrayList(rubriqueDAO.readAll()),
-                        FXCollections.observableArrayList(new MatiereDAO().readAll()),
-                        FXCollections.observableArrayList(eleveDAO.readAll())
+                        FXCollections.observableArrayList(new RubriqueDAO().readAllByClasse(resultSet.getInt("id"))),
+                        FXCollections.observableArrayList(new MatiereDAO().readAllByClasse(resultSet.getInt("id"))),
+                        FXCollections.observableArrayList(new EleveDAO().readAllByClasse(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId())),
+                        resultSet.getInt("id_section")
                 );
                 classes.add(classe);
             }

@@ -10,7 +10,7 @@ public class Rubrique {
 	private StringProperty description;
 	private DoubleProperty montant;
 	private SimpleObjectProperty<EcheancierPaiement> echeancier;
-	
+	private IntegerProperty id_classe;
 
 	public int getId() {
 		return id.get();
@@ -72,17 +72,33 @@ public class Rubrique {
 		this.description.set(description);
 	}
 	
+	public int getId_classe() {
+		return id_classe.get();
+	}
+	
+	public IntegerProperty id_classeProperty() {
+		return id_classe;
+	}
+	
+	public void setId_classe(int id_classe) {
+		this.id_classe.set(id_classe);
+	}
+	
+	public Rubrique() {
+	}
+	
 	public Rubrique(int id, double montant, String intitule) {
 		this.id = new SimpleIntegerProperty(id);
 		this.montant = new SimpleDoubleProperty(montant);
 		this.intitule =new SimpleStringProperty(intitule);
 	}
 	
-	public Rubrique(int id, double montant, String intitule,String description, EcheancierPaiement echeancier) {
+	public Rubrique(int id, double montant, String intitule,String description, EcheancierPaiement echeancier, int id_classe) {
 		this.id = new SimpleIntegerProperty(id);
 		this.montant = new SimpleDoubleProperty(montant);
 		this.intitule =new SimpleStringProperty(intitule);
 		this.description = new SimpleStringProperty(description);
 		this.echeancier = new SimpleObjectProperty<EcheancierPaiement>(echeancier);
+		this.id_classe = new SimpleIntegerProperty(id_classe);
 	}
 }

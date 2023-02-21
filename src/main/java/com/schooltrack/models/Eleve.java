@@ -18,6 +18,7 @@ public class Eleve {
 	private StringProperty sexe;
 	private ListProperty<Paiement> paiements;
 	private ListProperty<Bulletin> bulletins;
+	private IntegerProperty id_classe;
 	
 	public Eleve() {
 	}
@@ -42,7 +43,7 @@ public class Eleve {
 		this.sexe = new SimpleStringProperty(sexe);
 	}
 	
-	public Eleve(int id, String nom, String prenom, String adresse, LocalDate dateDeNaissance, String lieuDeNaissance, String numtelephone, String email, String sexe, ObservableList<Paiement> paiements, ObservableList<Bulletin> bulletins) {
+	public Eleve(int id, String nom, String prenom, String adresse, LocalDate dateDeNaissance, String lieuDeNaissance, String numtelephone, String email, String sexe, ObservableList<Paiement> paiements, ObservableList<Bulletin> bulletins, int id_classe) {
 		this.id = new SimpleIntegerProperty(id);
 		this.nom = new SimpleStringProperty(nom);
 		this.prenom = new SimpleStringProperty(prenom);
@@ -54,6 +55,7 @@ public class Eleve {
 		this.sexe = new SimpleStringProperty(sexe);
 		this.paiements = new SimpleListProperty<Paiement>(paiements);
 		this.bulletins = new SimpleListProperty<Bulletin>(bulletins);
+		this.id_classe = new SimpleIntegerProperty(id_classe);
 	}
 	
 	public int getId() {
@@ -184,5 +186,17 @@ public class Eleve {
 	
 	public void setBulletins(ObservableList<Bulletin> bulletins) {
 		this.bulletins.set(bulletins);
+	}
+	
+	public int getId_classe() {
+		return id_classe.get();
+	}
+	
+	public IntegerProperty id_classeProperty() {
+		return id_classe;
+	}
+	
+	public void setId_classe(int id_classe) {
+		this.id_classe.set(id_classe);
 	}
 }
