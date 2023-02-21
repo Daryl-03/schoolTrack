@@ -9,9 +9,9 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
 public class Section{
-	private final IntegerProperty id;
-	private final StringProperty Intitule;
-	private final ListProperty<Classe> classe;
+	private IntegerProperty id;
+	private StringProperty Intitule;
+	private ListProperty<Classe> classes;
 
 	public int getId() {
 		return id.get();
@@ -37,23 +37,23 @@ public class Section{
 		this.Intitule.set(intitule);
 	}
 
-	public ObservableList<Classe> getClasse() {
-		return classe.get();
+	public ObservableList<Classe> getClasses() {
+		return classes.get();
 	}
 
-	public ListProperty<Classe> classeProperty() {
-		return classe;
+	public ListProperty<Classe> classesProperty() {
+		return classes;
 	}
 
-	public void setClasse(ObservableList<Classe> classe) {
-		this.classe.set(classe);
+	public void setClasses(ObservableList<Classe> classes) {
+		this.classes.set(classes);
 	}
 
 	public Section(int id, String intitule , ObservableList<Classe> classes) {
 	
 		this.id = new SimpleIntegerProperty(id);
 		this.Intitule =new SimpleStringProperty(intitule);
-		this.classe = new SimpleListProperty<Classe>(classes);
+		this.classes = new SimpleListProperty<Classe>(classes);
 	}
 
 }

@@ -29,7 +29,7 @@ public class MatiereDAO implements DAO<Matiere>{
             preparedStatement.setString(1, matiere.getNom());
             preparedStatement.setString(2, matiere.getDescription());
             preparedStatement.setDouble(3, matiere.getCoefficient());
-            preparedStatement.setInt(4, matiere.getClasse().getId());
+            preparedStatement.setInt(4, matiere.getId_classe());
         } catch (DBHandlingException | SQLException e) {
             throw new DAOException(e.getMessage());
         }
@@ -54,7 +54,7 @@ public class MatiereDAO implements DAO<Matiere>{
                         resultSet.getString("nom"),
                         resultSet.getString("description"),
                         resultSet.getInt("coefficient"),
-                        new ClasseDAO().read(resultSet.getInt("id_classe"))
+                        resultSet.getInt("id_classe")
                 );
                 return matiere;
             }
@@ -77,7 +77,7 @@ public class MatiereDAO implements DAO<Matiere>{
             preparedStatement.setString(1, matiere.getNom());
             preparedStatement.setString(2, matiere.getDescription());
             preparedStatement.setDouble(3, matiere.getCoefficient());
-            preparedStatement.setInt(4, matiere.getClasse().getId());
+            preparedStatement.setInt(4, matiere.getId_classe());
             preparedStatement.setInt(5, matiere.getId());
             preparedStatement.executeUpdate();
         } catch (DBHandlingException | SQLException e) {
@@ -120,7 +120,7 @@ public class MatiereDAO implements DAO<Matiere>{
                         resultSet.getString("nom"),
                         resultSet.getString("description"),
                         resultSet.getInt("coefficient"),
-                        new ClasseDAO().read(resultSet.getInt("id_classe"))
+                        resultSet.getInt("id_classe")
                 );
                 matieres.add(matiere);
             }
@@ -149,7 +149,7 @@ public class MatiereDAO implements DAO<Matiere>{
                         resultSet.getString("nom"),
                         resultSet.getString("description"),
                         resultSet.getInt("coefficient"),
-                        new ClasseDAO().read(resultSet.getInt("id_classe"))
+                        resultSet.getInt("id_classe")
                 );
                 matieres.add(matiere);
             }

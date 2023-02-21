@@ -6,7 +6,6 @@ import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 
 public class Eleve {
-	
 	private IntegerProperty id;
 	private StringProperty nom;
 	private StringProperty prenom;
@@ -18,6 +17,8 @@ public class Eleve {
 	private StringProperty email;
 	private StringProperty sexe;
 	private ListProperty<Paiement> paiements;
+	private ListProperty<Bulletin> bulletins;
+	private IntegerProperty id_classe;
 	
 	public Eleve() {
 	}
@@ -42,7 +43,7 @@ public class Eleve {
 		this.sexe = new SimpleStringProperty(sexe);
 	}
 	
-	public Eleve(int id, String nom, String prenom, String adresse, LocalDate dateDeNaissance, String lieuDeNaissance, String numtelephone, String email, String sexe, ObservableList<Paiement> paiements) {
+	public Eleve(int id, String nom, String prenom, String adresse, LocalDate dateDeNaissance, String lieuDeNaissance, String numtelephone, String email, String sexe, ObservableList<Paiement> paiements, ObservableList<Bulletin> bulletins, int id_classe) {
 		this.id = new SimpleIntegerProperty(id);
 		this.nom = new SimpleStringProperty(nom);
 		this.prenom = new SimpleStringProperty(prenom);
@@ -53,6 +54,8 @@ public class Eleve {
 		this.email = new SimpleStringProperty(email);
 		this.sexe = new SimpleStringProperty(sexe);
 		this.paiements = new SimpleListProperty<Paiement>(paiements);
+		this.bulletins = new SimpleListProperty<Bulletin>(bulletins);
+		this.id_classe = new SimpleIntegerProperty(id_classe);
 	}
 	
 	public int getId() {
@@ -171,5 +174,29 @@ public class Eleve {
 	
 	public void setPaiements(ObservableList<Paiement> paiements) {
 		this.paiements.set(paiements);
+	}
+	
+	public ObservableList<Bulletin> getBulletins() {
+		return bulletins.get();
+	}
+	
+	public ListProperty<Bulletin> bulletinsProperty() {
+		return bulletins;
+	}
+	
+	public void setBulletins(ObservableList<Bulletin> bulletins) {
+		this.bulletins.set(bulletins);
+	}
+	
+	public int getId_classe() {
+		return id_classe.get();
+	}
+	
+	public IntegerProperty id_classeProperty() {
+		return id_classe;
+	}
+	
+	public void setId_classe(int id_classe) {
+		this.id_classe.set(id_classe);
 	}
 }

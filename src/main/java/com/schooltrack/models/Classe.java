@@ -6,11 +6,12 @@ import javafx.collections.ObservableList;
 import java.util.List;
 
 public class Classe {
-    private final IntegerProperty id;
-    private final StringProperty nom;
-    private final ListProperty<Rubrique> rubriques;
+    private IntegerProperty id;
+    private StringProperty nom;
+    private ListProperty<Rubrique> rubriques;
     private ListProperty<Matiere> matieres;
     private ListProperty<Eleve> eleves;
+    private IntegerProperty id_section;
     
     public int getId() {
         return id.get();
@@ -72,17 +73,30 @@ public class Classe {
         this.eleves.set(eleves);
     }
     
+    public int getId_section() {
+        return id_section.get();
+    }
+    
+    public IntegerProperty id_sectionProperty() {
+        return id_section;
+    }
+    
+    public void setId_section(int id_section) {
+        this.id_section.set(id_section);
+    }
+    
     public Classe(Integer id, Section section, String nom, ObservableList<Rubrique> rubriques) {
         this.id = new SimpleIntegerProperty(id);
         this.nom = new SimpleStringProperty(nom);
         this.rubriques = new SimpleListProperty<Rubrique>(rubriques);
     }
     
-    public Classe(int id, String nom, ObservableList<Rubrique> rubriques, ObservableList<Matiere> matieres, ObservableList<Eleve> eleves) {
+    public Classe(int id, String nom, ObservableList<Rubrique> rubriques, ObservableList<Matiere> matieres, ObservableList<Eleve> eleves, int id_section) {
         this.id = new SimpleIntegerProperty(id);
         this.nom = new SimpleStringProperty(nom);
         this.rubriques = new SimpleListProperty<Rubrique>(rubriques);
         this.matieres = new SimpleListProperty<Matiere>(matieres);
         this.eleves = new SimpleListProperty<Eleve>(eleves);
+        this.id_section = new SimpleIntegerProperty(id_section);
     }
 }
