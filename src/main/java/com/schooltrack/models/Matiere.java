@@ -1,13 +1,16 @@
 package com.schooltrack.models;
 
-import javafx.beans.property.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Matiere {
-	private IntegerProperty id;
-	private StringProperty nom;
-	private StringProperty description;
-	private IntegerProperty coefficient;
-	private IntegerProperty id_classe;
+	private final IntegerProperty id;
+	private final StringProperty nom;
+	private final StringProperty description;
+	private final IntegerProperty coefficient;
+	private final IntegerProperty id_classe;
 
 	public int getId() {
 		return id.get();
@@ -70,6 +73,11 @@ public class Matiere {
 	}
 	
 	public Matiere() {
+		this.id = new SimpleIntegerProperty();
+		this.nom = new SimpleStringProperty();
+		this.description = new SimpleStringProperty();
+		this.coefficient = new SimpleIntegerProperty();
+		this.id_classe = new SimpleIntegerProperty();
 	}
 	
 	public Matiere(int id, String nom, String description, int coefficient, int id_classe) {

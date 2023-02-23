@@ -1,7 +1,6 @@
 package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
-import com.schooltrack.exceptions.DBHandlingException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Rubrique;
 import javafx.collections.FXCollections;
@@ -9,7 +8,6 @@ import javafx.collections.FXCollections;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 public class RubriqueDAO implements DAO<Rubrique>{
@@ -34,8 +32,8 @@ public class RubriqueDAO implements DAO<Rubrique>{
             preparedStatement2.setDouble(3, rubrique.getMontant());
             preparedStatement2.setString(4, rubrique.getDescription());
             preparedStatement2.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -63,8 +61,8 @@ public class RubriqueDAO implements DAO<Rubrique>{
                 );
                 return rubrique;
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return null;
     }
@@ -112,8 +110,8 @@ public class RubriqueDAO implements DAO<Rubrique>{
                 );
                 rubriques.add(rubrique);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return rubriques;
     }
@@ -142,8 +140,8 @@ public class RubriqueDAO implements DAO<Rubrique>{
                 );
                 rubriques.add(rubrique);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return rubriques;
     }

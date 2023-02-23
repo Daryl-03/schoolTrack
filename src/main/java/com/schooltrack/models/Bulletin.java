@@ -1,23 +1,16 @@
 package com.schooltrack.models;
 
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 
 public class Bulletin {
-	private IntegerProperty id;
-	private IntegerProperty trimestre;
-	private FloatProperty moyenne;
-	private ListProperty<Note> notes;
-	private IntegerProperty id_eleve;
-	private IntegerProperty id_classe;
-	private IntegerProperty id_annee;
+	private final IntegerProperty id;
+	private final IntegerProperty trimestre;
+	private final FloatProperty moyenne;
+	private final ListProperty<Note> notes;
+	private final IntegerProperty id_eleve;
+	private final IntegerProperty id_classe;
+	private final IntegerProperty id_annee;
 	
 	public int getId() {
 		return id.get();
@@ -101,6 +94,16 @@ public class Bulletin {
 	
 	public void setId_annee(int id_annee) {
 		this.id_annee.set(id_annee);
+	}
+	
+	public Bulletin() {
+		this.id = new SimpleIntegerProperty();
+		this.trimestre = new SimpleIntegerProperty();
+		this.moyenne = new SimpleFloatProperty();
+		this.notes = new SimpleListProperty<Note>();
+		this.id_eleve = new SimpleIntegerProperty();
+		this.id_classe = new SimpleIntegerProperty();
+		this.id_annee = new SimpleIntegerProperty();
 	}
 	
 	public Bulletin(int id, int trimestre, float moyenne, ObservableList<Note> notes, int id_eleve, int id_classe, int id_annee) {

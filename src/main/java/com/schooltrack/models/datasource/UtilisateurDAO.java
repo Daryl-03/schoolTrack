@@ -1,7 +1,6 @@
 package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
-import com.schooltrack.exceptions.DBHandlingException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Utilisateur;
 import com.schooltrack.models.factory.UtilisateurFactory;
@@ -10,7 +9,6 @@ import javafx.collections.FXCollections;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 public class UtilisateurDAO implements DAO<Utilisateur>{
@@ -28,8 +26,8 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
             preparedStatement.setString(6, utilisateur.getPassword());
             preparedStatement.setString(7, utilisateur.getType());
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -40,8 +38,8 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.executeQuery();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return null;
     }
@@ -60,8 +58,8 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
             preparedStatement.setString(7, utilisateur.getType());
             preparedStatement.setInt(8, utilisateur.getId());
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -72,8 +70,8 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -95,20 +93,22 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
                 utilisateur.setPassword(resultSet.getString("password"));
                 utilisateurs.add(utilisateur);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return utilisateurs;
     }
     
-    public Utilisateur read(String login, String password) throws DAOException {
+    /**
+     * lis un utilisateur par son login
+     */
+    public Utilisateur readByLogin(String login) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
-            String sql = "SELECT * FROM utilisateur WHERE login = ? AND password = ?";
+            String sql = "SELECT * FROM utilisateur WHERE login = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, login);
-            preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.first()) {
+            if (resultSet.next()) {
                 Utilisateur utilisateur = null;
                 utilisateur = UtilisateurFactory.getUtilisateur(resultSet.getString("type"));
                 utilisateur.setId(resultSet.getInt("id"));
@@ -120,8 +120,37 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
                 utilisateur.setPassword(resultSet.getString("password"));
                 return utilisateur;
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
+        }
+        return null;
+    }
+    
+    /**
+     * lis un utilisateur par son login et mot de passe
+     * @return l'utilisateur si il existe, null sinon
+     */
+    public Utilisateur readByLoginPassword(String login, String password) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM utilisateur WHERE login = ? AND password = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Utilisateur utilisateur = null;
+                utilisateur = UtilisateurFactory.getUtilisateur(resultSet.getString("type"));
+                utilisateur.setId(resultSet.getInt("id"));
+                utilisateur.setNom(resultSet.getString("nom"));
+                utilisateur.setPrenom(resultSet.getString("prenom"));
+                utilisateur.setLogin(resultSet.getString("login"));
+                utilisateur.setEmail(resultSet.getString("email"));
+                utilisateur.setTelephone(resultSet.getString("numeroTel"));
+                utilisateur.setPassword(resultSet.getString("password"));
+                return utilisateur;
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return null;
     }

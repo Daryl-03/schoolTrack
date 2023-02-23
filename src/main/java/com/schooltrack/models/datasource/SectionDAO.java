@@ -1,7 +1,6 @@
 package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
-import com.schooltrack.exceptions.DBHandlingException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Section;
 import javafx.collections.FXCollections;
@@ -9,7 +8,6 @@ import javafx.collections.FXCollections;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 public class SectionDAO implements DAO<Section>{
@@ -32,8 +30,8 @@ public class SectionDAO implements DAO<Section>{
                         FXCollections.observableArrayList(new ClasseDAO().readAll(resultSet.getInt("id")))
                 );
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return null;
     }
@@ -63,9 +61,35 @@ public class SectionDAO implements DAO<Section>{
                 );
                 sections.add(section);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return sections;
+    }
+    
+    /**
+    * Retourne une section en fonction de son nom
+     * @param nom
+     * @return Section
+     * @throws DAOException
+     */
+    public Section read(String nom) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM section WHERE nom = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, nom);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Section section = new Section(
+                        resultSet.getInt("id"),
+                        resultSet.getString("nom"),
+                        FXCollections.observableArrayList(new ClasseDAO().readAll(resultSet.getInt("id")))
+                );
+                return section;
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
+        }
+        return null;
     }
 }

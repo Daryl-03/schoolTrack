@@ -1,17 +1,17 @@
 package com.schooltrack.models;
 
-import java.time.LocalDate;
-
 import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 
+import java.time.LocalDate;
+
 public class EcheancierPaiement {
-	private IntegerProperty id;
-	private DoubleProperty montant;
-	private ListProperty<LocalDate> echeances;
-	private IntegerProperty id_classe;
-	private IntegerProperty id_rubrique;
-	private IntegerProperty id_annee;
+	private final IntegerProperty id;
+	private final DoubleProperty montant;
+	private final ListProperty<LocalDate> echeances;
+	private final IntegerProperty id_classe;
+	private final IntegerProperty id_rubrique;
+	private final IntegerProperty id_annee;
 
 	public int getId() {
 		return id.get();
@@ -83,6 +83,15 @@ public class EcheancierPaiement {
 	
 	public void setId_annee(int id_annee) {
 		this.id_annee.set(id_annee);
+	}
+	
+	public EcheancierPaiement() {
+		this.id = new SimpleIntegerProperty();
+		this.montant = new SimpleDoubleProperty();
+		this.echeances = new SimpleListProperty<LocalDate>();
+		this.id_classe = new SimpleIntegerProperty();
+		this.id_rubrique = new SimpleIntegerProperty();
+		this.id_annee = new SimpleIntegerProperty();
 	}
 	
 	public EcheancierPaiement(int id, double montant, ObservableList<LocalDate> echeances, int id_classe, int id_rubrique, int id_annee) {

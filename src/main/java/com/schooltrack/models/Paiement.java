@@ -1,14 +1,14 @@
 package com.schooltrack.models;
 
-import java.time.LocalDate;
-
 import javafx.beans.property.*;
 
+import java.time.LocalDate;
+
 public class Paiement {
-	private IntegerProperty id;
-	private ObjectProperty<LocalDate> date;
-	private StringProperty observation;
-	private DoubleProperty montant;
+	private final IntegerProperty id;
+	private final ObjectProperty<LocalDate> date;
+	private final StringProperty observation;
+	private final DoubleProperty montant;
 	private IntegerProperty id_rubrique;
 	private IntegerProperty id_eleve;
 	private IntegerProperty id_annee;
@@ -99,6 +99,16 @@ public class Paiement {
 	
 	public void setId_annee(int id_annee) {
 		this.id_annee.set(id_annee);
+	}
+	
+	public Paiement() {
+		this.id = new SimpleIntegerProperty();
+		this.date = new SimpleObjectProperty<LocalDate>();
+		this.observation = new SimpleStringProperty();
+		this.montant = new SimpleDoubleProperty();
+		this.id_rubrique = new SimpleIntegerProperty();
+		this.id_eleve = new SimpleIntegerProperty();
+		this.id_annee = new SimpleIntegerProperty();
 	}
 	
 	public Paiement(int id, LocalDate datePaiement, String observation, double montant) {

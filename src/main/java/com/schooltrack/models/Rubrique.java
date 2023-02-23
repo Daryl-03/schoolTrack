@@ -1,14 +1,13 @@
 package com.schooltrack.models;
 
 import javafx.beans.property.*;
-import javafx.collections.ObservableList;
 
 public class Rubrique {
 
-	private IntegerProperty id;
-	private StringProperty intitule;
+	private final IntegerProperty id;
+	private final StringProperty intitule;
 	private StringProperty description;
-	private DoubleProperty montant;
+	private final DoubleProperty montant;
 	private SimpleObjectProperty<EcheancierPaiement> echeancier;
 	private IntegerProperty id_classe;
 
@@ -85,6 +84,12 @@ public class Rubrique {
 	}
 	
 	public Rubrique() {
+		this.id = new SimpleIntegerProperty();
+		this.montant = new SimpleDoubleProperty();
+		this.intitule =new SimpleStringProperty();
+		this.description = new SimpleStringProperty();
+		this.echeancier = new SimpleObjectProperty<EcheancierPaiement>();
+		this.id_classe = new SimpleIntegerProperty();
 	}
 	
 	public Rubrique(int id, double montant, String intitule) {

@@ -3,12 +3,10 @@ package com.schooltrack.models;
 import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 
-import java.util.List;
-
 public class Classe {
-    private IntegerProperty id;
-    private StringProperty nom;
-    private ListProperty<Rubrique> rubriques;
+    private final IntegerProperty id;
+    private final StringProperty nom;
+    private final ListProperty<Rubrique> rubriques;
     private ListProperty<Matiere> matieres;
     private ListProperty<Eleve> eleves;
     private IntegerProperty id_section;
@@ -83,6 +81,16 @@ public class Classe {
     
     public void setId_section(int id_section) {
         this.id_section.set(id_section);
+    }
+    
+    public Classe() {
+        this.id = new SimpleIntegerProperty();
+        this.nom = new SimpleStringProperty();
+        this.rubriques = new SimpleListProperty<Rubrique>();
+        this.matieres = new SimpleListProperty<Matiere>();
+        this.eleves = new SimpleListProperty<Eleve>();
+        this.id_section = new SimpleIntegerProperty();
+        
     }
     
     public Classe(Integer id, Section section, String nom, ObservableList<Rubrique> rubriques) {

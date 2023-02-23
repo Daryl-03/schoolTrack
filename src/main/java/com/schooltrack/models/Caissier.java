@@ -1,8 +1,5 @@
 package com.schooltrack.models;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
-
 public class Caissier extends Secretaire{
 
 	public Caissier() {
@@ -12,7 +9,7 @@ public class Caissier extends Secretaire{
 		super(login, code);
 	}
 	
-	public Caissier(IntegerProperty id, StringProperty nom, StringProperty prenom, StringProperty login, StringProperty password, StringProperty email, StringProperty telephone) {
+	public Caissier(int id, String nom, String prenom, String login, String password, String email, String telephone) {
 		super(id, nom, prenom, login, password, email, telephone);
 	}
 	

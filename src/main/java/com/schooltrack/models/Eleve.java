@@ -1,16 +1,16 @@
 package com.schooltrack.models;
 
-import java.time.LocalDate;
-
 import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 
+import java.time.LocalDate;
+
 public class Eleve {
 	private IntegerProperty id;
-	private StringProperty nom;
-	private StringProperty prenom;
-	private StringProperty adresse;
-	private ObjectProperty<LocalDate> dateDeNaissance;
+	private final StringProperty nom;
+	private final StringProperty prenom;
+	private final StringProperty adresse;
+	private final ObjectProperty<LocalDate> dateDeNaissance;
 	private StringProperty lieuDeNaissance;
 	
 	private StringProperty numtelephone;
@@ -21,6 +21,17 @@ public class Eleve {
 	private IntegerProperty id_classe;
 	
 	public Eleve() {
+		this.nom = new SimpleStringProperty();
+		this.prenom = new SimpleStringProperty();
+		this.adresse = new SimpleStringProperty();
+		this.dateDeNaissance = new SimpleObjectProperty<LocalDate>();
+		this.lieuDeNaissance = new SimpleStringProperty();
+		this.numtelephone = new SimpleStringProperty();
+		this.email = new SimpleStringProperty();
+		this.sexe = new SimpleStringProperty();
+		this.paiements = new SimpleListProperty<Paiement>();
+		this.bulletins = new SimpleListProperty<Bulletin>();
+		this.id_classe = new SimpleIntegerProperty();
 	}
 
 	public Eleve( String matricule, String nom,

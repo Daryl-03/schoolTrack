@@ -1,16 +1,13 @@
 package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
-import com.schooltrack.exceptions.DBHandlingException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Eleve;
-import com.schooltrack.models.Paiement;
 import javafx.collections.FXCollections;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -36,8 +33,8 @@ public class EleveDAO implements DAO<Eleve>{
             preparedStatement.setInt(9, eleve.getId_classe());
             preparedStatement.executeUpdate();
             inscription(eleve);
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -54,8 +51,8 @@ public class EleveDAO implements DAO<Eleve>{
             preparedStatement.setInt(2, eleve.getId_classe());
             preparedStatement.setDate(3, java.sql.Date.valueOf(LocalDate.now()));
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -71,8 +68,8 @@ public class EleveDAO implements DAO<Eleve>{
             preparedStatement.setInt(1, eleve.getId_classe());
             preparedStatement.setInt(2, eleve.getId());
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -88,7 +85,7 @@ public class EleveDAO implements DAO<Eleve>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.first()) {
+            if (resultSet.next()) {
                 return new Eleve(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
@@ -104,8 +101,8 @@ public class EleveDAO implements DAO<Eleve>{
                         resultSet.getInt("id_classe")
                 );
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return null;
     }
@@ -130,8 +127,8 @@ public class EleveDAO implements DAO<Eleve>{
             preparedStatement.setInt(9, eleve.getId_classe());
             preparedStatement.setInt(10, eleve.getId());
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -146,8 +143,8 @@ public class EleveDAO implements DAO<Eleve>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -180,8 +177,8 @@ public class EleveDAO implements DAO<Eleve>{
                         resultSet.getInt("id_classe")
                 ));
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return eleves;
     }
@@ -217,8 +214,8 @@ public class EleveDAO implements DAO<Eleve>{
                         resultSet.getInt("id_classe")
                 ));
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return eleves;
     }

@@ -5,7 +5,6 @@ import com.schooltrack.exceptions.DBHandlingException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.EcheancierPaiement;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -50,8 +49,8 @@ public class EcheancierPaiementDAO implements DAO<EcheancierPaiement>{
                 );
                 return echeancierPaiement;
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return null;
     }
@@ -79,8 +78,8 @@ public class EcheancierPaiementDAO implements DAO<EcheancierPaiement>{
                 preparedStatement2.setDate(2, java.sql.Date.valueOf(echeance));
                 preparedStatement2.executeUpdate();
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -96,8 +95,8 @@ public class EcheancierPaiementDAO implements DAO<EcheancierPaiement>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -125,8 +124,8 @@ public class EcheancierPaiementDAO implements DAO<EcheancierPaiement>{
                 );
                 echeancierPaiements.add(echeancierPaiement);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return echeancierPaiements;
     }
@@ -147,15 +146,15 @@ public class EcheancierPaiementDAO implements DAO<EcheancierPaiement>{
             while (resultSet.next()) {
                 echeances.add(resultSet.getDate("date").toLocalDate());
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return echeances;
     }
     
     /**
      * Lit l'échéancier de paiement d'une rubrique d'une classe pour une année dans la base de données
-     * @param id
+     * @param id_rubrique, idClasse, idAnnee
      * @return
      * @throws DAOException
      */
@@ -179,7 +178,7 @@ public class EcheancierPaiementDAO implements DAO<EcheancierPaiement>{
                  return echeancierPaiement;
              }
          } catch (DBHandlingException | SQLException e) {
-             throw new DAOException(e.getMessage());
+             throw new DAOException(e.getMessage(),e.getCause());
          }
          return null;
      }

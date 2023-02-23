@@ -14,16 +14,14 @@ public class DBManager {
     }
     
     public static Connection getConnection() throws DBHandlingException {
-        if (connection == null) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://localhost/dbproducts", "rich", "rich003!");
-            } catch (ClassNotFoundException e) {
-                throw new DBHandlingException("Driver Class not found : '" + e.getMessage() + "' ");
-            } catch (SQLException e) {
-                throw new DBHandlingException("Error : Unable to open connection with database !");
-            }
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/scolarite_db?zeroDateTimeBehavior=convertToNull", "root", "");
+            return connection;
+        } catch (ClassNotFoundException e) {
+            throw new DBHandlingException("Driver Class not found : '" + e.getMessage() + "' ");
+        } catch (SQLException e) {
+            throw new DBHandlingException("Error : Unable to open connection with database !");
         }
-        return connection;
     }
 }

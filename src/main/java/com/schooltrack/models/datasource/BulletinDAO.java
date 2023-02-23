@@ -1,14 +1,12 @@
 package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
-import com.schooltrack.exceptions.DBHandlingException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Bulletin;
 import javafx.collections.FXCollections;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 public class BulletinDAO implements DAO<Bulletin>{
@@ -29,8 +27,8 @@ public class BulletinDAO implements DAO<Bulletin>{
                 throw new DAOException("L'élève, la classe ou l'année n'existe pas");
             }
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -41,8 +39,8 @@ public class BulletinDAO implements DAO<Bulletin>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.executeQuery();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return null;
     }
@@ -62,8 +60,8 @@ public class BulletinDAO implements DAO<Bulletin>{
                 throw new DAOException("L'élève, la classe ou l'année n'existe pas");
             }
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -74,8 +72,8 @@ public class BulletinDAO implements DAO<Bulletin>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -86,8 +84,8 @@ public class BulletinDAO implements DAO<Bulletin>{
             String sql = "SELECT * FROM bulletin";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeQuery();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return bulletins;
     }
@@ -103,8 +101,8 @@ public class BulletinDAO implements DAO<Bulletin>{
             preparedStatement.setInt(1, id_eleve);
             preparedStatement.setInt(2, id_annee);
             preparedStatement.executeQuery();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return bulletins;
     }
@@ -120,8 +118,8 @@ public class BulletinDAO implements DAO<Bulletin>{
             preparedStatement.setInt(2, id_annee);
             preparedStatement.setInt(3, trimestre);
             preparedStatement.executeQuery();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return null;
     }

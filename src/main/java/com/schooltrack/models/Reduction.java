@@ -1,17 +1,12 @@
 package com.schooltrack.models;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class Reduction {
-	private IntegerProperty id;
-	private StringProperty observation;
-	private StringProperty Intitule;
-	private DoubleProperty montant;
+	private final IntegerProperty id;
+	private final StringProperty observation;
+	private final StringProperty Intitule;
+	private final DoubleProperty montant;
 
 	public int getId() {
 		return id.get();

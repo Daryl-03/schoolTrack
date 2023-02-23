@@ -1,6 +1,7 @@
 package com.schooltrack.models;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -99,6 +100,13 @@ public  abstract class Utilisateur {
 	}
 	
 	public Utilisateur() {
+		this.id = new SimpleIntegerProperty();
+		this.nom = new SimpleStringProperty();
+		this.prenom = new SimpleStringProperty();
+		this.login = new SimpleStringProperty();
+		this.password = new SimpleStringProperty();
+		this.email = new SimpleStringProperty();
+		this.telephone = new SimpleStringProperty();
 	}
 	
 	public Utilisateur(String login, String password) {
@@ -108,13 +116,14 @@ public  abstract class Utilisateur {
 	
 	public abstract String getType();
 	
-	public Utilisateur(IntegerProperty id, StringProperty nom, StringProperty prenom, StringProperty login, StringProperty password, StringProperty email, StringProperty telephone) {
-		this.id = id;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.login = login;
-		this.password = password;
-		this.email = email;
-		this.telephone = telephone;
+	// constructeur avec tous les parametres
+	public Utilisateur(int id, String nom, String prenom, String login, String password, String email, String telephone) {
+		this.id = new SimpleIntegerProperty(id);
+		this.nom = new SimpleStringProperty(nom);
+		this.prenom = new SimpleStringProperty(prenom);
+		this.login = new SimpleStringProperty(login);
+		this.password = new SimpleStringProperty(password);
+		this.email = new SimpleStringProperty(email);
+		this.telephone = new SimpleStringProperty(telephone);
 	}
 }

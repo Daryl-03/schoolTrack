@@ -1,10 +1,13 @@
 package com.schooltrack.models;
 
-import javafx.beans.property.*;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class Note {
-	private IntegerProperty id;
-	private DoubleProperty valeur;
+	private final IntegerProperty id;
+	private final DoubleProperty valeur;
 	private IntegerProperty id_matiere;
 	private IntegerProperty id_bulletin;
 

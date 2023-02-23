@@ -1,7 +1,9 @@
 package com.schooltrack.models.factory;
 
-import com.schooltrack.models.*;
-import javafx.scene.Parent;
+import com.schooltrack.models.Administrateur;
+import com.schooltrack.models.Caissier;
+import com.schooltrack.models.Secretaire;
+import com.schooltrack.models.Utilisateur;
 
 public class UtilisateurFactory {
     public static Utilisateur getUtilisateur(String type) {

@@ -1,17 +1,12 @@
 package com.schooltrack.models;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 
 public class Section{
-	private IntegerProperty id;
-	private StringProperty Intitule;
-	private ListProperty<Classe> classes;
+	private final IntegerProperty id;
+	private final StringProperty Intitule;
+	private final ListProperty<Classe> classes;
 
 	public int getId() {
 		return id.get();
@@ -48,12 +43,25 @@ public class Section{
 	public void setClasses(ObservableList<Classe> classes) {
 		this.classes.set(classes);
 	}
-
+	
+	public Section() {
+		this.id = new SimpleIntegerProperty();
+		this.Intitule =new SimpleStringProperty();
+		this.classes = new SimpleListProperty<Classe>();
+	}
+	
 	public Section(int id, String intitule , ObservableList<Classe> classes) {
 	
 		this.id = new SimpleIntegerProperty(id);
 		this.Intitule =new SimpleStringProperty(intitule);
 		this.classes = new SimpleListProperty<Classe>(classes);
 	}
-
+	
+	public double getEffectif(){
+		double effectif = 0;
+		for (Classe classe : classes) {
+			effectif += classe.getEleves().size();
+		}
+		return effectif;
+	}
 }

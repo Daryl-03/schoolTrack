@@ -1,8 +1,5 @@
 package com.schooltrack.models;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
-
 public class Secretaire extends Utilisateur {
 
 	public Secretaire() {
@@ -12,7 +9,7 @@ public class Secretaire extends Utilisateur {
 		super(login, code);
 	}
 	
-	public Secretaire(IntegerProperty id, StringProperty nom, StringProperty prenom, StringProperty login, StringProperty password, StringProperty email, StringProperty telephone) {
+	public Secretaire(int id, String nom, String prenom, String login, String password, String email, String telephone) {
 		super(id, nom, prenom, login, password, email, telephone);
 	}
 	

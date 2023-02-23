@@ -1,8 +1,5 @@
 package com.schooltrack.models;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
-
 public class Administrateur extends Utilisateur {
 
 	public Administrateur() {
@@ -12,7 +9,7 @@ public class Administrateur extends Utilisateur {
 		super(login, code);
 	}
 	
-	public Administrateur(IntegerProperty id, StringProperty nom, StringProperty prenom, StringProperty login, StringProperty password, StringProperty email, StringProperty telephone) {
+	public Administrateur(int id, String nom, String prenom, String login, String password, String email, String telephone) {
 		super(id, nom, prenom, login, password, email, telephone);
 	}
 	

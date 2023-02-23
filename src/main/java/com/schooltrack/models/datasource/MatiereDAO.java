@@ -1,7 +1,6 @@
 package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
-import com.schooltrack.exceptions.DBHandlingException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Matiere;
 import javafx.collections.FXCollections;
@@ -9,8 +8,6 @@ import javafx.collections.FXCollections;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MatiereDAO implements DAO<Matiere>{
@@ -30,8 +27,8 @@ public class MatiereDAO implements DAO<Matiere>{
             preparedStatement.setString(2, matiere.getDescription());
             preparedStatement.setDouble(3, matiere.getCoefficient());
             preparedStatement.setInt(4, matiere.getId_classe());
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -58,8 +55,8 @@ public class MatiereDAO implements DAO<Matiere>{
                 );
                 return matiere;
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return null;
     }
@@ -80,8 +77,8 @@ public class MatiereDAO implements DAO<Matiere>{
             preparedStatement.setInt(4, matiere.getId_classe());
             preparedStatement.setInt(5, matiere.getId());
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -97,8 +94,8 @@ public class MatiereDAO implements DAO<Matiere>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
     
@@ -124,8 +121,8 @@ public class MatiereDAO implements DAO<Matiere>{
                 );
                 matieres.add(matiere);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return matieres;
     }
@@ -153,8 +150,8 @@ public class MatiereDAO implements DAO<Matiere>{
                 );
                 matieres.add(matiere);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return matieres;
     }

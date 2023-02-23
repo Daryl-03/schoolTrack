@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.schooltrack.controller.secretaire.DashboardController">
    <children>
       <BorderPane layoutX="-1.0" layoutY="-4.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -39,7 +39,7 @@
                                     <Font size="24.0" />
                                  </font></Label>
                               <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="142.0" layoutY="56.0" size="40" text="" wrappingWidth="27.0" />
-                              <Label layoutX="35.0" layoutY="14.0" prefHeight="53.0" prefWidth="43.0" text="50" textFill="WHITE">
+                              <Label fx:id="effectifFroid" layoutX="35.0" layoutY="14.0" prefHeight="53.0" prefWidth="43.0" text="50" textFill="WHITE">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
@@ -56,7 +56,7 @@
                                     <Font size="24.0" />
                                  </font></Label>
                               <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="143.0" layoutY="51.0" size="40" text="" wrappingWidth="27.0" />
-                              <Label layoutX="29.0" layoutY="9.0" prefHeight="53.0" prefWidth="50.0" text="50" textFill="WHITE">
+                              <Label fx:id="effectifCollege" layoutX="29.0" layoutY="9.0" prefHeight="53.0" prefWidth="50.0" text="50" textFill="WHITE">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
@@ -73,7 +73,7 @@
                                     <Font size="24.0" />
                                  </font></Label>
                               <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="142.0" layoutY="51.0" size="40" text="" wrappingWidth="27.0" />
-                              <Label layoutX="25.0" layoutY="6.0" prefHeight="53.0" prefWidth="41.0" text="50" textFill="WHITE">
+                              <Label fx:id="effectifMaternelle" layoutX="25.0" layoutY="6.0" prefHeight="53.0" prefWidth="41.0" text="50" textFill="WHITE">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
@@ -90,7 +90,7 @@
                                     <Font size="24.0" />
                                  </font></Label>
                               <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="142.0" layoutY="53.0" size="40" text="" wrappingWidth="27.0" />
-                              <Label layoutX="17.0" layoutY="11.0" prefHeight="53.0" prefWidth="41.0" text="50" textFill="WHITE">
+                              <Label fx:id="effectifElementaire" layoutX="17.0" layoutY="11.0" prefHeight="53.0" prefWidth="41.0" text="50" textFill="WHITE">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
@@ -110,7 +110,7 @@
                   <Pane layoutX="605.0" layoutY="199.0" prefHeight="343.0" prefWidth="185.0" style="-fx-background-color: #4fe0b6; -fx-background-radius: 20% 20% 0% 0%;">
                      <children>
                         <FontAwesomeIconView fill="WHITE" glyphName="MALE" layoutX="72.0" layoutY="102.0" size="70" wrappingWidth="40.85714292526245" />
-                        <Label layoutX="38.0" layoutY="198.0" prefHeight="53.0" prefWidth="109.0" text="LOGIN" textAlignment="JUSTIFY" textFill="WHITE">
+                        <Label fx:id="loginLabel" layoutX="38.0" layoutY="198.0" prefHeight="53.0" prefWidth="109.0" text="LOGIN" textAlignment="JUSTIFY" textFill="WHITE">
                            <font>
                               <Font size="36.0" />
                            </font>

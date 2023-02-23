@@ -1,7 +1,6 @@
 package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
-import com.schooltrack.exceptions.DBHandlingException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Paiement;
 import javafx.collections.FXCollections;
@@ -28,8 +27,8 @@ public class PaiementDAO implements DAO<Paiement> {
             preparedStatement.setInt(4, paiement.getId_eleve());
             preparedStatement.setInt(5, paiement.getId_annee());
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
 
@@ -58,8 +57,8 @@ public class PaiementDAO implements DAO<Paiement> {
                 );
                 return paiement;
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return null;
     }
@@ -82,8 +81,8 @@ public class PaiementDAO implements DAO<Paiement> {
             preparedStatement.setInt(6, paiement.getId_annee());
             preparedStatement.setInt(7, paiement.getId());
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
 
@@ -94,8 +93,8 @@ public class PaiementDAO implements DAO<Paiement> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
     }
 
@@ -123,8 +122,8 @@ public class PaiementDAO implements DAO<Paiement> {
                 );
                 paiements.add(paiement);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return paiements;
     }
@@ -157,8 +156,8 @@ public class PaiementDAO implements DAO<Paiement> {
                 );
                 paiements.add(paiement);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return paiements;
     }
@@ -192,8 +191,8 @@ public class PaiementDAO implements DAO<Paiement> {
                 );
                 paiements.add(paiement);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return paiements;
     }
@@ -227,8 +226,8 @@ public class PaiementDAO implements DAO<Paiement> {
                 );
                 paiements.add(paiement);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return paiements;
     }
@@ -263,8 +262,8 @@ public class PaiementDAO implements DAO<Paiement> {
                 );
                 paiements.add(paiement);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return paiements;
     }
@@ -299,8 +298,8 @@ public class PaiementDAO implements DAO<Paiement> {
                 );
                 paiements.add(paiement);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return paiements;
     }
@@ -333,8 +332,8 @@ public class PaiementDAO implements DAO<Paiement> {
                 );
                 paiements.add(paiement);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return paiements;
     }
@@ -368,8 +367,8 @@ public class PaiementDAO implements DAO<Paiement> {
                 );
                 paiements.add(paiement);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return paiements;
     }
@@ -403,8 +402,8 @@ public class PaiementDAO implements DAO<Paiement> {
                 );
                 paiements.add(paiement);
             }
-        } catch (DBHandlingException | SQLException e) {
-            throw new DAOException(e.getMessage());
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
         }
         return paiements;
     }
