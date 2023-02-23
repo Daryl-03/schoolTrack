@@ -55,10 +55,11 @@
    <center>
       <AnchorPane prefHeight="188.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView layoutX="122.0" layoutY="6.0" prefHeight="118.0" prefWidth="322.0">
+            <TableView layoutY="6.0" prefHeight="118.0" prefWidth="600.0">
               <columns>
                 <TableColumn prefWidth="147.0" text="Matiere" />
-                <TableColumn prefWidth="174.0" text="Note" />
+                <TableColumn prefWidth="174.0" text="coefficient" />
+                  <TableColumn prefWidth="147.0" text="note" />
               </columns>
             </TableView>
             <Label layoutX="19.0" layoutY="137.0" prefHeight="17.0" prefWidth="73.0" text="Moyenne :" />

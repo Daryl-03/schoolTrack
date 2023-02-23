@@ -107,10 +107,10 @@
                         <Font name="Cambria" size="24.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="610.0" layoutY="199.0" prefHeight="343.0" prefWidth="151.0" style="-fx-background-color: #4fe0b6; -fx-background-radius: 20% 20% 0% 0%;">
+                  <Pane layoutX="605.0" layoutY="199.0" prefHeight="343.0" prefWidth="185.0" style="-fx-background-color: #4fe0b6; -fx-background-radius: 20% 20% 0% 0%;">
                      <children>
-                        <FontAwesomeIconView fill="WHITE" glyphName="MALE" layoutX="55.0" layoutY="106.0" size="70" wrappingWidth="40.85714292526245" />
-                        <Label layoutX="21.0" layoutY="196.0" prefHeight="53.0" prefWidth="109.0" text="LOGIN" textAlignment="JUSTIFY" textFill="WHITE">
+                        <FontAwesomeIconView fill="WHITE" glyphName="MALE" layoutX="72.0" layoutY="102.0" size="70" wrappingWidth="40.85714292526245" />
+                        <Label layoutX="38.0" layoutY="198.0" prefHeight="53.0" prefWidth="109.0" text="LOGIN" textAlignment="JUSTIFY" textFill="WHITE">
                            <font>
                               <Font size="36.0" />
                            </font>
@@ -129,11 +129,7 @@
                         </LineChart>
                      </children>
                   </Pane>
-                  <Button layoutX="748.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: gluon; -fx-cursor: grab;">
-                     <graphic>
-                        <FontAwesomeIconView glyphName="TIMES" />
-                     </graphic>
-                  </Button>
+                  <Button layoutX="748.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: gluon; -fx-cursor: grab;" />
                </children>
             </Pane>
          </center>

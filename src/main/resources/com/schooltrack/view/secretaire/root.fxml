@@ -52,7 +52,7 @@
                               <Insets left="18.0" />
                            </padding>
                         </JFXButton>
-                        <JFXButton alignment="BASELINE_LEFT" prefHeight="38.0" prefWidth="196.0" text="Classes" textFill="WHITE">
+                        <JFXButton alignment="BASELINE_LEFT" prefHeight="38.0" prefWidth="196.0" text="Section" textFill="WHITE">
                            <graphic>
                               <FontAwesomeIconView fill="WHITESMOKE" glyphName="UNIVERSITY" size="17" />
                            </graphic>

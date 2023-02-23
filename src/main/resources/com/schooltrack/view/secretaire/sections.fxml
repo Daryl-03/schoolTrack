@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -41,7 +42,7 @@
                                 <items>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                        <children>
-                                          <TableView layoutY="6.0" prefHeight="461.0" prefWidth="328.0" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                                          <TableView layoutY="6.0" prefHeight="461.0" prefWidth="328.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <columns>
                                                 <TableColumn prefWidth="75.0" text="id" />
                                               <TableColumn prefWidth="112.0" text="nom" />
@@ -52,85 +53,9 @@
                                     </AnchorPane>
                                   <AnchorPane>
                                        <children>
-                                          <GridPane layoutX="59.0" layoutY="59.0" prefHeight="310.0" prefWidth="405.0">
-                                            <columnConstraints>
-                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                             <children>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="nom" textAlignment="JUSTIFY">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="label" textAlignment="JUSTIFY" GridPane.columnIndex="1">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="prenom" textAlignment="JUSTIFY" GridPane.rowIndex="1">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="label" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="adresse" textAlignment="JUSTIFY" GridPane.rowIndex="2">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="label" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="27.0" prefWidth="144.0" text="lieu de naissance " textAlignment="JUSTIFY" GridPane.rowIndex="3">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="27.0" prefWidth="143.0" text="date de naissance" textAlignment="JUSTIFY" GridPane.rowIndex="5">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="sexe" textAlignment="JUSTIFY" GridPane.rowIndex="4">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="label" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="label" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="label" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </GridPane>
-                                          <Label layoutX="81.0" layoutY="11.0" prefHeight="34.0" prefWidth="120.0" text="details :">
+                                          <Label layoutX="57.0" layoutY="24.0" prefHeight="34.0" prefWidth="120.0" text="details :">
                                              <font>
-                                                <Font size="24.0" />
+                                                <Font name="System Bold Italic" size="24.0" />
                                              </font>
                                           </Label>
                                           <ButtonBar layoutX="57.0" layoutY="385.0" prefHeight="40.0" prefWidth="200.0">
@@ -142,6 +67,109 @@
                                             </buttons>
                                           </ButtonBar>
                                           <Button layoutX="355.0" layoutY="29.0" mnemonicParsing="false" text="import" />
+                                          <GridPane layoutX="50.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="297.0" prefWidth="343.0">
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="33.0" minHeight="1.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                             <children>
+                                                <Label text="Nom">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Prenom" GridPane.rowIndex="1">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Sexe" GridPane.rowIndex="2">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="date de naissance " GridPane.rowIndex="3">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="lieux de naissance" GridPane.rowIndex="4">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="numero de tel" GridPane.rowIndex="6">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="fille" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                   <GridPane.margin>
+                                                      <Insets left="100.0" />
+                                                   </GridPane.margin>
+                                                </RadioButton>
+                                                <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="58.0" text="garçon" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                   <GridPane.margin>
+                                                      <Insets left="30.0" />
+                                                   </GridPane.margin>
+                                                </RadioButton>
+                                                <Label text=" courriel" GridPane.rowIndex="7">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label layoutX="10.0" layoutY="164.0" text="addresse" GridPane.rowIndex="5">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Nom" GridPane.columnIndex="1">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Prenom" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="date de naissance " GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="lieux de naissance" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="addresse" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="numero de tel" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text=" courriel" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </GridPane>
                                        </children></AnchorPane>
                                 </items>
                               </SplitPane>
@@ -166,52 +194,9 @@
                                     </AnchorPane>
                                     <AnchorPane>
                                        <children>
-                                          <GridPane layoutX="134.0" layoutY="59.0" prefHeight="310.0" prefWidth="326.0">
-                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                             </columnConstraints>
-                                             <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                             </rowConstraints>
-                                             <children>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="matiere" textAlignment="JUSTIFY">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="label" textAlignment="JUSTIFY" GridPane.columnIndex="1">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="coefficient" textAlignment="JUSTIFY" GridPane.rowIndex="1">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="label" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="section" textAlignment="JUSTIFY" GridPane.rowIndex="2">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label prefHeight="17.0" prefWidth="104.0" text="label" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                                   <font>
-                                                      <Font size="18.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </GridPane>
                                           <Label layoutX="60.0" layoutY="24.0" prefHeight="34.0" prefWidth="120.0" text="details :">
                                              <font>
-                                                <Font size="24.0" />
+                                                <Font name="System Italic" size="24.0" />
                                              </font>
                                           </Label>
                                           <ButtonBar buttonMinWidth="100.0" layoutX="72.0" layoutY="369.0" prefHeight="61.0" prefWidth="342.0" AnchorPane.rightAnchor="119.0">
@@ -225,6 +210,63 @@
                                              </padding>
                                           </ButtonBar>
                                           <Button layoutX="469.0" layoutY="30.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="52.0" text="import" />
+                                          <GridPane layoutX="104.0" layoutY="82.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="297.0" prefWidth="343.0">
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="70.0" minHeight="1.0" prefHeight="70.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="95.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                             <children>
+                                                <Label alignment="CENTER" text="id :">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="14.0" />
+                                                   </font>
+                                                   <opaqueInsets>
+                                                      <Insets left="50.0" />
+                                                   </opaqueInsets>
+                                                </Label>
+                                                <Label text="nom" GridPane.rowIndex="1">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="statut" GridPane.rowIndex="2">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="id de la classe" GridPane.rowIndex="3">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="de la matière" GridPane.columnIndex="1">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="de la mat" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="de la matiere" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="lieux de naissance" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </GridPane>
                                        </children>
                                     </AnchorPane>
                                  </items>
