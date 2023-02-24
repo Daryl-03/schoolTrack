@@ -70,6 +70,7 @@ public class AuthController {
                             controller.setParentStage(primaryStage);
                             controller.setActualStage(homeStage);
                             controller.setUtilisateurConnecte(utilisateur);
+                            controller.dashboard();
                             controller.initRootFeatures();
                             homeStage.showAndWait();
                             break;

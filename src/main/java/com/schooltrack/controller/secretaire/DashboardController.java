@@ -30,12 +30,16 @@ public class DashboardController {
     @FXML
     private Label loginLabel;
     
+    public void setLoginLabelValue(String loginLabelValue) {
+        this.loginLabel.setText(loginLabelValue);
+    }
+    
     @FXML
     private AnchorPane dashboardLayout;
     
     @FXML
     void initialize() {
-//        initSectionSize();
+    
     }
     
     public void setLoginLabel(String loginLabel) {
@@ -49,7 +53,7 @@ public class DashboardController {
     public void initSectionSize() {
         SectionDAO sectionDAO = new SectionDAO();
         try {
-            ObservableList<Section> sections = FXCollections.observableArrayList(sectionDAO.readAll());
+            List<Section> sections = sectionDAO.readAll();
             for (Section section : sections) {
                 switch (section.getIntitule()) {
                     case "Maternelle":

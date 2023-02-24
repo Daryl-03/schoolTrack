@@ -3,6 +3,9 @@ package com.schooltrack.models.datasource;
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Classe;
+import com.schooltrack.models.Eleve;
+import com.schooltrack.models.Matiere;
+import com.schooltrack.models.Rubrique;
 import javafx.collections.FXCollections;
 
 import java.sql.Connection;
@@ -53,12 +56,15 @@ public class ClasseDAO implements DAO<Classe>{
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
+                List<Rubrique> rubriques = new RubriqueDAO().readAllByClasse(resultSet.getInt("id"));
+                List<Matiere> matieres = new MatiereDAO().readAllByClasse(resultSet.getInt("id"));
+                List<Eleve> eleves = new EleveDAO().readAllByClasse(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
                 Classe classe = new Classe(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
-                        FXCollections.observableArrayList(new RubriqueDAO().readAllByClasse(id)),
-                        FXCollections.observableArrayList(new MatiereDAO().readAllByClasse(id)),
-                        FXCollections.observableArrayList(new EleveDAO().readAllByClasse(id, new AnneeScolaireDAO().readLastId())),
+                        rubriques!=null?FXCollections.observableArrayList(rubriques):FXCollections.observableArrayList(),
+                        matieres!=null?FXCollections.observableArrayList(matieres):FXCollections.observableArrayList(),
+                        eleves!=null?FXCollections.observableArrayList(eleves):FXCollections.observableArrayList(),
                         resultSet.getInt("id_section")
                 );
             }
@@ -91,12 +97,15 @@ public class ClasseDAO implements DAO<Classe>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                List<Rubrique> rubriques = new RubriqueDAO().readAllByClasse(resultSet.getInt("id"));
+                List<Matiere> matieres = new MatiereDAO().readAllByClasse(resultSet.getInt("id"));
+                List<Eleve> eleves = new EleveDAO().readAllByClasse(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
                 Classe classe = new Classe(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
-                        FXCollections.observableArrayList(new RubriqueDAO().readAll()),
-                        FXCollections.observableArrayList(new MatiereDAO().readAll()),
-                        FXCollections.observableArrayList(new EleveDAO().readAll()),
+                        rubriques!=null?FXCollections.observableArrayList(rubriques):FXCollections.observableArrayList(),
+                        matieres!=null?FXCollections.observableArrayList(matieres):FXCollections.observableArrayList(),
+                        eleves!=null?FXCollections.observableArrayList(eleves):FXCollections.observableArrayList(),
                         resultSet.getInt("id_section")
                 );
                 classes.add(classe);
@@ -121,17 +130,21 @@ public class ClasseDAO implements DAO<Classe>{
             preparedStatement.setInt(1, idSection);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                List<Rubrique> rubriques = new RubriqueDAO().readAllByClasse(resultSet.getInt("id"));
+                List<Matiere> matieres = new MatiereDAO().readAllByClasse(resultSet.getInt("id"));
+                List<Eleve> eleves = new EleveDAO().readAllByClasse(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
                 Classe classe = new Classe(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
-                        FXCollections.observableArrayList(new RubriqueDAO().readAllByClasse(resultSet.getInt("id"))),
-                        FXCollections.observableArrayList(new MatiereDAO().readAllByClasse(resultSet.getInt("id"))),
-                        FXCollections.observableArrayList(new EleveDAO().readAllByClasse(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId())),
+                        rubriques!=null?FXCollections.observableArrayList(rubriques):FXCollections.observableArrayList(),
+                        matieres!=null?FXCollections.observableArrayList(matieres):FXCollections.observableArrayList(),
+                        eleves!=null?FXCollections.observableArrayList(eleves):FXCollections.observableArrayList(),
                         resultSet.getInt("id_section")
                 );
                 classes.add(classe);
             }
         } catch (Exception e) {
+            System.out.println("Erreur in ClasseDAO.readAll(int idSection)");
             throw new DAOException(e.getMessage(),e.getCause());
         }
         return null;

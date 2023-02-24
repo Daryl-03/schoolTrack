@@ -57,8 +57,8 @@ public class Section{
 		this.classes = new SimpleListProperty<Classe>(classes);
 	}
 	
-	public double getEffectif(){
-		double effectif = 0;
+	public long getEffectif(){
+		long effectif = 0;
 		for (Classe classe : classes) {
 			effectif += classe.getEleves().size();
 		}

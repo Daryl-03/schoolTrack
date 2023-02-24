@@ -2,6 +2,7 @@ package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.jdbc.DBManager;
+import com.schooltrack.models.Classe;
 import com.schooltrack.models.Section;
 import javafx.collections.FXCollections;
 
@@ -24,10 +25,11 @@ public class SectionDAO implements DAO<Section>{
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
+                List<Classe> classes = new ClasseDAO().readAll(resultSet.getInt("id"));
                 Section section = new Section(
                         resultSet.getInt("id"),
-                        resultSet.getString("nom"),
-                        FXCollections.observableArrayList(new ClasseDAO().readAll(resultSet.getInt("id")))
+                        resultSet.getString("intitule"),
+                        classes!=null ? FXCollections.observableArrayList(classes) : FXCollections.observableArrayList()
                 );
             }
         } catch (Exception e) {
@@ -54,14 +56,16 @@ public class SectionDAO implements DAO<Section>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                List<Classe> classes = new ClasseDAO().readAll(resultSet.getInt("id"));
                 Section section = new Section(
                         resultSet.getInt("id"),
-                        resultSet.getString("nom"),
-                        FXCollections.observableArrayList(new ClasseDAO().readAll(resultSet.getInt("id")))
+                        resultSet.getString("intitule"),
+                        classes!=null ? FXCollections.observableArrayList(classes) : FXCollections.observableArrayList()
                 );
                 sections.add(section);
             }
         } catch (Exception e) {
+            System.out.println("Erreur: " + e.getMessage());
             throw new DAOException(e.getMessage(),e.getCause());
         }
         return sections;
@@ -75,15 +79,16 @@ public class SectionDAO implements DAO<Section>{
      */
     public Section read(String nom) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
-            String sql = "SELECT * FROM section WHERE nom = ?";
+            String sql = "SELECT * FROM section WHERE intitule = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, nom);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
+                List<Classe> classes = new ClasseDAO().readAll(resultSet.getInt("id"));
                 Section section = new Section(
                         resultSet.getInt("id"),
-                        resultSet.getString("nom"),
-                        FXCollections.observableArrayList(new ClasseDAO().readAll(resultSet.getInt("id")))
+                        resultSet.getString("intitule"),
+                        classes!=null ? FXCollections.observableArrayList(classes) : FXCollections.observableArrayList()
                 );
                 return section;
             }

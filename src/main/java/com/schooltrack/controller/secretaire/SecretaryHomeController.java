@@ -41,7 +41,7 @@ public class SecretaryHomeController {
     }
     
     @FXML
-    void classes() {
+    private void classes() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/sections.fxml"));
@@ -55,12 +55,15 @@ public class SecretaryHomeController {
     }
 
     @FXML
-    void dashboard() {
+    public void dashboard() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/dashboard.fxml"));
             AnchorPane dashboard = loader.load();
             rootLayout.getChildren().setAll(dashboard);
+            DashboardController dashboardController = loader.getController();
+            dashboardController.setLoginLabelValue(utilisateurConnecte.getLogin());
+            dashboardController.initSectionSize();
         } catch (Exception e){
             System.out.println("In Secretaire-dashboard() method");
 //            System.out.println(e.getLocalizedMessage());
@@ -83,17 +86,17 @@ public class SecretaryHomeController {
     }
     
     @FXML
-    void inscription() {
+    private void inscription() {
 
     }
     
     @FXML
-    void initialize() {
-        dashboard();
+    private void initialize() {
+    
     }
     
     @FXML
-    public void deconnexion() {
+    private void deconnexion() {
         if(Alerts.showConfirmation(parentStage, "Voulez-vous vraiment vous déconnecter?")) {
             parentStage.show();
             actualStage.close();
@@ -101,7 +104,7 @@ public class SecretaryHomeController {
     }
     
     @FXML
-    public void close() {
+    private void close() {
         if(Alerts.showConfirmation(parentStage, "Voulez-vous vraiment quitter l'application?")) {
             actualStage.close();
         }
