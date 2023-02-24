@@ -116,4 +116,30 @@ public class AnneeScolaireDAO implements DAO<AnneeScolaire> {
         return intitules;
     }
     
+    /**
+     * retourne l'annee scolaire dont l'intitule est passé en parametre
+     * @param intitule
+     * @return AnneeScolaire
+     */
+    public AnneeScolaire readByIntitule(String intitule) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM anneeScolaire WHERE intitule = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, intitule);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                AnneeScolaire anneeScolaire = new AnneeScolaire();
+                anneeScolaire.setId(resultSet.getInt("id"));
+                anneeScolaire.setIntitule(resultSet.getString("intitule"));
+                if (resultSet.getDate("date_debut") != null)
+                    anneeScolaire.setDateDebut(resultSet.getDate("date_debut").toLocalDate());
+                if (resultSet.getDate("date_fin") != null)
+                    anneeScolaire.setDateFin(resultSet.getDate("date_fin").toLocalDate());
+                return anneeScolaire;
+            }
+        } catch (DBHandlingException | SQLException e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return null;
+    }
 }

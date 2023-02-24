@@ -12,7 +12,10 @@ public class TestConnection {
             ClasseDAO classeDAO = new ClasseDAO();
             List<Classe> classes = classeDAO.readAll();
             for (Classe classe : classes) {
-                System.out.println(classe);
+                System.out.println("Classe: " + classe.getNom());
+                for (int i = 0; i < classe.getEleves().size(); i++) {
+                    System.out.println("Eleve: " + classe.getEleves().get(i).getNom());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

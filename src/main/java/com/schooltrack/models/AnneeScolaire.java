@@ -71,4 +71,14 @@ public class AnneeScolaire {
         this.dateDebut = new SimpleObjectProperty<>(dateDebut);
         this.dateFin = new SimpleObjectProperty<>(dateFin);
     }
+    
+    @Override
+    public String toString() {
+        return "AnneeScolaire{" +
+                "id=" + id.get() +
+                ", intitule=" + intitule.get() +
+                ", dateDebut=" + dateDebut.get() +
+                ", dateFin=" + dateFin.get() +
+                '}';
+    }
 }

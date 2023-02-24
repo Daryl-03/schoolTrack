@@ -1,22 +1,28 @@
 package com.schooltrack.controller.secretaire;
 
 import com.schooltrack.exceptions.DAOException;
-import com.schooltrack.models.Classe;
-import com.schooltrack.models.Eleve;
-import com.schooltrack.models.Matiere;
-import com.schooltrack.models.Section;
+import com.schooltrack.models.*;
+import com.schooltrack.models.datasource.AnneeScolaireDAO;
+import com.schooltrack.models.datasource.EleveDAO;
+import com.schooltrack.models.datasource.MatiereDAO;
 import com.schooltrack.models.datasource.SectionDAO;
 import com.schooltrack.utils.Alerts;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SectionController {
@@ -78,8 +84,21 @@ public class SectionController {
     private AnchorPane sectionLayout;
     private List<Section> sections;
     
+    private int getClasseId(){
+        return classeChoiceBox.getSelectionModel().getSelectedIndex()+1;
+    }
     
+    private int getSectionId(){
+        return sectionChoiceBox.getSelectionModel().getSelectedIndex()+1;
+    }
     
+    private Stage getParentStage() {
+        return (Stage) sectionLayout.getScene().getWindow();
+    }
+    
+    private AnneeScolaire getAnneeScolaire(){
+        return (AnneeScolaire) getParentStage().getUserData();
+    }
 
     @FXML
     void addMat(ActionEvent event) {
@@ -98,7 +117,34 @@ public class SectionController {
 
     @FXML
     void handleAddEleve(ActionEvent event) {
-
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/EleveEdit.fxml"));
+            AnchorPane eleveEdit = loader.load();
+            
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Ajouter un élève");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(getParentStage());
+            Scene scene = new Scene(eleveEdit);
+            dialogStage.setScene(scene);
+            dialogStage.setResizable(false);
+            
+            EleveEditController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.showAndWait();
+            if(controller.isOkClicked()){
+                Eleve eleve = controller.getEleve();
+                eleve.setId_classe(getClasseId());
+                new EleveDAO().create(eleve);
+                updateEleveTable();
+                Alerts.showInfo(getParentStage(), "L'élève a été ajouté avec succès");
+            }
+        } catch (Exception e){
+            System.out.println("In Secretaire-handleAddEleve() method");
+//            e.printStackTrace();
+            Alerts.showError(getParentStage(), e.getMessage()+e.getCause());
+        }
     }
 
     @FXML
@@ -113,7 +159,16 @@ public class SectionController {
 
     @FXML
     void handleDeleteEleve(ActionEvent event) {
-
+        if(Alerts.showConfirmation(getParentStage(), "Voulez-vous vraiment supprimer cet élève?")){
+            try {
+                Eleve eleve = eleveTable.getSelectionModel().getSelectedItem();
+                new EleveDAO().delete(eleve.getId());
+                updateEleveTable();
+                Alerts.showInfo(getParentStage(), "L'élève a été supprimé avec succès");
+            } catch (DAOException e) {
+                Alerts.showError(getParentStage(), e.getMessage());
+            }
+        }
     }
 
     @FXML
@@ -169,8 +224,17 @@ public class SectionController {
     }
     
     private void updateMatTable() {
-        matTable.getItems().clear();
-        matTable.getItems().addAll(sections.get(sectionChoiceBox.getSelectionModel().getSelectedIndex()).getClasses().get(classeChoiceBox.getSelectionModel().getSelectedIndex()).getMatieres());
+        int sectionId = getSectionId();
+        int classeId = getClasseId();
+        List<Matiere> matieres = null;
+        try {
+            matieres = new MatiereDAO().readAllByClasse(classeId); //récupérer les matières de la classe
+            sections.get(sectionId-1).getClasses().get(classeId-1).setMatieres(matieres!=null?FXCollections.observableArrayList(matieres):FXCollections.observableArrayList()); //mettre à jour la liste des matières de la classe
+            matTable.getItems().clear();
+            matTable.getItems().addAll(sections.get(sectionId-1).getClasses().get(classeId-1).getMatieres());
+        } catch (Exception e) {
+            Alerts.showError(getParentStage(), e.getMessage()+e.getCause());
+        }
     }
     
     private void updateClasseChoiceBox() {
@@ -183,12 +247,17 @@ public class SectionController {
     }
     
     private void updateEleveTable() {
-        eleveTable.getItems().clear();
-        int indexClasse = classeChoiceBox.getSelectionModel().getSelectedIndex();
-        int indexSection = sectionChoiceBox.getSelectionModel().getSelectedIndex();
-        System.out.println("indexClasse = " + indexClasse);
-        System.out.println("indexSection = " + indexSection);
-        eleveTable.getItems().addAll(sections.get(sectionChoiceBox.getSelectionModel().getSelectedIndex()).getClasses().get(classeChoiceBox.getSelectionModel().getSelectedIndex()).getEleves());
+        int sectionId = getSectionId();
+        int classeId = getClasseId();
+        List<Eleve> eleves = null;
+        try {
+            eleves = new EleveDAO().readAllByClasse(getClasseId(),getAnneeScolaire().getId()); //récupérer les élèves de la classe
+            sections.get(sectionId-1).getClasses().get(classeId-1).setEleves(eleves!=null?FXCollections.observableArrayList(eleves):FXCollections.observableArrayList()); //mettre à jour la liste des élèves de la classe
+            eleveTable.getItems().clear();
+            eleveTable.getItems().addAll(sections.get(sectionId-1).getClasses().get(classeId-1).getEleves()); //mettre à jour la table des élèves
+        } catch (Exception e) {
+            Alerts.showError(getParentStage(), e.getMessage());
+        }
     }
     
     public void initSectionChoiceBox() {
@@ -202,11 +271,6 @@ public class SectionController {
         for (Section section : sections) {
             sectionChoiceBox.getItems().add(section.getIntitule());
         }
-        for (Classe classe : sections.get(0).getClasses()) {
-            classeChoiceBox.getItems().add(classe.getNom());
-        }
-        System.out.println("sections = " + sectionChoiceBox.getItems());
-        System.out.println("classes = " + sections.get(0).getClasses());
         //choisir la première section par défaut
         sectionChoiceBox.getSelectionModel().selectFirst();
     }

@@ -21,6 +21,7 @@ public class Eleve {
 	private IntegerProperty id_classe;
 	
 	public Eleve() {
+		this.id = new SimpleIntegerProperty();
 		this.nom = new SimpleStringProperty();
 		this.prenom = new SimpleStringProperty();
 		this.adresse = new SimpleStringProperty();
@@ -36,10 +37,19 @@ public class Eleve {
 
 	public Eleve( String matricule, String nom,
 			String prenom, String adresse, LocalDate birthday) {
+		this.id = new SimpleIntegerProperty();
 		this.nom = new SimpleStringProperty(nom);
 		this.prenom = new SimpleStringProperty(prenom);
-		this.adresse =new SimpleStringProperty(adresse);
+		this.adresse = new SimpleStringProperty(adresse);
 		this.dateDeNaissance = new SimpleObjectProperty<LocalDate>(birthday);
+		this.lieuDeNaissance = new SimpleStringProperty();
+		this.numtelephone = new SimpleStringProperty();
+		this.email = new SimpleStringProperty();
+		this.sexe = new SimpleStringProperty();
+		this.paiements = new SimpleListProperty<Paiement>();
+		this.bulletins = new SimpleListProperty<Bulletin>();
+		this.id_classe = new SimpleIntegerProperty();
+		
 	}
 	
 	public Eleve(int id, String nom, String prenom, String adresse, LocalDate dateDeNaissance, String lieuDeNaissance, String numtelephone, String email, String sexe) {
@@ -209,5 +219,10 @@ public class Eleve {
 	
 	public void setId_classe(int id_classe) {
 		this.id_classe.set(id_classe);
+	}
+	
+	@Override
+	public String toString() {
+		return "Eleve [id=" + id.get() + "\nnom=" + nom.get() + "\nprenom=" + prenom.get() + "\nadresse=" + adresse.get() + "\ndateDeNaissance=" + dateDeNaissance.get() + "\nlieuDeNaissance=" + lieuDeNaissance.get() + "\nnumtelephone=" + numtelephone.get() + "\nemail=" + email.get() + "\nsexe=" + sexe.get() + "\npaiements=" + paiements.get() + "\nbulletins=" + bulletins.get() + "\nid_classe=" + id_classe.get() + "]";
 	}
 }

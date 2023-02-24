@@ -40,6 +40,8 @@ public class EleveDAO implements DAO<Eleve>{
         }
     }
     
+    
+    
     /**
      * Inscription d'un élève dans une classe
      * @param eleve
@@ -47,7 +49,7 @@ public class EleveDAO implements DAO<Eleve>{
     public void inscription(Eleve eleve) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
             // Insertion de l'élève dans la table inscription
-            String sql = "INSERT INTO inscription (id_eleve, id_classe, id_annee, dateInscription) VALUES (?, ?,(SELECT id FROM anneescolaire ODER BY id DESC LIMIT 1), ?)";
+            String sql = "INSERT INTO inscription (id_eleve, id_classe, id_annee, dateInscription) VALUES (?, ?,(SELECT id FROM anneescolaire ORDER BY id DESC LIMIT 1), ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, eleve.getId());
             preparedStatement.setInt(2, eleve.getId_classe());
@@ -225,5 +227,42 @@ public class EleveDAO implements DAO<Eleve>{
             throw new DAOException(e.getMessage(),e.getCause());
         }
         return eleves;
+    }
+    
+    /**
+     * Recherche un élève par son nom, prénom, date de naissance et lieu de naissance
+     * @return eleve ou null si aucun élève n'existe
+     */
+    public Eleve readByNomPrenomDateNaissLieuNaiss(String nom, String prenom, LocalDate dateNaiss, String lieuNaiss) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM eleve WHERE nom = ? AND prenom = ? AND dtNaiss = ? AND lieuNaiss = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, nom);
+            preparedStatement.setString(2, prenom);
+            preparedStatement.setDate(3, java.sql.Date.valueOf(dateNaiss));
+            preparedStatement.setString(4, lieuNaiss);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                List<Paiement> paiements = new PaiementDAO().readAllByEleveAndAnnee(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
+                List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
+                return new Eleve(
+                        resultSet.getInt("id"),
+                        resultSet.getString("nom"),
+                        resultSet.getString("prenom"),
+                        resultSet.getString("adresse"),
+                        resultSet.getDate("dtNaiss").toLocalDate(),
+                        resultSet.getString("lieuNaiss"),
+                        resultSet.getString("numTel"),
+                        resultSet.getString("email"),
+                        resultSet.getString("sexe"),
+                        paiements != null ? FXCollections.observableArrayList(paiements) : FXCollections.observableArrayList(),
+                        bulletins != null ? FXCollections.observableArrayList(bulletins) : FXCollections.observableArrayList(),
+                        resultSet.getInt("id_classe")
+                );
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return null;
     }
 }

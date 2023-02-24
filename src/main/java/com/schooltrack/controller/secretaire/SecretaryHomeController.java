@@ -82,6 +82,7 @@ public class SecretaryHomeController {
             anneeScolaireChoiceBox.getItems().addAll(anneeScolaireDAO.readAllIntitules());
             // set the most recent year as default
             anneeScolaireChoiceBox.setValue(anneeScolaireDAO.read(anneeScolaireDAO.readLastId()).getIntitule());
+            
         } catch (Exception e) {
             e.printStackTrace();
             Alerts.showError(parentStage, e.getMessage()+e.getCause());
@@ -95,7 +96,17 @@ public class SecretaryHomeController {
     
     @FXML
     private void initialize() {
-    
+        // ajout de listener sur le choiceBox pour stocker l'année scolaire sélectionnée
+        anneeScolaireChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                AnneeScolaireDAO anneeScolaireDAO = new AnneeScolaireDAO();
+                AnneeScolaire anneeScolaire = anneeScolaireDAO.readByIntitule(newValue);
+                actualStage.setUserData(anneeScolaire);
+            } catch (DAOException e) {
+                e.printStackTrace();
+                Alerts.showError(actualStage, e.getMessage()+e.getCause());
+            }
+        });
     }
     
     @FXML
