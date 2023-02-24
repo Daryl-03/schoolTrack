@@ -22,8 +22,8 @@ public class EleveDAO implements DAO<Eleve>{
     public void create(Eleve eleve) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
             // Insertion de l'élève
-            String sql = "INSERT INTO eleve (nom, prenom, adresse, dtNaiss, lieuNaiss, numTel, email, sexe, id_classe) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            String sql = "INSERT INTO eleve (nom, prenom, adresse, dtNaiss, lieuNaiss, numTel, email, sexe, id_classe) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, eleve.getNom());
             preparedStatement.setString(2, eleve.getPrenom());
             preparedStatement.setString(3, eleve.getAdresse());
@@ -34,6 +34,11 @@ public class EleveDAO implements DAO<Eleve>{
             preparedStatement.setString(8, eleve.getSexe());
             preparedStatement.setInt(9, eleve.getId_classe());
             preparedStatement.executeUpdate();
+            // Récupération de l'id de l'élève
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                eleve.setId(resultSet.getInt(1));
+            }
             inscription(eleve);
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
@@ -59,15 +64,10 @@ public class EleveDAO implements DAO<Eleve>{
             throw new DAOException(e.getMessage(),e.getCause());
         }
     }
-    
-    /**
-     * Retourne la liste de tous les élèves
-     * @return
-     */
+   
     public void modifierInscription(Eleve eleve) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
-            // Insertion de l'élève dans la table inscription
-            String sql = "UPDATE inscription SET id_classe = ? WHERE id_eleve = ?";
+            String sql = "UPDATE inscription SET id_classe = ? WHERE id_eleve = ? AND id_annee = (SELECT id FROM anneescolaire ORDER BY id DESC LIMIT 1)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, eleve.getId_classe());
             preparedStatement.setInt(2, eleve.getId());
@@ -155,6 +155,22 @@ public class EleveDAO implements DAO<Eleve>{
     }
     
     /**
+     * Retire un élève d'une classe
+     * @param id
+     * @throws DAOException
+     */
+    public void retirer(int id) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "UPDATE inscription SET statut = 'INV' WHERE id_eleve = ? AND id_annee = (SELECT MAX(id) FROM anneescolaire)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
+    
+    /**
      * Retourne la liste de tous les élèves
      * @return List<Eleve> eleves ou null si aucun élève n'existe
      */
@@ -197,7 +213,7 @@ public class EleveDAO implements DAO<Eleve>{
     public List<Eleve> readAllByClasse(int id_classe, int id_annee) throws DAOException {
         List<Eleve> eleves = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
-            String sql = "SELECT * FROM eleve JOIN inscription ON eleve.id = inscription.id_eleve WHERE inscription.id_classe = ? AND inscription.id_annee = ?";
+            String sql = "SELECT * FROM eleve JOIN inscription ON eleve.id = inscription.id_eleve WHERE inscription.id_classe = ? AND inscription.id_annee = ? AND inscription.statut = 'VAL'";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id_classe);
             preparedStatement.setInt(2, id_annee);

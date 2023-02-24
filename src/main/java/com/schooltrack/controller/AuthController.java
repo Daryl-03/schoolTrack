@@ -34,7 +34,16 @@ public class AuthController {
     
     @FXML
     void initialize() {
-    
+//        add enter key down listener to login button
+        passwordField.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case ENTER:
+                    handleLogin();
+                    break;
+                default:
+                    break;
+            }
+        });
     }
     
     @FXML

@@ -85,7 +85,11 @@ public class SectionController {
     private List<Section> sections;
     
     private int getClasseId(){
-        return classeChoiceBox.getSelectionModel().getSelectedIndex()+1;
+        return sections.get(getSectionId()-1).getClasses().get(getClasseIndex()).getId();
+    }
+    
+    private int getClasseIndex(){
+        return classeChoiceBox.getSelectionModel().getSelectedIndex();
     }
     
     private int getSectionId(){
@@ -102,47 +106,145 @@ public class SectionController {
 
     @FXML
     void addMat(ActionEvent event) {
-
+        try{
+            if (getAnneeScolaire().getId() == new AnneeScolaireDAO().readLastId())  {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/MatiereEdit.fxml"));
+                AnchorPane matiereEdit = loader.load();
+        
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Ajouter une matière");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(getParentStage());
+                Scene scene = new Scene(matiereEdit);
+                dialogStage.setScene(scene);
+                dialogStage.setResizable(false);
+        
+                MatiereEditController controller = loader.getController();
+                controller.setDialogStage(dialogStage);
+                dialogStage.showAndWait();
+                if (controller.isOkClicked()) {
+                    Matiere matiere = controller.getMatiere();
+                    matiere.setId_classe(getClasseId());
+                    MatiereDAO matiereDAO = new MatiereDAO();
+                    matiereDAO.create(matiere);
+                    updateMatTable();
+                    Alerts.showInfo(getParentStage(), "La matière a été ajoutée avec succès");
+                }
+            } else {
+                Alerts.showError(getParentStage(), "Vous ne pouvez pas ajouter une matière à une année scolaire passée");
+            }
+        } catch (Exception e){
+            System.out.println("In Secretaire-addMat() method");
+            e.printStackTrace();
+            Alerts.showError(getParentStage(), e.getMessage()+e.getCause());
+        }
     }
 
     @FXML
-    void deleteMat(ActionEvent event) {
-
+    private void deleteMat(ActionEvent event) {
+        if (matTable.getSelectionModel().getSelectedItem() != null){
+            if(!Alerts.showConfirmation(getParentStage(), "Voulez-vous vraiment supprimer cette matière?"))
+                return;
+            try {
+                    if (getAnneeScolaire().getId() == new AnneeScolaireDAO().readLastId()) {
+                        Matiere matiere = matTable.getSelectionModel().getSelectedItem();
+                        if (matiere != null) {
+                            MatiereDAO matiereDAO = new MatiereDAO();
+                            matiereDAO.delete(matiere.getId());
+                            updateMatTable();
+                            Alerts.showInfo(getParentStage(), "La matière a été supprimée avec succès");
+                        } else {
+                            Alerts.showError(getParentStage(), "Veuillez sélectionner une matière");
+                        }
+                    } else {
+                        Alerts.showError(getParentStage(), "Vous ne pouvez pas supprimer une matière d'une année scolaire passée");
+                    }
+            } catch (Exception e) {
+                System.out.println("In Secretaire-deleteMat() method");
+                e.printStackTrace();
+                Alerts.showError(getParentStage(), e.getMessage() + e.getCause());
+            }
+        } else {
+            Alerts.showError(getParentStage(), "Veuillez sélectionner une matière");
+        }
     }
 
     @FXML
     void editMat(ActionEvent event) {
-
+        if (matTable.getSelectionModel().getSelectedItem() != null){
+            try {
+                if (getAnneeScolaire().getId() == new AnneeScolaireDAO().readLastId()) {
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/MatiereEdit.fxml"));
+                    AnchorPane matiereEdit = loader.load();
+        
+                    Stage dialogStage = new Stage();
+                    dialogStage.setTitle("Modifier une matière");
+                    dialogStage.initModality(Modality.WINDOW_MODAL);
+                    dialogStage.initOwner(getParentStage());
+                    Scene scene = new Scene(matiereEdit);
+                    dialogStage.setScene(scene);
+                    dialogStage.setResizable(false);
+        
+                    MatiereEditController controller = loader.getController();
+                    controller.setDialogStage(dialogStage);
+                    controller.setMatiere(matTable.getSelectionModel().getSelectedItem());
+                    dialogStage.showAndWait();
+                    if (controller.isOkClicked()) {
+                        Matiere matiere = controller.getMatiere();
+                        matiere.setId_classe(getClasseId());
+                        MatiereDAO matiereDAO = new MatiereDAO();
+                        matiereDAO.update(matiere);
+                        updateMatTable();
+                        Alerts.showInfo(getParentStage(), "La matière a été modifiée avec succès");
+                    }
+                } else {
+                    Alerts.showError(getParentStage(), "Vous ne pouvez pas modifier une matière d'une année scolaire passée");
+                }
+            } catch (Exception e) {
+                System.out.println("In Secretaire-editMat() method");
+                e.printStackTrace();
+                Alerts.showError(getParentStage(), e.getMessage() + e.getCause());
+            }
+        } else {
+            Alerts.showError(getParentStage(), "Veuillez sélectionner une matière");
+        }
     }
 
     @FXML
     void handleAddEleve(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/EleveEdit.fxml"));
-            AnchorPane eleveEdit = loader.load();
-            
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Ajouter un élève");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(getParentStage());
-            Scene scene = new Scene(eleveEdit);
-            dialogStage.setScene(scene);
-            dialogStage.setResizable(false);
-            
-            EleveEditController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-            dialogStage.showAndWait();
-            if(controller.isOkClicked()){
-                Eleve eleve = controller.getEleve();
-                eleve.setId_classe(getClasseId());
-                new EleveDAO().create(eleve);
-                updateEleveTable();
-                Alerts.showInfo(getParentStage(), "L'élève a été ajouté avec succès");
+            if(getAnneeScolaire().getId() == new AnneeScolaireDAO().readLastId()) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/EleveEdit.fxml"));
+                AnchorPane eleveEdit = loader.load();
+        
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Ajouter un élève");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(getParentStage());
+                Scene scene = new Scene(eleveEdit);
+                dialogStage.setScene(scene);
+                dialogStage.setResizable(false);
+        
+                EleveEditController controller = loader.getController();
+                controller.setDialogStage(dialogStage);
+                dialogStage.showAndWait();
+                if (controller.isOkClicked()) {
+                    Eleve eleve = controller.getEleve();
+                    eleve.setId_classe(getClasseId());
+                    System.out.println("Eleve: " + eleve);
+                    new EleveDAO().create(eleve);
+                    updateEleveTable();
+                    Alerts.showInfo(getParentStage(), "L'élève a été ajouté avec succès");
+                }
+            } else {
+                Alerts.showError(getParentStage(), "Vous ne pouvez pas ajouter d'élève pour cette année scolaire");
             }
         } catch (Exception e){
             System.out.println("In Secretaire-handleAddEleve() method");
-//            e.printStackTrace();
+            e.printStackTrace();
             Alerts.showError(getParentStage(), e.getMessage()+e.getCause());
         }
     }
@@ -159,21 +261,64 @@ public class SectionController {
 
     @FXML
     void handleDeleteEleve(ActionEvent event) {
-        if(Alerts.showConfirmation(getParentStage(), "Voulez-vous vraiment supprimer cet élève?")){
-            try {
-                Eleve eleve = eleveTable.getSelectionModel().getSelectedItem();
-                new EleveDAO().delete(eleve.getId());
-                updateEleveTable();
-                Alerts.showInfo(getParentStage(), "L'élève a été supprimé avec succès");
-            } catch (DAOException e) {
-                Alerts.showError(getParentStage(), e.getMessage());
+        try {
+            if(eleveTable.getSelectionModel().getSelectedItem() != null && getAnneeScolaire().getId() == new AnneeScolaireDAO().readLastId() && eleveTable.getSelectionModel().getSelectedItem() != null) {
+                if (Alerts.showConfirmation(getParentStage(), "Voulez-vous vraiment supprimer cet élève?")) {
+                    try {
+                        Eleve eleve = eleveTable.getSelectionModel().getSelectedItem();
+                        new EleveDAO().retirer(eleve.getId());
+                        updateEleveTable();
+                        Alerts.showInfo(getParentStage(), "L'élève a été supprimé avec succès");
+                    } catch (DAOException e) {
+                        Alerts.showError(getParentStage(), e.getMessage());
+                    }
+                }
+            } else if(eleveTable.getSelectionModel().getSelectedItem() == null){
+                Alerts.showError(getParentStage(), "Veuillez sélectionner un élève");
+            } else {
+                Alerts.showError(getParentStage(), "Vous ne pouvez pas supprimer un élève d'une année scolaire passée");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alerts.showError(getParentStage(), e.getMessage()+" in "+getClass().getSimpleName());
         }
     }
 
     @FXML
     void handleEditEleve(ActionEvent event) {
-
+        try {
+            if(eleveTable.getSelectionModel().getSelectedItem() != null) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/EleveEdit.fxml"));
+                AnchorPane eleveEdit = loader.load();
+                
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Modifier un élève");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(getParentStage());
+                Scene scene = new Scene(eleveEdit);
+                dialogStage.setScene(scene);
+                dialogStage.setResizable(false);
+                
+                EleveEditController controller = loader.getController();
+                controller.setDialogStage(dialogStage);
+                controller.setEleve(eleveTable.getSelectionModel().getSelectedItem());
+                dialogStage.showAndWait();
+                if(controller.isOkClicked()){
+                    Eleve eleve = controller.getEleve();
+                    eleve.setId_classe(getClasseId());
+                    new EleveDAO().update(eleve);
+                    updateEleveTable();
+                    Alerts.showInfo(getParentStage(), "L'élève a été modifié avec succès");
+                }
+            } else {
+                Alerts.showError(getParentStage(), "Veuillez sélectionner un élève");
+            }
+        } catch (Exception e){
+            System.out.println("In Secretaire-handleEditEleve() method");
+            e.printStackTrace();
+            Alerts.showError(getParentStage(), e.getMessage()+e.getCause());
+        }
     }
 
     @FXML
@@ -189,19 +334,18 @@ public class SectionController {
         mapMatTableToData();
         // add listener to sectionChoiceBox and update the classeChoiceBox when the section is changed then update the eleveTable
         sectionChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-        
+//            System.out.println("Section changed from "+oldValue+" to "+newValue);
             // update the classeChoiceBox
             updateClasseChoiceBox();
-            // update the eleveTable
-            updateEleveTable();
-            // update the matTable
-            updateMatTable();
         });
     
         // add listener to classeChoiceBox and update the eleveTable when the classe is changed
         classeChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue != null)
+//            System.out.println("Classe changed from "+oldValue+" to "+newValue);
+            if (newValue != null){
                 updateEleveTable();
+                updateMatTable();
+            }
         });
     }
     
@@ -229,19 +373,21 @@ public class SectionController {
         List<Matiere> matieres = null;
         try {
             matieres = new MatiereDAO().readAllByClasse(classeId); //récupérer les matières de la classe
-            sections.get(sectionId-1).getClasses().get(classeId-1).setMatieres(matieres!=null?FXCollections.observableArrayList(matieres):FXCollections.observableArrayList()); //mettre à jour la liste des matières de la classe
+            sections.get(sectionId-1).getClasses().get(getClasseIndex()).setMatieres(matieres!=null?FXCollections.observableArrayList(matieres):FXCollections.observableArrayList()); //mettre à jour la liste des matières de la classe
             matTable.getItems().clear();
-            matTable.getItems().addAll(sections.get(sectionId-1).getClasses().get(classeId-1).getMatieres());
+            matTable.getItems().addAll(sections.get(sectionId-1).getClasses().get(getClasseIndex()).getMatieres());
         } catch (Exception e) {
             Alerts.showError(getParentStage(), e.getMessage()+e.getCause());
         }
     }
     
     private void updateClasseChoiceBox() {
-        classeChoiceBox.getItems().clear();
-        for(Classe classe : sections.get(sectionChoiceBox.getSelectionModel().getSelectedIndex()).getClasses()) {
-            classeChoiceBox.getItems().add(classe.getNom());
+        List<String> classes = new ArrayList<>();
+        int sectionId = getSectionId();
+        for (Classe classe : sections.get(sectionId-1).getClasses()) {
+            classes.add(classe.getNom());
         }
+        classeChoiceBox.setItems(FXCollections.observableArrayList(classes));
         //choisir la première classe par défaut
         classeChoiceBox.getSelectionModel().selectFirst();
     }
@@ -251,22 +397,26 @@ public class SectionController {
         int classeId = getClasseId();
         List<Eleve> eleves = null;
         try {
-            eleves = new EleveDAO().readAllByClasse(getClasseId(),getAnneeScolaire().getId()); //récupérer les élèves de la classe
-            sections.get(sectionId-1).getClasses().get(classeId-1).setEleves(eleves!=null?FXCollections.observableArrayList(eleves):FXCollections.observableArrayList()); //mettre à jour la liste des élèves de la classe
+            eleves = new EleveDAO().readAllByClasse(getClasseId(),getAnneeScolaire().getId());
+            
+             //récupérer les élèves de la classe
+            sections.get(sectionId-1).getClasses().get(getClasseIndex()).setEleves(eleves!=null?FXCollections.observableArrayList(eleves):FXCollections.observableArrayList()); //mettre à jour la liste des élèves de la classe
             eleveTable.getItems().clear();
-            eleveTable.getItems().addAll(sections.get(sectionId-1).getClasses().get(classeId-1).getEleves()); //mettre à jour la table des élèves
+            eleveTable.getItems().addAll(sections.get(sectionId-1).getClasses().get(getClasseIndex()).getEleves()); //mettre à jour la table des élèves
         } catch (Exception e) {
-            Alerts.showError(getParentStage(), e.getMessage());
+            e.printStackTrace();
+            Alerts.showError(getParentStage(), e.getMessage()+" in "+getClass().getSimpleName());
         }
     }
     
     public void initSectionChoiceBox() {
         try {
-            sections = new SectionDAO().readAll();
+            sections = new SectionDAO().readAll(((AnneeScolaire) getParentStage().getUserData()).getId());
         } catch (DAOException e) {
-            Alerts.showError((Stage) sectionLayout.getScene().getWindow(), "Erreur lors de la lecture des sections"+e.getMessage());
+            Alerts.showError(getParentStage(), "Erreur lors de la lecture des sections"+e.getMessage());
         } catch (Exception e) {
-            Alerts.showError((Stage) sectionLayout.getScene().getWindow(), e.getMessage());
+            e.printStackTrace();
+            Alerts.showError(getParentStage(), e.getMessage()+" in "+getClass().getSimpleName());
         }
         for (Section section : sections) {
             sectionChoiceBox.getItems().add(section.getIntitule());

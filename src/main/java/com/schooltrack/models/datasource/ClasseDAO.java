@@ -141,4 +141,39 @@ public class ClasseDAO implements DAO<Classe>{
         }
         return classes;
     }
+    
+    /**
+     * Retourne la liste des classes d'une section et d'une année scolaire
+     * @param idSection l'id de la section
+     * @param id_annee l'id de l'année scolaire
+     * @return la liste des classes
+     * @throws DAOException
+     */
+    public List<Classe> readAll(int idSection, int id_annee) throws DAOException {
+        List<Classe> classes = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM classe WHERE id_section = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, idSection);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                List<Rubrique> rubriques = new RubriqueDAO().readAllByClasse(resultSet.getInt("id"));
+                List<Matiere> matieres = new MatiereDAO().readAllByClasse(resultSet.getInt("id"));
+                List<Eleve> eleves = new EleveDAO().readAllByClasse(resultSet.getInt("id"), id_annee);
+                Classe classe = new Classe(
+                        resultSet.getInt("id"),
+                        resultSet.getString("nom"),
+                        rubriques != null ? FXCollections.observableArrayList(rubriques) : FXCollections.observableArrayList(),
+                        matieres != null ? FXCollections.observableArrayList(matieres) : FXCollections.observableArrayList(),
+                        eleves != null ? FXCollections.observableArrayList(eleves) : FXCollections.observableArrayList(),
+                        resultSet.getInt("id_section")
+                );
+                classes.add(classe);
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur in ClasseDAO.readAll(int idSection, int id_annee)");
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return classes;
+    }
 }

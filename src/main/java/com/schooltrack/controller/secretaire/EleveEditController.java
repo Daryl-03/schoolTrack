@@ -90,7 +90,9 @@ public class EleveEditController {
     private void handleOk() {
         if (isInputValid()) {
             okClicked = true;
-            eleve = new Eleve();
+            if(eleve == null) {
+                eleve = new Eleve();
+            }
             eleve.setNom(nomTextField.getText());
             eleve.setPrenom(prenomTextField.getText());
             eleve.setNumtelephone(numTextField.getText());
