@@ -45,8 +45,11 @@ public class SecretaryHomeController {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/sections.fxml"));
-            AnchorPane dashboard = loader.load();
-            rootLayout.getChildren().setAll(dashboard);
+            AnchorPane sections = loader.load();
+            rootLayout.getChildren().setAll(sections);
+            SectionController sectionController = loader.getController();
+            sectionController.initSectionChoiceBox();
+            
         } catch (Exception e){
             System.out.println("In Secretaire-classes() method");
             e.printStackTrace();

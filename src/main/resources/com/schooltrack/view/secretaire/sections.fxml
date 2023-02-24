@@ -1,272 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="535.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="sectionLayout" prefHeight="535.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.schooltrack.controller.secretaire.SectionController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <AnchorPane prefHeight="43.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                <children>
-                  <ChoiceBox layoutX="79.0" layoutY="9.0" prefWidth="150.0" />
-                  <ChoiceBox layoutX="295.0" layoutY="9.0" prefWidth="150.0" />
+                  <ChoiceBox fx:id="sectionChoiceBox" layoutX="79.0" layoutY="9.0" prefWidth="150.0" />
+                  <ChoiceBox fx:id="classeChoiceBox" layoutX="295.0" layoutY="9.0" prefWidth="150.0" />
                   <Label layoutX="21.0" layoutY="13.0" text="Section :" />
                   <Label layoutX="249.0" layoutY="13.0" text="Classe :" />
                </children>
             </AnchorPane>
          </top>
          <center>
-            <TabPane prefHeight="410.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <TabPane prefHeight="335.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
-                <Tab text="Eleves">
+                <Tab fx:id="eleveTab" text="Eleves">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <SplitPane dividerPositions="0.41478696741854637" layoutX="300.0" layoutY="132.0" prefHeight="463.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <items>
+                              <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <center>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                        <children>
-                                          <TableView layoutY="6.0" prefHeight="461.0" prefWidth="328.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <TableView fx:id="eleveTable" layoutY="6.0" prefHeight="461.0" prefWidth="328.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <columns>
-                                                <TableColumn prefWidth="75.0" text="id" />
-                                              <TableColumn prefWidth="112.0" text="nom" />
-                                              <TableColumn prefWidth="122.0" text="prenom" />
+                                                <TableColumn fx:id="idColumn" prefWidth="59.33334219455719" text="ID" />
+                                              <TableColumn fx:id="nomColumn" prefWidth="156.66666793823242" text="Nom" />
+                                              <TableColumn fx:id="prenomColumn" prefWidth="122.0" text="Prenom" />
+                                                <TableColumn fx:id="sexeColumn" prefWidth="64.00003051757812" text="Sexe" />
+                                                <TableColumn fx:id="adresseColumn" prefWidth="113.33331298828125" text="Adresse" />
+                                                <TableColumn fx:id="dtNaissColumn" prefWidth="122.0" text="Date de Naissance" />
+                                                <TableColumn fx:id="lieuNaissColumn" prefWidth="122.0" text="Lieu de Naissance" />
+                                                <TableColumn fx:id="numColumn" prefWidth="122.0" text="Numero" />
+                                                <TableColumn fx:id="emailColumn" prefWidth="122.0" text="Email" />
                                             </columns>
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
                                           </TableView>
                                        </children>
                                     </AnchorPane>
-                                  <AnchorPane>
+                                 </center>
+                                 <bottom>
+                                  <AnchorPane prefHeight="47.0" prefWidth="800.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Label layoutX="57.0" layoutY="24.0" prefHeight="34.0" prefWidth="120.0" text="details :">
-                                             <font>
-                                                <Font name="System Bold Italic" size="24.0" />
-                                             </font>
-                                          </Label>
-                                          <ButtonBar layoutX="57.0" layoutY="385.0" prefHeight="40.0" prefWidth="200.0">
+                                          <ButtonBar layoutX="206.0" layoutY="4.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="150.0">
                                             <buttons>
-                                              <Button mnemonicParsing="false" text="ajouter" />
-                                                <Button mnemonicParsing="false" text="modifier" />
-                                                <Button mnemonicParsing="false" text="supprimer" />
-                                                <Button mnemonicParsing="false" text="bulletin" />
+                                              <Button mnemonicParsing="false" onAction="#handleAddEleve" text="Ajouter" />
+                                                <Button mnemonicParsing="false" onAction="#handleEditEleve" text="Modifier" />
+                                                <Button mnemonicParsing="false" onAction="#handleDeleteEleve" text="Supprimer" />
+                                                <Button mnemonicParsing="false" onAction="#handleBulletin" text="Bulletin" />
+                                                <Button mnemonicParsing="false" onAction="#handleCertificat" text="Certificat" />
+                                                <Button mnemonicParsing="false" onAction="#importCsv" prefHeight="25.0" prefWidth="115.0" text="Import  CSV" />
                                             </buttons>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
                                           </ButtonBar>
-                                          <Button layoutX="355.0" layoutY="29.0" mnemonicParsing="false" text="import" />
-                                          <GridPane layoutX="50.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="297.0" prefWidth="343.0">
-                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                             </columnConstraints>
-                                             <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints maxHeight="33.0" minHeight="1.0" prefHeight="33.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                             </rowConstraints>
-                                             <children>
-                                                <Label text="Nom">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="Prenom" GridPane.rowIndex="1">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="Sexe" GridPane.rowIndex="2">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="date de naissance " GridPane.rowIndex="3">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="lieux de naissance" GridPane.rowIndex="4">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="numero de tel" GridPane.rowIndex="6">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="fille" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                                   <GridPane.margin>
-                                                      <Insets left="100.0" />
-                                                   </GridPane.margin>
-                                                </RadioButton>
-                                                <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="58.0" text="garçon" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                                   <GridPane.margin>
-                                                      <Insets left="30.0" />
-                                                   </GridPane.margin>
-                                                </RadioButton>
-                                                <Label text=" courriel" GridPane.rowIndex="7">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label layoutX="10.0" layoutY="164.0" text="addresse" GridPane.rowIndex="5">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="Nom" GridPane.columnIndex="1">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="Prenom" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="date de naissance " GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="lieux de naissance" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="addresse" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="numero de tel" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text=" courriel" GridPane.columnIndex="1" GridPane.rowIndex="7">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </GridPane>
-                                       </children></AnchorPane>
-                                </items>
-                              </SplitPane>
+                                       </children>
+                                    </AnchorPane>
+                                 </bottom>
+                              </BorderPane>
                            </children></AnchorPane>
                   </content>
                 </Tab>
-                <Tab text="Programme">
+                <Tab fx:id="programmeTab" text="Programme">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <SplitPane dividerPositions="0.3057644110275689" layoutX="300.0" layoutY="132.0" prefHeight="463.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <SplitPane dividerPositions="0.8" layoutX="300.0" layoutY="132.0" prefHeight="463.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <items>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                        <children>
-                                          <TableView layoutY="6.0" prefHeight="461.0" prefWidth="241.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <TableView fx:id="matTable" layoutY="6.0" prefHeight="461.0" prefWidth="241.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <columns>
-                                                <TableColumn prefWidth="75.0" text="matiere" />
-                                                <TableColumn prefWidth="112.0" text="coefficient" />
+                                                <TableColumn fx:id="idMatColumn" prefWidth="74.66665661334991" text="ID" />
+                                                <TableColumn fx:id="matColumn" prefWidth="125.33334350585938" text="Matiere" />
+                                                <TableColumn fx:id="coefColumn" prefWidth="137.99996948242188" text="Coefficient" />
                                              </columns>
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
                                           </TableView>
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane>
+                                    <AnchorPane prefHeight="461.0" prefWidth="534.0">
                                        <children>
-                                          <Label layoutX="60.0" layoutY="24.0" prefHeight="34.0" prefWidth="120.0" text="details :">
-                                             <font>
-                                                <Font name="System Italic" size="24.0" />
-                                             </font>
-                                          </Label>
-                                          <ButtonBar buttonMinWidth="100.0" layoutX="72.0" layoutY="369.0" prefHeight="61.0" prefWidth="342.0" AnchorPane.rightAnchor="119.0">
+                                          <ButtonBar prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="390.0">
                                              <buttons>
-                                                <Button mnemonicParsing="false" prefHeight="48.0" text="modifier" />
-                                                <Button mnemonicParsing="false" prefHeight="43.0" text="ajouter" />
-                                                <Button mnemonicParsing="false" prefHeight="87.0" text="supprimer" />
+                                                <Button mnemonicParsing="false" onAction="#addMat" text="Ajouter" />
+                                                <Button mnemonicParsing="false" onAction="#editMat" text="Modifier" />
+                                                <Button mnemonicParsing="false" onAction="#deleteMat" text="Supprimer" />
                                              </buttons>
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </padding>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
                                           </ButtonBar>
-                                          <Button layoutX="469.0" layoutY="30.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="52.0" text="import" />
-                                          <GridPane layoutX="104.0" layoutY="82.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="297.0" prefWidth="343.0">
-                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                             </columnConstraints>
-                                             <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints maxHeight="70.0" minHeight="1.0" prefHeight="70.0" vgrow="SOMETIMES" />
-                                                <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                                                <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="95.0" vgrow="SOMETIMES" />
-                                             </rowConstraints>
-                                             <children>
-                                                <Label alignment="CENTER" text="id :">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="14.0" />
-                                                   </font>
-                                                   <opaqueInsets>
-                                                      <Insets left="50.0" />
-                                                   </opaqueInsets>
-                                                </Label>
-                                                <Label text="nom" GridPane.rowIndex="1">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="statut" GridPane.rowIndex="2">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="id de la classe" GridPane.rowIndex="3">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="de la matière" GridPane.columnIndex="1">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="de la mat" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="de la matiere" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label text="lieux de naissance" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="12.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </GridPane>
+                                          <ImageView fitHeight="287.0" fitWidth="311.0" layoutX="118.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+                                             <image>
+                                                <Image url="@../image/matiere.png" />
+                                             </image>
+                                          </ImageView>
                                        </children>
                                     </AnchorPane>
                                  </items>
