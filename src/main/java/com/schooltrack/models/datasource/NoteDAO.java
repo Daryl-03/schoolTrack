@@ -121,4 +121,32 @@ public class NoteDAO implements DAO<Note>{
         }
         return notes;
     }
+    
+    /**
+     * lit toutes les notes d'un bulletin
+     * @param id_bulletin
+     * @return
+     * @throws DAOException
+     */
+    public List<Note> readAllByBulletin(int id_bulletin) throws DAOException {
+        List<Note> notes = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM note WHERE id_bulletin = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id_bulletin);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Note note = new Note(
+                        rs.getInt("id"),
+                        rs.getDouble("valeur"),
+                        rs.getInt("id_matiere"),
+                        rs.getInt("id_bulletin")
+                );
+                notes.add(note);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return notes;
+    }
 }

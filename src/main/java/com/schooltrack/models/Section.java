@@ -4,9 +4,9 @@ import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 
 public class Section{
-	private final IntegerProperty id;
-	private final StringProperty Intitule;
-	private final ListProperty<Classe> classes;
+	private IntegerProperty id;
+	private StringProperty Intitule;
+	private ListProperty<Classe> classes;
 
 	public int getId() {
 		return id.get();

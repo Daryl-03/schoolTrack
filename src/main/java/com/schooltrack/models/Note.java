@@ -6,8 +6,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Note {
-	private final IntegerProperty id;
-	private final DoubleProperty valeur;
+	private IntegerProperty id;
+	private DoubleProperty valeur;
 	private IntegerProperty id_matiere;
 	private IntegerProperty id_bulletin;
 

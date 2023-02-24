@@ -4,9 +4,9 @@ import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 
 public class Classe {
-    private final IntegerProperty id;
-    private final StringProperty nom;
-    private final ListProperty<Rubrique> rubriques;
+    private IntegerProperty id;
+    private StringProperty nom;
+    private ListProperty<Rubrique> rubriques;
     private ListProperty<Matiere> matieres;
     private ListProperty<Eleve> eleves;
     private IntegerProperty id_section;

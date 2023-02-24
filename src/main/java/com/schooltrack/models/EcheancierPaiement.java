@@ -6,12 +6,12 @@ import javafx.collections.ObservableList;
 import java.time.LocalDate;
 
 public class EcheancierPaiement {
-	private final IntegerProperty id;
-	private final DoubleProperty montant;
-	private final ListProperty<LocalDate> echeances;
-	private final IntegerProperty id_classe;
-	private final IntegerProperty id_rubrique;
-	private final IntegerProperty id_annee;
+	private IntegerProperty id;
+	private DoubleProperty montant;
+	private ListProperty<LocalDate> echeances;
+	private IntegerProperty id_classe;
+	private IntegerProperty id_rubrique;
+	private IntegerProperty id_annee;
 
 	public int getId() {
 		return id.get();

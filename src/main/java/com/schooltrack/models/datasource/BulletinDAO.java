@@ -3,10 +3,12 @@ package com.schooltrack.models.datasource;
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Bulletin;
+import com.schooltrack.models.Note;
 import javafx.collections.FXCollections;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 public class BulletinDAO implements DAO<Bulletin>{
@@ -38,7 +40,20 @@ public class BulletinDAO implements DAO<Bulletin>{
             String sql = "SELECT * FROM bulletin WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                List<Note> notes = new NoteDAO().readAllByBulletin(id);
+                Bulletin bulletin = new Bulletin(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("trimestre"),
+                        resultSet.getFloat("moyenne"),
+                        notes!=null?FXCollections.observableArrayList(notes): FXCollections.observableArrayList(),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_classe"),
+                        resultSet.getInt("id_annee")
+                );
+                return bulletin;
+            }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
         }
@@ -83,7 +98,20 @@ public class BulletinDAO implements DAO<Bulletin>{
         try (Connection connection = DBManager.getConnection()) {
             String sql = "SELECT * FROM bulletin";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                List<Note> notes = new NoteDAO().readAllByBulletin(resultSet.getInt("id"));
+                Bulletin bulletin = new Bulletin(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("trimestre"),
+                        resultSet.getFloat("moyenne"),
+                        notes!=null?FXCollections.observableArrayList(notes): FXCollections.observableArrayList(),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_classe"),
+                        resultSet.getInt("id_annee")
+                );
+                bulletins.add(bulletin);
+            }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
         }
@@ -93,14 +121,27 @@ public class BulletinDAO implements DAO<Bulletin>{
     /**
      * lister les bulletins d'un élève par année
       */
-    public List<Bulletin> readAll(int id_eleve, int id_annee) throws DAOException {
+    public List<Bulletin> readAllByYear(int id_eleve, int id_annee) throws DAOException {
         List<Bulletin> bulletins = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
             String sql = "SELECT * FROM bulletin WHERE id_eleve = ? AND id_annee = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id_eleve);
             preparedStatement.setInt(2, id_annee);
-            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                List<Note> notes = new NoteDAO().readAllByBulletin(resultSet.getInt("id"));
+                Bulletin bulletin = new Bulletin(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("trimestre"),
+                        resultSet.getFloat("moyenne"),
+                        notes!=null?FXCollections.observableArrayList(notes): FXCollections.observableArrayList(),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_classe"),
+                        resultSet.getInt("id_annee")
+                );
+                bulletins.add(bulletin);
+            }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
         }
@@ -117,12 +158,23 @@ public class BulletinDAO implements DAO<Bulletin>{
             preparedStatement.setInt(1, id_eleve);
             preparedStatement.setInt(2, id_annee);
             preparedStatement.setInt(3, trimestre);
-            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                List<Note> notes = new NoteDAO().readAllByBulletin(resultSet.getInt("id"));
+                Bulletin bulletin = new Bulletin(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("trimestre"),
+                        resultSet.getFloat("moyenne"),
+                        notes!=null?FXCollections.observableArrayList(notes): FXCollections.observableArrayList(),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_classe"),
+                        resultSet.getInt("id_annee")
+                );
+                return bulletin;
+            }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
         }
         return null;
     }
-    
-    
 }

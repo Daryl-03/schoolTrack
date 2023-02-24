@@ -6,11 +6,11 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Matiere {
-	private final IntegerProperty id;
-	private final StringProperty nom;
-	private final StringProperty description;
-	private final IntegerProperty coefficient;
-	private final IntegerProperty id_classe;
+	private IntegerProperty id;
+	private StringProperty nom;
+	private StringProperty description;
+	private IntegerProperty coefficient;
+	private IntegerProperty id_classe;
 
 	public int getId() {
 		return id.get();

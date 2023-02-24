@@ -184,6 +184,10 @@ public class SectionController {
     
     private void updateEleveTable() {
         eleveTable.getItems().clear();
+        int indexClasse = classeChoiceBox.getSelectionModel().getSelectedIndex();
+        int indexSection = sectionChoiceBox.getSelectionModel().getSelectedIndex();
+        System.out.println("indexClasse = " + indexClasse);
+        System.out.println("indexSection = " + indexSection);
         eleveTable.getItems().addAll(sections.get(sectionChoiceBox.getSelectionModel().getSelectedIndex()).getClasses().get(classeChoiceBox.getSelectionModel().getSelectedIndex()).getEleves());
     }
     
@@ -198,6 +202,11 @@ public class SectionController {
         for (Section section : sections) {
             sectionChoiceBox.getItems().add(section.getIntitule());
         }
+        for (Classe classe : sections.get(0).getClasses()) {
+            classeChoiceBox.getItems().add(classe.getNom());
+        }
+        System.out.println("sections = " + sectionChoiceBox.getItems());
+        System.out.println("classes = " + sections.get(0).getClasses());
         //choisir la première section par défaut
         sectionChoiceBox.getSelectionModel().selectFirst();
     }

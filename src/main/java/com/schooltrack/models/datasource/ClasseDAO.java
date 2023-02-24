@@ -14,15 +14,6 @@ import java.sql.ResultSet;
 import java.util.List;
 
 public class ClasseDAO implements DAO<Classe>{
-    private int id_section;
-    
-    public int getId_section() {
-        return id_section;
-    }
-    
-    public void setId_section(int id_section) {
-        this.id_section = id_section;
-    }
     
     /**
      * Insertion d'une classe dans la base de données
@@ -36,7 +27,7 @@ public class ClasseDAO implements DAO<Classe>{
             String sql = "INSERT INTO classe (nom, id_section) VALUES (?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, classe.getNom());
-            preparedStatement.setInt(2, id_section);
+            preparedStatement.setInt(2, classe.getId_section());
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
         }
@@ -67,6 +58,7 @@ public class ClasseDAO implements DAO<Classe>{
                         eleves!=null?FXCollections.observableArrayList(eleves):FXCollections.observableArrayList(),
                         resultSet.getInt("id_section")
                 );
+                return classe;
             }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
@@ -113,7 +105,7 @@ public class ClasseDAO implements DAO<Classe>{
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
         }
-        return null;
+        return classes;
     }
     
     /**
@@ -147,6 +139,6 @@ public class ClasseDAO implements DAO<Classe>{
             System.out.println("Erreur in ClasseDAO.readAll(int idSection)");
             throw new DAOException(e.getMessage(),e.getCause());
         }
-        return null;
+        return classes;
     }
 }

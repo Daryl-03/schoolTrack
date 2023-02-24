@@ -2,7 +2,9 @@ package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.jdbc.DBManager;
+import com.schooltrack.models.Bulletin;
 import com.schooltrack.models.Eleve;
+import com.schooltrack.models.Paiement;
 import javafx.collections.FXCollections;
 
 import java.sql.Connection;
@@ -86,6 +88,8 @@ public class EleveDAO implements DAO<Eleve>{
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
+                List<Paiement> paiements = new PaiementDAO().readAllByEleveAndAnnee(id, new AnneeScolaireDAO().readLastId());
+                List<Bulletin> bulletins = new BulletinDAO().readAllByYear(id, new AnneeScolaireDAO().readLastId());
                 return new Eleve(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
@@ -96,8 +100,8 @@ public class EleveDAO implements DAO<Eleve>{
                         resultSet.getString("numTel"),
                         resultSet.getString("email"),
                         resultSet.getString("sexe"),
-                        FXCollections.observableArrayList( new PaiementDAO().readAllByEleveAndAnnee(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId()) ),
-                        FXCollections.observableArrayList(new BulletinDAO().readAll(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId())),
+                        paiements!=null?FXCollections.observableArrayList(paiements):FXCollections.observableArrayList(),
+                        bulletins!=null?FXCollections.observableArrayList(bulletins):FXCollections.observableArrayList(),
                         resultSet.getInt("id_classe")
                 );
             }
@@ -161,7 +165,8 @@ public class EleveDAO implements DAO<Eleve>{
             ResultSet resultSet = preparedStatement.executeQuery();
             
             while (resultSet.next()) {
-                
+                List<Paiement> paiements = new PaiementDAO().readAllByEleveAndAnnee(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
+                List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
                 eleves.add(new Eleve(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
@@ -172,8 +177,8 @@ public class EleveDAO implements DAO<Eleve>{
                         resultSet.getString("numTel"),
                         resultSet.getString("email"),
                         resultSet.getString("sexe"),
-                        FXCollections.observableArrayList(new PaiementDAO().readAllByEleveAndAnnee(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId())),
-                        FXCollections.observableArrayList(new BulletinDAO().readAll(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId())),
+                        paiements!=null?FXCollections.observableArrayList(paiements):FXCollections.observableArrayList(),
+                        bulletins!=null?FXCollections.observableArrayList(bulletins):FXCollections.observableArrayList(),
                         resultSet.getInt("id_classe")
                 ));
             }
@@ -199,6 +204,8 @@ public class EleveDAO implements DAO<Eleve>{
             ResultSet resultSet = preparedStatement.executeQuery();
             PaiementDAO paiementDAO = new PaiementDAO();
             while (resultSet.next()) {
+                List<Paiement> paiements = paiementDAO.readAllByEleveAndAnnee(resultSet.getInt("id"), id_annee);
+                List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), id_annee);
                 eleves.add(new Eleve(
                         resultSet.getInt("id"),
                         resultSet.getString("nom"),
@@ -209,8 +216,8 @@ public class EleveDAO implements DAO<Eleve>{
                         resultSet.getString("numTel"),
                         resultSet.getString("email"),
                         resultSet.getString("sexe"),
-                        FXCollections.observableArrayList(paiementDAO.readAllByEleveAndAnnee(resultSet.getInt("id"), id_annee)),
-                        FXCollections.observableArrayList(new BulletinDAO().readAll(resultSet.getInt("id"), id_annee)),
+                        paiements!=null?FXCollections.observableArrayList(paiements):FXCollections.observableArrayList(),
+                        bulletins!=null?FXCollections.observableArrayList(bulletins):FXCollections.observableArrayList(),
                         resultSet.getInt("id_classe")
                 ));
             }

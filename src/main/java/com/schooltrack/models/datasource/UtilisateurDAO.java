@@ -37,7 +37,18 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
             String sql = "SELECT * FROM utilisateur WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Utilisateur utilisateur = UtilisateurFactory.getUtilisateur(resultSet.getString("type"));
+                utilisateur.setId(resultSet.getInt("id"));
+                utilisateur.setNom(resultSet.getString("nom"));
+                utilisateur.setPrenom(resultSet.getString("prenom"));
+                utilisateur.setLogin(resultSet.getString("login"));
+                utilisateur.setEmail(resultSet.getString("email"));
+                utilisateur.setTelephone(resultSet.getString("numeroTel"));
+                utilisateur.setPassword(resultSet.getString("password"));
+                return utilisateur;
+            }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
         }

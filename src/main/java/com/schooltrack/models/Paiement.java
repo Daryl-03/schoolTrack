@@ -5,10 +5,10 @@ import javafx.beans.property.*;
 import java.time.LocalDate;
 
 public class Paiement {
-	private final IntegerProperty id;
-	private final ObjectProperty<LocalDate> date;
-	private final StringProperty observation;
-	private final DoubleProperty montant;
+	private IntegerProperty id;
+	private ObjectProperty<LocalDate> date;
+	private StringProperty observation;
+	private DoubleProperty montant;
 	private IntegerProperty id_rubrique;
 	private IntegerProperty id_eleve;
 	private IntegerProperty id_annee;

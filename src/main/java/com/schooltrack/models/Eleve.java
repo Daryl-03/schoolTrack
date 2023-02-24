@@ -7,10 +7,10 @@ import java.time.LocalDate;
 
 public class Eleve {
 	private IntegerProperty id;
-	private final StringProperty nom;
-	private final StringProperty prenom;
-	private final StringProperty adresse;
-	private final ObjectProperty<LocalDate> dateDeNaissance;
+	private StringProperty nom;
+	private StringProperty prenom;
+	private StringProperty adresse;
+	private ObjectProperty<LocalDate> dateDeNaissance;
 	private StringProperty lieuDeNaissance;
 	
 	private StringProperty numtelephone;

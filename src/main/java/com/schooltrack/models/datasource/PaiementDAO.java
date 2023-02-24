@@ -19,13 +19,14 @@ public class PaiementDAO implements DAO<Paiement> {
     @Override
     public void create(Paiement paiement) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
-            String sql = "INSERT INTO paiement(montant, date, id_rubrique, id_eleve, id_annee) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO paiement(montant, observation, dateP, id_rubrique, id_eleve, id_annee) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDouble(1, paiement.getMontant());
-            preparedStatement.setDate(2, Date.valueOf(paiement.getDate()));
-            preparedStatement.setInt(3, paiement.getId_rubrique());
-            preparedStatement.setInt(4, paiement.getId_eleve());
-            preparedStatement.setInt(5, paiement.getId_annee());
+            preparedStatement.setString(2, paiement.getObservation());
+            preparedStatement.setDate(3, Date.valueOf(paiement.getDate()));
+            preparedStatement.setInt(4, paiement.getId_rubrique());
+            preparedStatement.setInt(5, paiement.getId_eleve());
+            preparedStatement.setInt(6, paiement.getId_annee());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
@@ -140,8 +141,6 @@ public class PaiementDAO implements DAO<Paiement> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id_eleve);
             preparedStatement.setInt(2, id_annee);
-            if(id_annee == 0 || id_eleve == 0)
-                throw new DAOException("L'année ou l'élève n'est pas défini");
                 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -175,8 +174,6 @@ public class PaiementDAO implements DAO<Paiement> {
             preparedStatement.setInt(1, id_eleve);
             preparedStatement.setInt(2, id_annee);
             preparedStatement.setInt(3, id_rubrique);
-            if (id_annee == 0 || id_eleve == 0 || id_rubrique == 0)
-                throw new DAOException("L'année ou l'élève ou la rubrique n'est pas défini");
     
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -210,8 +207,6 @@ public class PaiementDAO implements DAO<Paiement> {
             preparedStatement.setInt(1, id_eleve);
             preparedStatement.setInt(2, id_rubrique);
             preparedStatement.setDate(3, Date.valueOf(LocalDate.now()));
-            if (id_eleve == 0 || id_rubrique == 0)
-                throw new DAOException("L'élève ou la rubrique ou la date n'est pas défini");
     
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -246,8 +241,6 @@ public class PaiementDAO implements DAO<Paiement> {
             preparedStatement.setInt(2, id_rubrique);
             preparedStatement.setDate(3, Date.valueOf(LocalDate.now().minusDays(7)));
             preparedStatement.setDate(4, Date.valueOf(LocalDate.now()));
-            if (id_eleve == 0 || id_rubrique == 0)
-                throw new DAOException("L'élève ou la rubrique ou la date n'est pas défini");
     
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -282,8 +275,6 @@ public class PaiementDAO implements DAO<Paiement> {
             preparedStatement.setInt(2, id_rubrique);
             preparedStatement.setDate(3, Date.valueOf(LocalDate.now().minusDays(30)));
             preparedStatement.setDate(4, Date.valueOf(LocalDate.now()));
-            if (id_eleve == 0 || id_rubrique == 0)
-                throw new DAOException("L'élève ou la rubrique ou la date n'est pas défini");
     
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -316,8 +307,6 @@ public class PaiementDAO implements DAO<Paiement> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id_rubrique);
             preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
-            if (id_rubrique == 0)
-                throw new DAOException("La rubrique ou la date n'est pas défini");
     
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -351,8 +340,6 @@ public class PaiementDAO implements DAO<Paiement> {
             preparedStatement.setInt(1, id_rubrique);
             preparedStatement.setDate(2, Date.valueOf(LocalDate.now().minusDays(7)));
             preparedStatement.setDate(3, Date.valueOf(LocalDate.now()));
-            if (id_rubrique == 0)
-                throw new DAOException("La rubrique ou la date n'est pas défini");
     
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -386,8 +373,6 @@ public class PaiementDAO implements DAO<Paiement> {
             preparedStatement.setInt(1, id_rubrique);
             preparedStatement.setDate(2, Date.valueOf(LocalDate.now().minusDays(30)));
             preparedStatement.setDate(3, Date.valueOf(LocalDate.now()));
-            if (id_rubrique == 0)
-                throw new DAOException("La rubrique ou la date n'est pas défini");
     
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {

@@ -31,6 +31,7 @@ public class SectionDAO implements DAO<Section>{
                         resultSet.getString("intitule"),
                         classes!=null ? FXCollections.observableArrayList(classes) : FXCollections.observableArrayList()
                 );
+                return section;
             }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());

@@ -106,6 +106,18 @@ public class Bulletin {
 		this.id_annee = new SimpleIntegerProperty();
 	}
 	
+	public Bulletin(int id, int trimestre, ObservableList<Note> notes, int id_eleve, int id_classe, int id_annee) {
+		
+		this.id =new SimpleIntegerProperty(id);
+		this.trimestre = new SimpleIntegerProperty(trimestre);
+		this.moyenne = new SimpleFloatProperty();
+		this.notes = new SimpleListProperty<Note>(notes);
+		this.id_eleve = new SimpleIntegerProperty(id_eleve);
+		this.id_classe = new SimpleIntegerProperty(id_classe);
+		this.id_annee = new SimpleIntegerProperty(id_annee);
+		
+	}
+	
 	public Bulletin(int id, int trimestre, float moyenne, ObservableList<Note> notes, int id_eleve, int id_classe, int id_annee) {
 		
 		this.id =new SimpleIntegerProperty(id);

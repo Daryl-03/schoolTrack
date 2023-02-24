@@ -4,10 +4,10 @@ import javafx.beans.property.*;
 
 public class Rubrique {
 
-	private final IntegerProperty id;
-	private final StringProperty intitule;
+	private IntegerProperty id;
+	private StringProperty intitule;
 	private StringProperty description;
-	private final DoubleProperty montant;
+	private DoubleProperty montant;
 	private SimpleObjectProperty<EcheancierPaiement> echeancier;
 	private IntegerProperty id_classe;
 
