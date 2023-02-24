@@ -40,7 +40,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="235.0" style="-fx-background-radius: 15; -fx-background-color: #ffc619;" styleClass="#f28705">
+                        <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="235.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to right ,#3E53D4,#4f80e2);" styleClass="#f28705">
                            <children>
                               <Label layoutX="16.0" layoutY="60.0" prefHeight="42.0" prefWidth="127.0" text="Inscrit(e)" textFill="WHITE">
                                  <font>
@@ -61,7 +61,7 @@
                               <Insets bottom="10.0" />
                            </GridPane.margin>
                         </Pane>
-                        <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="235.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient( #ffc619,#fda300);" GridPane.rowIndex="1">
+                        <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="235.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to right  ,#4f80e2,#15cdca);" GridPane.rowIndex="1">
                            <children>
                               <Label layoutX="17.0" layoutY="61.0" prefHeight="42.0" prefWidth="127.0" text="Caisse" textFill="WHITE">
                                  <font>
@@ -79,7 +79,7 @@
                               <Insets bottom="10.0" />
                            </GridPane.margin>
                         </Pane>
-                        <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="235.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient( #fda300,fa841a);" GridPane.rowIndex="2">
+                        <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="235.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to right ,#15cdca,#4fe0b6);" GridPane.rowIndex="2">
                            <children>
                               <Label layoutX="14.0" layoutY="67.0" prefHeight="42.0" prefWidth="127.0" text="Froid/Clim" textFill="WHITE">
                                  <font>
@@ -97,7 +97,7 @@
                               <Insets bottom="10.0" />
                            </GridPane.margin>
                         </Pane>
-                        <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="235.0" style="-fx-background-radius: 15; -fx-background-color: #fa841a;" GridPane.rowIndex="3">
+                        <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="235.0" style="-fx-background-radius: 15; -fx-background-color: #4fe0b6;" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets bottom="10.0" />
                            </GridPane.margin>
@@ -116,10 +116,10 @@
                   </GridPane>
                   <ImageView fitHeight="376.0" fitWidth="480.0" layoutX="6.0" layoutY="159.0" pickOnBounds="true">
                      <image>
-                        <Image url="@Revenue-amico.png" />
+                        <Image url="@../image/Investment%20data-rafiki.png" />
                      </image>
                   </ImageView>
-                  <Pane layoutX="-8.0" layoutY="72.0" prefHeight="87.0" prefWidth="511.0" style="-fx-background-color: #ffc619; -fx-background-radius: 15;">
+                  <Pane layoutX="-8.0" layoutY="72.0" prefHeight="87.0" prefWidth="511.0" style="-fx-background-color: linear-gradient(to right ,#3E53D4,#4f80e2); -fx-background-radius: 15;">
                      <children>
                         <Label layoutX="316.0" layoutY="19.0" prefHeight="53.0" prefWidth="109.0" text="LOGIN" textAlignment="JUSTIFY" textFill="WHITE">
                            <font>
