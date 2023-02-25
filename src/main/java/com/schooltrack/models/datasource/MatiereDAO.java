@@ -27,6 +27,7 @@ public class MatiereDAO implements DAO<Matiere>{
             preparedStatement.setString(2, matiere.getDescription());
             preparedStatement.setDouble(3, matiere.getCoefficient());
             preparedStatement.setInt(4, matiere.getId_classe());
+            preparedStatement.executeUpdate();
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
         }
