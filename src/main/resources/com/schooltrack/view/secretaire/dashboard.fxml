@@ -2,11 +2,10 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -119,14 +118,11 @@
                   </Pane>
                   <Pane layoutX="23.0" layoutY="207.0" prefHeight="326.0" prefWidth="582.0">
                      <children>
-                        <LineChart layoutY="1.0" prefHeight="331.0" prefWidth="582.0" title="Inscription">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </LineChart>
+                        <ImageView fitHeight="324.0" fitWidth="495.0" layoutX="42.0" layoutY="-1.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@../image/Online%20page-pana.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </Pane>
                   <Button layoutX="748.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: gluon; -fx-cursor: grab;" />
