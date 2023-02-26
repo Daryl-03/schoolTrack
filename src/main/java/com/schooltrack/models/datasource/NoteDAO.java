@@ -158,7 +158,7 @@ public class NoteDAO implements DAO<Note>{
      */
     public void generateNotes(int id_bulletin) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
-            String sql = "INSERT INTO note (valeur, id_matiere, id_bulletin) SELECT 0, id, ? FROM matiere WHERE statut = 'en cours' AND id NOT IN (SELECT id_matiere FROM note WHERE id_bulletin = ?)";
+            String sql = "INSERT INTO note (valeur, id_matiere, id_bulletin) SELECT 0, id, ? FROM matiere WHERE statut = 'en cours' AND id_classe = (SELECT id_classe FROM bulletin WHERE id = ?) AND id NOT IN (SELECT id_matiere FROM note WHERE id_bulletin = ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id_bulletin);
             preparedStatement.setInt(2, id_bulletin);
