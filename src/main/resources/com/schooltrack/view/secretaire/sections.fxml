@@ -67,7 +67,6 @@
                                                 <Button mnemonicParsing="false" onAction="#handleEditEleve" text="Modifier" />
                                                 <Button mnemonicParsing="false" onAction="#handleDeleteEleve" text="Supprimer" />
                                                 <Button mnemonicParsing="false" onAction="#handleBulletin" text="Bulletin" />
-                                                <Button mnemonicParsing="false" onAction="#handleCertificat" text="Certificat" />
                                                 <Button mnemonicParsing="false" onAction="#importCsv" prefHeight="25.0" prefWidth="115.0" text="Import  CSV" />
                                             </buttons>
                                              <cursor>

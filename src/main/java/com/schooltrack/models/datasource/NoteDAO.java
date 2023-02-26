@@ -2,6 +2,7 @@ package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.jdbc.DBManager;
+import com.schooltrack.models.Matiere;
 import com.schooltrack.models.Note;
 import javafx.collections.FXCollections;
 
@@ -23,7 +24,7 @@ public class NoteDAO implements DAO<Note>{
             String sql = "INSERT INTO note (valeur, id_matiere, id_bulletin) VALUES (?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDouble(1, note.getValeur());
-            preparedStatement.setInt(2, note.getId_matiere());
+            preparedStatement.setInt(2, note.getMatiere().getId());
             preparedStatement.setInt(3, note.getId_bulletin());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
@@ -48,9 +49,9 @@ public class NoteDAO implements DAO<Note>{
                 Note note = new Note(
                         rs.getInt("id"),
                         rs.getDouble("valeur"),
-                        rs.getInt("id_matiere"),
+                        new MatiereDAO().read(rs.getInt("id_matiere")),
                         rs.getInt("id_bulletin")
-                );
+                        );
                 return note;
             }
         } catch (Exception e) {
@@ -70,7 +71,7 @@ public class NoteDAO implements DAO<Note>{
             String sql = "UPDATE note SET valeur = ?, id_matiere = ? WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDouble(1, note.getValeur());
-            preparedStatement.setInt(2, note.getId_matiere());
+            preparedStatement.setInt(2, note.getMatiere().getId());
             preparedStatement.setInt(3, note.getId());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
@@ -111,7 +112,7 @@ public class NoteDAO implements DAO<Note>{
                 Note note = new Note(
                         rs.getInt("id"),
                         rs.getDouble("valeur"),
-                        rs.getInt("id_matiere"),
+                        new MatiereDAO().read(rs.getInt("id_matiere")),
                         rs.getInt("id_bulletin")
                 );
                 notes.add(note);
@@ -139,7 +140,7 @@ public class NoteDAO implements DAO<Note>{
                 Note note = new Note(
                         rs.getInt("id"),
                         rs.getDouble("valeur"),
-                        rs.getInt("id_matiere"),
+                        new MatiereDAO().read(rs.getInt("id_matiere")),
                         rs.getInt("id_bulletin")
                 );
                 notes.add(note);
@@ -148,5 +149,22 @@ public class NoteDAO implements DAO<Note>{
             throw new DAOException(e.getMessage(), e.getCause());
         }
         return notes;
+    }
+    
+    /**
+     * génère des notes pour un bulletin. On crée une note pour chaque matière si la note n'existe pas déjà dans le bulletin
+     * @param id_bulletin id du bulletin
+     * @throws DAOException
+     */
+    public void generateNotes(int id_bulletin) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "INSERT INTO note (valeur, id_matiere, id_bulletin) SELECT 0, id, ? FROM matiere WHERE statut = 'en cours' AND id NOT IN (SELECT id_matiere FROM note WHERE id_bulletin = ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id_bulletin);
+            preparedStatement.setInt(2, id_bulletin);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
     }
 }

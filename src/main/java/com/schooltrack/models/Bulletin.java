@@ -37,6 +37,12 @@ public class Bulletin {
 	}
 	
 	public float getMoyenne() {
+		// calculer la moyenne
+		float sum = 0;
+		for (Note note : notes.get()) {
+			sum += note.getValeur();
+		}
+		moyenne.set(sum / notes.get().size());
 		return moyenne.get();
 	}
 	

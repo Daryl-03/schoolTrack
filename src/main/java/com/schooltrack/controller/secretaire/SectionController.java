@@ -2,10 +2,7 @@ package com.schooltrack.controller.secretaire;
 
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.models.*;
-import com.schooltrack.models.datasource.AnneeScolaireDAO;
-import com.schooltrack.models.datasource.EleveDAO;
-import com.schooltrack.models.datasource.MatiereDAO;
-import com.schooltrack.models.datasource.SectionDAO;
+import com.schooltrack.models.datasource.*;
 import com.schooltrack.utils.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -129,6 +126,13 @@ public class SectionController {
                     MatiereDAO matiereDAO = new MatiereDAO();
                     matiereDAO.create(matiere);
                     updateMatTable();
+                    // mettre à jour les notes des bulletins des élèves de la classe
+                    for (Eleve eleve : sections.get(getSectionId()-1).getClasses().get(getClasseIndex()).getEleves()){
+                        for (Bulletin bulletin : eleve.getBulletins()){
+                            new NoteDAO().generateNotes(bulletin.getId());
+                        }
+                    }
+                    updateEleveTable();
                     Alerts.showInfo(getParentStage(), "La matière a été ajoutée avec succès");
                 }
             } else {
@@ -251,12 +255,34 @@ public class SectionController {
 
     @FXML
     void handleBulletin(ActionEvent event) {
-
-    }
-
-    @FXML
-    void handleCertificat(ActionEvent event) {
-
+        try {
+            if (eleveTable.getSelectionModel().getSelectedItem() != null) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/Bulletin.fxml"));
+                AnchorPane bulletin = loader.load();
+        
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Bulletin de l'élève");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(getParentStage());
+                Scene scene = new Scene(bulletin);
+                dialogStage.setScene(scene);
+                dialogStage.setResizable(false);
+        
+                BulletinController controller = loader.getController();
+                controller.setDialogStage(dialogStage);
+                controller.setEleve(eleveTable.getSelectionModel().getSelectedItem());
+                controller.setClasse(sections.get(getSectionId()-1).getClasses().get(getClasseIndex()));
+                controller.initLayoutFeatures();
+                dialogStage.showAndWait();
+            } else {
+                Alerts.showError(getParentStage(), "Veuillez sélectionner un élève");
+            }
+        } catch (Exception e){
+            System.out.println("In Secretaire-handleBulletin() method");
+            e.printStackTrace();
+            Alerts.showError(getParentStage(), e.getMessage()+e.getCause());
+        }
     }
 
     @FXML
@@ -394,7 +420,6 @@ public class SectionController {
     
     private void updateEleveTable() {
         int sectionId = getSectionId();
-        int classeId = getClasseId();
         List<Eleve> eleves = null;
         try {
             eleves = new EleveDAO().readAllByClasse(getClasseId(),getAnneeScolaire().getId());

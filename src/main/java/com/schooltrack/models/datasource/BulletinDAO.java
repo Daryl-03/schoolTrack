@@ -11,26 +11,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
-public class BulletinDAO implements DAO<Bulletin>{
-    private int id_eleve;
-    private int id_classe;
-    private int id_annee;
+public class BulletinDAO implements DAO<Bulletin> {
+    
     @Override
     public void create(Bulletin bulletin) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
             String sql = "INSERT INTO bulletin (trimestre, moyenne, id_eleve, id_classe, id_annee) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(   1, bulletin.getTrimestre());
+            preparedStatement.setInt(1, bulletin.getTrimestre());
             preparedStatement.setFloat(2, bulletin.getMoyenne());
-            preparedStatement.setInt(3, id_eleve);
-            preparedStatement.setInt(4, id_classe);
-            preparedStatement.setInt(5, id_annee);
-            if(id_annee == 0 || id_classe == 0 || id_eleve == 0) {
+            preparedStatement.setInt(3, bulletin.getId_eleve());
+            preparedStatement.setInt(4, bulletin.getId_classe());
+            preparedStatement.setInt(5, bulletin.getId_annee());
+            if (bulletin.getId_annee() == 0 || bulletin.getId_classe() == 0 || bulletin.getId_eleve() == 0) {
                 throw new DAOException("L'élève, la classe ou l'année n'existe pas");
             }
             preparedStatement.executeUpdate();
         } catch (Exception e) {
-            throw new DAOException(e.getMessage(),e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
         }
     }
     
@@ -47,7 +45,7 @@ public class BulletinDAO implements DAO<Bulletin>{
                         resultSet.getInt("id"),
                         resultSet.getInt("trimestre"),
                         resultSet.getFloat("moyenne"),
-                        notes!=null?FXCollections.observableArrayList(notes): FXCollections.observableArrayList(),
+                        notes != null ? FXCollections.observableArrayList(notes) : FXCollections.observableArrayList(),
                         resultSet.getInt("id_eleve"),
                         resultSet.getInt("id_classe"),
                         resultSet.getInt("id_annee")
@@ -55,7 +53,7 @@ public class BulletinDAO implements DAO<Bulletin>{
                 return bulletin;
             }
         } catch (Exception e) {
-            throw new DAOException(e.getMessage(),e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
         }
         return null;
     }
@@ -67,16 +65,16 @@ public class BulletinDAO implements DAO<Bulletin>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, bulletin.getTrimestre());
             preparedStatement.setFloat(2, bulletin.getMoyenne());
-            preparedStatement.setInt(3, id_eleve);
-            preparedStatement.setInt(4, id_classe);
-            preparedStatement.setInt(5, id_annee);
+            preparedStatement.setInt(3, bulletin.getId_eleve());
+            preparedStatement.setInt(4, bulletin.getId_classe());
+            preparedStatement.setInt(5, bulletin.getId_annee());
             preparedStatement.setInt(6, bulletin.getId());
-            if(id_annee == 0 || id_classe == 0 || id_eleve == 0) {
+            if (bulletin.getId_annee() == 0 || bulletin.getId_classe() == 0 || bulletin.getId_eleve() == 0) {
                 throw new DAOException("L'élève, la classe ou l'année n'existe pas");
             }
             preparedStatement.executeUpdate();
         } catch (Exception e) {
-            throw new DAOException(e.getMessage(),e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
         }
     }
     
@@ -88,7 +86,7 @@ public class BulletinDAO implements DAO<Bulletin>{
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
-            throw new DAOException(e.getMessage(),e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
         }
     }
     
@@ -105,7 +103,7 @@ public class BulletinDAO implements DAO<Bulletin>{
                         resultSet.getInt("id"),
                         resultSet.getInt("trimestre"),
                         resultSet.getFloat("moyenne"),
-                        notes!=null?FXCollections.observableArrayList(notes): FXCollections.observableArrayList(),
+                        notes != null ? FXCollections.observableArrayList(notes) : FXCollections.observableArrayList(),
                         resultSet.getInt("id_eleve"),
                         resultSet.getInt("id_classe"),
                         resultSet.getInt("id_annee")
@@ -113,14 +111,14 @@ public class BulletinDAO implements DAO<Bulletin>{
                 bulletins.add(bulletin);
             }
         } catch (Exception e) {
-            throw new DAOException(e.getMessage(),e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
         }
         return bulletins;
     }
     
     /**
      * lister les bulletins d'un élève par année
-      */
+     */
     public List<Bulletin> readAllByYear(int id_eleve, int id_annee) throws DAOException {
         List<Bulletin> bulletins = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
@@ -135,7 +133,7 @@ public class BulletinDAO implements DAO<Bulletin>{
                         resultSet.getInt("id"),
                         resultSet.getInt("trimestre"),
                         resultSet.getFloat("moyenne"),
-                        notes!=null?FXCollections.observableArrayList(notes): FXCollections.observableArrayList(),
+                        notes != null ? FXCollections.observableArrayList(notes) : FXCollections.observableArrayList(),
                         resultSet.getInt("id_eleve"),
                         resultSet.getInt("id_classe"),
                         resultSet.getInt("id_annee")
@@ -143,7 +141,7 @@ public class BulletinDAO implements DAO<Bulletin>{
                 bulletins.add(bulletin);
             }
         } catch (Exception e) {
-            throw new DAOException(e.getMessage(),e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
         }
         return bulletins;
     }
@@ -165,7 +163,7 @@ public class BulletinDAO implements DAO<Bulletin>{
                         resultSet.getInt("id"),
                         resultSet.getInt("trimestre"),
                         resultSet.getFloat("moyenne"),
-                        notes!=null?FXCollections.observableArrayList(notes): FXCollections.observableArrayList(),
+                        notes != null ? FXCollections.observableArrayList(notes) : FXCollections.observableArrayList(),
                         resultSet.getInt("id_eleve"),
                         resultSet.getInt("id_classe"),
                         resultSet.getInt("id_annee")
@@ -173,8 +171,39 @@ public class BulletinDAO implements DAO<Bulletin>{
                 return bulletin;
             }
         } catch (Exception e) {
-            throw new DAOException(e.getMessage(),e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
         }
         return null;
+    }
+    
+    /**
+     * génération des bulletins d'un élève par année s'ils n'existent pas
+     *
+     * @param id_eleve
+     * @param id_annee
+     * @throws DAOException
+     */
+    public void generate(int id_eleve, int id_annee) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM bulletin WHERE id_eleve = ? AND id_annee = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id_eleve);
+            preparedStatement.setInt(2, id_annee);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next()) {
+                for (int i = 1; i <= 3; i++) {
+                    String sql2 = "INSERT INTO bulletin (trimestre, moyenne, id_eleve, id_classe, id_annee) VALUES (?, ?, ?, ?, ?)";
+                    preparedStatement = connection.prepareStatement(sql2);
+                    preparedStatement.setInt(1, i);
+                    preparedStatement.setFloat(2, 0);
+                    preparedStatement.setInt(3, id_eleve);
+                    preparedStatement.setInt(4, new EleveDAO().read(id_eleve).getId_classe());
+                    preparedStatement.setInt(5, id_annee);
+                    preparedStatement.executeUpdate();
+                }
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
     }
 }

@@ -40,6 +40,7 @@ public class EleveDAO implements DAO<Eleve>{
                 eleve.setId(resultSet.getInt(1));
             }
             inscription(eleve);
+            new BulletinDAO().generate(eleve.getId(), new AnneeScolaireDAO().readLastId());
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
         }

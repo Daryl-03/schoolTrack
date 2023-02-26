@@ -1,14 +1,11 @@
 package com.schooltrack.models;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 
 public class Note {
 	private IntegerProperty id;
 	private DoubleProperty valeur;
-	private IntegerProperty id_matiere;
+	private ObjectProperty<Matiere> matiere;
 	private IntegerProperty id_bulletin;
 
 	public int getId() {
@@ -39,16 +36,16 @@ public class Note {
 		this.valeur.set(valeur);
 	}
 	
-	public int getId_matiere() {
-		return id_matiere.get();
+	public Matiere getMatiere() {
+		return matiere.get();
 	}
 	
-	public IntegerProperty id_matiereProperty() {
-		return id_matiere;
+	public ObjectProperty<Matiere> matiereProperty() {
+		return matiere;
 	}
 	
-	public void setId_matiere(int id_matiere) {
-		this.id_matiere.set(id_matiere);
+	public void setMatiere(Matiere matiere) {
+		this.matiere.set(matiere);
 	}
 	
 	public int getId_bulletin() {
@@ -66,7 +63,7 @@ public class Note {
 	public Note() {
 		this.id = new SimpleIntegerProperty();
 		this.valeur =new SimpleDoubleProperty();
-		this.id_matiere = new SimpleIntegerProperty();
+		this.matiere = new SimpleObjectProperty<Matiere>();
 		this.id_bulletin = new SimpleIntegerProperty();
 	}
 	
@@ -75,10 +72,10 @@ public class Note {
 		this.valeur =new SimpleDoubleProperty(valeur);
 	}
 	
-	public Note(int id, Double valeur, int id_matiere, int id_bulletin ) {
+	public Note(int id, Double valeur, Matiere matiere, int id_bulletin ) {
 		this.id = new SimpleIntegerProperty(id);
 		this.valeur =new SimpleDoubleProperty(valeur);
-		this.id_matiere = new SimpleIntegerProperty(id_matiere);
+		this.matiere = new SimpleObjectProperty<Matiere>(matiere);
 		this.id_bulletin = new SimpleIntegerProperty(id_bulletin);
 	}
 }

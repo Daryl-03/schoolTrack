@@ -120,7 +120,7 @@
                      <children>
                         <ImageView fitHeight="324.0" fitWidth="495.0" layoutX="42.0" layoutY="-1.0" pickOnBounds="true">
                            <image>
-                              <Image url="@../image/Online%20page-pana.png" />
+                              <Image url="@../image/Online page-pana.png" />
                            </image>
                         </ImageView>
                      </children>

@@ -116,7 +116,7 @@
                   </GridPane>
                   <ImageView fitHeight="376.0" fitWidth="480.0" layoutX="6.0" layoutY="159.0" pickOnBounds="true">
                      <image>
-                        <Image url="@../image/Investment%20data-rafiki.png" />
+                        <Image url="@../image/Investment data-rafiki.png" />
                      </image>
                   </ImageView>
                   <Pane layoutX="-8.0" layoutY="72.0" prefHeight="87.0" prefWidth="511.0" style="-fx-background-color: linear-gradient(to right ,#3E53D4,#4f80e2); -fx-background-radius: 15;">

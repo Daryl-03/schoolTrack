@@ -107,4 +107,16 @@ public class Classe {
         this.eleves = new SimpleListProperty<Eleve>(eleves);
         this.id_section = new SimpleIntegerProperty(id_section);
     }
+    
+    @Override
+    public String toString() {
+        return "Classe{" +
+                "id=" + id +
+                ", nom=" + nom +
+                ", rubriques=" + rubriques +
+                ", matieres=" + matieres +
+                ", eleves=" + eleves +
+                ", id_section=" + id_section +
+                '}';
+    }
 }

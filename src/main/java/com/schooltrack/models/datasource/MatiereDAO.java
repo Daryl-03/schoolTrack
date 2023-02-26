@@ -4,6 +4,7 @@ import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Matiere;
 import javafx.collections.FXCollections;
+import org.w3c.dom.Document;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -154,6 +155,7 @@ public class MatiereDAO implements DAO<Matiere>{
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
         }
+        
         return matieres;
     }
 }
