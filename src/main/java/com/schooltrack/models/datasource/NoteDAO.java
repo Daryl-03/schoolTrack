@@ -162,6 +162,24 @@ public class NoteDAO implements DAO<Note>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id_bulletin);
             preparedStatement.setInt(2, id_bulletin);
+            preparedStatement.setInt(3, id_bulletin);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
+    
+    /**
+     * supprime d'un bulletin toutes les notes qui ne sont pas liées à une matière en cours
+     * @param id_bulletin id du bulletin
+     * @throws DAOException
+     */
+    public void deleteNotes(int id_bulletin) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "DELETE FROM note WHERE id_bulletin = ? AND id_matiere NOT IN (SELECT id FROM matiere WHERE statut = 'en cours' AND id_classe = (SELECT id_classe FROM bulletin WHERE id = ?))";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id_bulletin);
+            preparedStatement.setInt(2, id_bulletin);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             throw new DAOException(e.getMessage(), e.getCause());

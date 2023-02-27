@@ -2,7 +2,7 @@ package com.schooltrack.models;
 
 import javafx.beans.property.*;
 
-public class Note {
+public class Note implements java.io.Serializable {
 	private IntegerProperty id;
 	private DoubleProperty valeur;
 	private ObjectProperty<Matiere> matiere;

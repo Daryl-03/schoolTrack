@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.schooltrack.controller.secretaire.SecretaryHomeController">
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.schooltrack.controller.HomeController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0">
          <top>
@@ -71,13 +71,13 @@
                               <Insets left="18.0" />
                            </padding>
                         </JFXButton>
-                        <JFXButton alignment="BASELINE_LEFT" graphicTextGap="6.0" layoutX="10.0" layoutY="86.0" onAction="#inscription" prefHeight="38.0" prefWidth="196.0" text="paiement" textFill="WHITE">
-                           <graphic>
-                              <FontAwesomeIconView caretBias="false" fill="WHITESMOKE" size="12" text="" />
-                           </graphic>
+                        <JFXButton alignment="BASELINE_LEFT" graphicTextGap="6.0" layoutX="10.0" layoutY="86.0" onAction="#paiement" prefHeight="38.0" prefWidth="196.0" text="Paiement" textFill="WHITE">
                            <padding>
                               <Insets left="18.0" />
                            </padding>
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITESMOKE" glyphName="EURO" />
+                           </graphic>
                         </JFXButton>
                      </children>
 

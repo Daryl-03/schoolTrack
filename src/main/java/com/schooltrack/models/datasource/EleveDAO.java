@@ -2,6 +2,7 @@ package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.jdbc.DBManager;
+import com.schooltrack.models.AnneeScolaire;
 import com.schooltrack.models.Bulletin;
 import com.schooltrack.models.Eleve;
 import com.schooltrack.models.Paiement;
@@ -20,19 +21,21 @@ public class EleveDAO implements DAO<Eleve>{
      */
     @Override
     public void create(Eleve eleve) throws DAOException {
+        eleve.setMatricule(generateMatricule(eleve));
         try (Connection connection = DBManager.getConnection()) {
             // Insertion de l'élève
-            String sql = "INSERT INTO eleve (nom, prenom, adresse, dtNaiss, lieuNaiss, numTel, email, sexe, id_classe) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+            String sql = "INSERT INTO eleve (matricule, nom, prenom, adresse, dtNaiss, lieuNaiss, numTel, email, sexe, id_classe) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, eleve.getNom());
-            preparedStatement.setString(2, eleve.getPrenom());
-            preparedStatement.setString(3, eleve.getAdresse());
-            preparedStatement.setDate(4, java.sql.Date.valueOf(eleve.getDateDeNaissance()));
-            preparedStatement.setString(5, eleve.getLieuDeNaissance());
-            preparedStatement.setString(6, eleve.getNumtelephone());
-            preparedStatement.setString(7, eleve.getEmail());
-            preparedStatement.setString(8, eleve.getSexe());
-            preparedStatement.setInt(9, eleve.getId_classe());
+            preparedStatement.setString(1, eleve.getMatricule());
+            preparedStatement.setString(2, eleve.getNom());
+            preparedStatement.setString(3, eleve.getPrenom());
+            preparedStatement.setString(4, eleve.getAdresse());
+            preparedStatement.setDate(5, java.sql.Date.valueOf(eleve.getDateDeNaissance()));
+            preparedStatement.setString(6, eleve.getLieuDeNaissance());
+            preparedStatement.setString(7, eleve.getNumtelephone());
+            preparedStatement.setString(8, eleve.getEmail());
+            preparedStatement.setString(9, eleve.getSexe());
+            preparedStatement.setInt(10, eleve.getId_classe());
             preparedStatement.executeUpdate();
             // Récupération de l'id de l'élève
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -46,7 +49,28 @@ public class EleveDAO implements DAO<Eleve>{
         }
     }
     
-    
+    /**
+     * Génère un matricule pour un élève en fonction de son année d'inscription et de son id
+     * @param eleve
+     * @return matricule
+     */
+    public String generateMatricule(Eleve eleve) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            int id_annee = new AnneeScolaireDAO().readLastId();
+            AnneeScolaire anneeScolaire = new AnneeScolaireDAO().read(id_annee);
+            int indexTiret = anneeScolaire.getIntitule().indexOf('-');
+            String sql = "SELECT COUNT(id_eleve) FROM inscription WHERE id_annee = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id_annee);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return "10" + new AnneeScolaireDAO().read(id_annee).getIntitule().substring(indexTiret - 2, indexTiret) + new AnneeScolaireDAO().read(id_annee).getIntitule().substring(indexTiret + 1, indexTiret+3) + String.format("%03d", resultSet.getInt(1) + 1);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(),e.getCause());
+        }
+        return null;
+    }
     
     /**
      * Inscription d'un élève dans une classe
@@ -95,6 +119,7 @@ public class EleveDAO implements DAO<Eleve>{
                 List<Bulletin> bulletins = new BulletinDAO().readAllByYear(id, new AnneeScolaireDAO().readLastId());
                 return new Eleve(
                         resultSet.getInt("id"),
+                        resultSet.getString("matricule"),
                         resultSet.getString("nom"),
                         resultSet.getString("prenom"),
                         resultSet.getString("adresse"),
@@ -188,6 +213,7 @@ public class EleveDAO implements DAO<Eleve>{
                 List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
                 eleves.add(new Eleve(
                         resultSet.getInt("id"),
+                        resultSet.getString("matricule"),
                         resultSet.getString("nom"),
                         resultSet.getString("prenom"),
                         resultSet.getString("adresse"),
@@ -227,6 +253,7 @@ public class EleveDAO implements DAO<Eleve>{
                 List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), id_annee);
                 eleves.add(new Eleve(
                         resultSet.getInt("id"),
+                        resultSet.getString("matricule"),
                         resultSet.getString("nom"),
                         resultSet.getString("prenom"),
                         resultSet.getString("adresse"),
@@ -264,6 +291,7 @@ public class EleveDAO implements DAO<Eleve>{
                 List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
                 return new Eleve(
                         resultSet.getInt("id"),
+                        resultSet.getString("matricule"),
                         resultSet.getString("nom"),
                         resultSet.getString("prenom"),
                         resultSet.getString("adresse"),
@@ -281,5 +309,76 @@ public class EleveDAO implements DAO<Eleve>{
             throw new DAOException(e.getMessage(), e.getCause());
         }
         return null;
+    }
+    
+    /**
+     * Recherche un élève par son matricule
+     * @return eleve ou null si aucun élève n'existe
+     */
+    public Eleve readByMatricule(String matricule) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM eleve WHERE matricule = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, matricule);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                List<Paiement> paiements = new PaiementDAO().readAllByEleveAndAnnee(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
+                List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
+                return new Eleve(
+                        resultSet.getInt("id"),
+                        resultSet.getString("matricule"),
+                        resultSet.getString("nom"),
+                        resultSet.getString("prenom"),
+                        resultSet.getString("adresse"),
+                        resultSet.getDate("dtNaiss").toLocalDate(),
+                        resultSet.getString("lieuNaiss"),
+                        resultSet.getString("numTel"),
+                        resultSet.getString("email"),
+                        resultSet.getString("sexe"),
+                        paiements != null ? FXCollections.observableArrayList(paiements) : FXCollections.observableArrayList(),
+                        bulletins != null ? FXCollections.observableArrayList(bulletins) : FXCollections.observableArrayList(),
+                        resultSet.getInt("id_classe")
+                );
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return null;
+    }
+    
+    /**
+     * Recherche des élèves par leur nom
+     * @return eleve ou null si aucun élève n'existe
+     */
+    public List<Eleve> readByNom(String nom) throws DAOException {
+        List<Eleve> eleves = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM eleve WHERE nom LIKE ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + nom + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                List<Paiement> paiements = new PaiementDAO().readAllByEleveAndAnnee(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
+                List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
+                eleves.add(new Eleve(
+                        resultSet.getInt("id"),
+                        resultSet.getString("matricule"),
+                        resultSet.getString("nom"),
+                        resultSet.getString("prenom"),
+                        resultSet.getString("adresse"),
+                        resultSet.getDate("dtNaiss").toLocalDate(),
+                        resultSet.getString("lieuNaiss"),
+                        resultSet.getString("numTel"),
+                        resultSet.getString("email"),
+                        resultSet.getString("sexe"),
+                        paiements != null ? FXCollections.observableArrayList(paiements) : FXCollections.observableArrayList(),
+                        bulletins != null ? FXCollections.observableArrayList(bulletins) : FXCollections.observableArrayList(),
+                        resultSet.getInt("id_classe")
+                ));
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return eleves;
     }
 }

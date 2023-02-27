@@ -41,7 +41,7 @@
                                        <children>
                                           <TableView fx:id="eleveTable" layoutY="6.0" prefHeight="461.0" prefWidth="328.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <columns>
-                                                <TableColumn fx:id="idColumn" prefWidth="59.33334219455719" text="ID" />
+                                                <TableColumn fx:id="matriculeColumn" prefWidth="59.33334219455719" text="Matricule" />
                                               <TableColumn fx:id="nomColumn" prefWidth="156.66666793823242" text="Nom" />
                                               <TableColumn fx:id="prenomColumn" prefWidth="122.0" text="Prenom" />
                                                 <TableColumn fx:id="sexeColumn" prefWidth="64.00003051757812" text="Sexe" />

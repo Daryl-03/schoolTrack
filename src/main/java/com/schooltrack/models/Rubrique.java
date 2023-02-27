@@ -8,7 +8,7 @@ public class Rubrique {
 	private StringProperty intitule;
 	private StringProperty description;
 	private DoubleProperty montant;
-	private SimpleObjectProperty<EcheancierPaiement> echeancier;
+	private ObjectProperty<EcheancierPaiement> echeancier;
 	private IntegerProperty id_classe;
 
 	public int getId() {
@@ -39,7 +39,7 @@ public class Rubrique {
 		return echeancier.get();
 	}
 	
-	SimpleObjectProperty<EcheancierPaiement> echeancierProperty() {
+	ObjectProperty<EcheancierPaiement> echeancierProperty() {
 		return echeancier;
 	}
 	

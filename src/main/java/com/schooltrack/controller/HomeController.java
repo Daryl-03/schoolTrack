@@ -1,5 +1,8 @@
-package com.schooltrack.controller.secretaire;
+package com.schooltrack.controller;
 
+import com.schooltrack.controller.secretaire.DashboardController;
+import com.schooltrack.controller.secretaire.InscriptionController;
+import com.schooltrack.controller.secretaire.SectionController;
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.models.AnneeScolaire;
 import com.schooltrack.models.Utilisateur;
@@ -12,10 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.util.Arrays;
-import java.util.List;
-
-public class SecretaryHomeController {
+public class HomeController {
     @FXML
     private AnchorPane rootLayout;
     
@@ -76,7 +76,7 @@ public class SecretaryHomeController {
     }
     
     public void initRootFeatures(){
-        loggedUserLabel.setText(((Utilisateur)(rootLayout.getScene().getWindow().getUserData())).getLogin());
+        loggedUserLabel.setText(((Utilisateur)(parentStage.getUserData())).getLogin());
         try {
             AnneeScolaireDAO anneeScolaireDAO = new AnneeScolaireDAO();
             anneeScolaireChoiceBox.getItems().addAll(anneeScolaireDAO.readAllIntitules());
@@ -91,7 +91,27 @@ public class SecretaryHomeController {
     
     @FXML
     private void inscription() {
-
+        
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/inscription.fxml"));
+            AnchorPane inscription = loader.load();
+    
+            InscriptionController inscriptionController = loader.getController();
+            inscriptionController.setParentStage(parentStage);
+            inscriptionController.initSectionChoiceBox();
+            
+            rootLayout.getChildren().setAll(inscription);
+        } catch (Exception e){
+            System.out.println("In Secretaire-inscription() method");
+            e.printStackTrace();
+            Alerts.showError(parentStage, e.getMessage()+e.getCause());
+        }
+    }
+    
+    @FXML
+    private void paiement() {
+    
     }
     
     @FXML

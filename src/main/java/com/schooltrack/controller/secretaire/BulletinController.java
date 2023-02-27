@@ -3,9 +3,7 @@ package com.schooltrack.controller.secretaire;
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.models.Classe;
 import com.schooltrack.models.Eleve;
-import com.schooltrack.models.Matiere;
 import com.schooltrack.models.Note;
-import com.schooltrack.models.datasource.MatiereDAO;
 import com.schooltrack.models.datasource.NoteDAO;
 import com.schooltrack.utils.Alerts;
 import javafx.event.ActionEvent;
@@ -35,7 +33,7 @@ public class BulletinController {
     private TableColumn<Note, String> matColumn;
     
     @FXML
-    private Label moyenneLabel;
+    private TextField moyenneField;
     
     @FXML
     private Label nomLabel;
@@ -78,7 +76,7 @@ public class BulletinController {
             }
             classe.getEleves().get(indexEleve).getBulletins().get(trimestreChoiceBox.getSelectionModel().getSelectedIndex()).setNotes(notesTable.getItems());
             // mise à jour de la moyenne
-            moyenneLabel.setText(String.valueOf(eleve.getBulletins().get(trimestreChoiceBox.getSelectionModel().getSelectedIndex()).getMoyenne()));
+            moyenneField.setText(String.valueOf(eleve.getBulletins().get(trimestreChoiceBox.getSelectionModel().getSelectedIndex()).getMoyenne()));
             Alerts.showInfo(dialogStage, "Sauvegarde effectuée avec succès");
         } catch (DAOException e) {
             System.out.println("Erreur lors de la sauvegarde des notes");
@@ -89,12 +87,11 @@ public class BulletinController {
     
     @FXML
     private void handlePrint(ActionEvent event) {
-    
+        Alerts.showInfo(dialogStage, "Fonctionnalité non implémentée");
     }
     
     @FXML
     private void handleEdit(ActionEvent event) {
-        Alerts.showInfo(dialogStage, "Fonctionnalité non implémentée");
         // rends les champs de la colonne notes editable
         notesTable.setEditable(true);
         noteColumn.setEditable(true);
@@ -159,7 +156,7 @@ public class BulletinController {
         notesTable.getItems().clear();
         notesTable.getItems().addAll(eleve.getBulletins().get(trimestreChoiceBox.getSelectionModel().getSelectedIndex()).getNotes());
         // mise à jour de la moyenne
-        moyenneLabel.setText(String.valueOf(eleve.getBulletins().get(trimestreChoiceBox.getSelectionModel().getSelectedIndex()).getMoyenne()));
+        moyenneField.setText(String.valueOf(eleve.getBulletins().get(trimestreChoiceBox.getSelectionModel().getSelectedIndex()).getMoyenne()));
     }
     
     public void initLayoutFeatures() {
@@ -167,6 +164,6 @@ public class BulletinController {
         PrenomLabel.setText(eleve.getPrenom());
         idLabel.setText(String.valueOf(eleve.getId()));
         trimestreChoiceBox.getSelectionModel().selectFirst();
-        moyenneLabel.setText(String.valueOf(eleve.getBulletins().get(trimestreChoiceBox.getSelectionModel().getSelectedIndex()).getMoyenne()));
+        moyenneField.setText(String.valueOf(eleve.getBulletins().get(trimestreChoiceBox.getSelectionModel().getSelectedIndex()).getMoyenne()));
     }
 }

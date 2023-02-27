@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 public class Eleve {
 	private IntegerProperty id;
+	private StringProperty matricule;
 	private StringProperty nom;
 	private StringProperty prenom;
 	private StringProperty adresse;
@@ -22,6 +23,7 @@ public class Eleve {
 	
 	public Eleve() {
 		this.id = new SimpleIntegerProperty();
+		this.matricule = new SimpleStringProperty();
 		this.nom = new SimpleStringProperty();
 		this.prenom = new SimpleStringProperty();
 		this.adresse = new SimpleStringProperty();
@@ -38,6 +40,7 @@ public class Eleve {
 	public Eleve( String matricule, String nom,
 			String prenom, String adresse, LocalDate birthday) {
 		this.id = new SimpleIntegerProperty();
+		this.matricule = new SimpleStringProperty(matricule);
 		this.nom = new SimpleStringProperty(nom);
 		this.prenom = new SimpleStringProperty(prenom);
 		this.adresse = new SimpleStringProperty(adresse);
@@ -54,6 +57,7 @@ public class Eleve {
 	
 	public Eleve(int id, String nom, String prenom, String adresse, LocalDate dateDeNaissance, String lieuDeNaissance, String numtelephone, String email, String sexe) {
 		this.id = new SimpleIntegerProperty(id);
+		this.matricule = new SimpleStringProperty();
 		this.nom = new SimpleStringProperty(nom);
 		this.prenom = new SimpleStringProperty(prenom);
 		this.adresse = new SimpleStringProperty(adresse);
@@ -64,8 +68,9 @@ public class Eleve {
 		this.sexe = new SimpleStringProperty(sexe);
 	}
 	
-	public Eleve(int id, String nom, String prenom, String adresse, LocalDate dateDeNaissance, String lieuDeNaissance, String numtelephone, String email, String sexe, ObservableList<Paiement> paiements, ObservableList<Bulletin> bulletins, int id_classe) {
+	public Eleve(int id, String matricule, String nom, String prenom, String adresse, LocalDate dateDeNaissance, String lieuDeNaissance, String numtelephone, String email, String sexe, ObservableList<Paiement> paiements, ObservableList<Bulletin> bulletins, int id_classe) {
 		this.id = new SimpleIntegerProperty(id);
+		this.matricule = new SimpleStringProperty(matricule);
 		this.nom = new SimpleStringProperty(nom);
 		this.prenom = new SimpleStringProperty(prenom);
 		this.adresse = new SimpleStringProperty(adresse);
@@ -88,6 +93,19 @@ public class Eleve {
 	public void setId(int id) {
 		this.id.set(id);
 	}
+	
+	public String getMatricule() {
+		return matricule.get();
+	}
+	
+	public StringProperty matriculeProperty() {
+		return matricule;
+	}
+	
+	public void setMatricule(String matricule) {
+		this.matricule.set(matricule);
+	}
+	
 	public String getNom() {
 		return nom.get();
 	}

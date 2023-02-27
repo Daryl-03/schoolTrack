@@ -45,7 +45,7 @@ public class SectionController {
     private TableColumn<Eleve, String> emailColumn;
 
     @FXML
-    private TableColumn<Eleve, Integer> idColumn;
+    private TableColumn<Eleve, String> matriculeColumn;
 
     @FXML
     private TableColumn<Matiere, Integer> idMatColumn;
@@ -238,10 +238,9 @@ public class SectionController {
                 if (controller.isOkClicked()) {
                     Eleve eleve = controller.getEleve();
                     eleve.setId_classe(getClasseId());
-                    System.out.println("Eleve: " + eleve);
                     new EleveDAO().create(eleve);
                     updateEleveTable();
-                    Alerts.showInfo(getParentStage(), "L'élève a été ajouté avec succès");
+                    Alerts.showInfo(getParentStage(),"L'élève a été ajouté avec succès");
                 }
             } else {
                 Alerts.showError(getParentStage(), "Vous ne pouvez pas ajouter d'élève pour cette année scolaire");
@@ -271,7 +270,13 @@ public class SectionController {
         
                 BulletinController controller = loader.getController();
                 controller.setDialogStage(dialogStage);
-                controller.setEleve(eleveTable.getSelectionModel().getSelectedItem());
+                Eleve eleve = eleveTable.getSelectionModel().getSelectedItem();
+                // générer les notes des bulletins de l'élève
+                for (int i = 0; i < eleve.getBulletins().size(); i++) {
+                    new NoteDAO().generateNotes(eleve.getBulletins().get(i).getId());
+                }
+                eleve.setBulletins((ObservableList<Bulletin>) new BulletinDAO().readAllByYear(eleve.getId(), new AnneeScolaireDAO().readLastId()));
+                controller.setEleve(eleve);
                 controller.setClasse(sections.get(getSectionId()-1).getClasses().get(getClasseIndex()));
                 controller.initLayoutFeatures();
                 dialogStage.showAndWait();
@@ -382,7 +387,7 @@ public class SectionController {
     }
     
     private void mapEleveTableToData() {
-        idColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
+        matriculeColumn.setCellValueFactory(cellData -> cellData.getValue().matriculeProperty());
         nomColumn.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
         prenomColumn.setCellValueFactory(cellData -> cellData.getValue().prenomProperty());
         sexeColumn.setCellValueFactory(cellData -> cellData.getValue().sexeProperty());
@@ -423,7 +428,6 @@ public class SectionController {
         List<Eleve> eleves = null;
         try {
             eleves = new EleveDAO().readAllByClasse(getClasseId(),getAnneeScolaire().getId());
-            
              //récupérer les élèves de la classe
             sections.get(sectionId-1).getClasses().get(getClasseIndex()).setEleves(eleves!=null?FXCollections.observableArrayList(eleves):FXCollections.observableArrayList()); //mettre à jour la liste des élèves de la classe
             eleveTable.getItems().clear();

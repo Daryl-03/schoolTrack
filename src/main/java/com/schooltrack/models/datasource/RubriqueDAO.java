@@ -56,7 +56,7 @@ public class RubriqueDAO implements DAO<Rubrique>{
                         resultSet.getDouble("montant"),
                         resultSet.getString("intitule"),
                         resultSet.getString("description"),
-                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id_rubriqueClasse"), resultSet.getInt("id_classe"), new AnneeScolaireDAO().readLastId()),
+                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id_rubriqueClasse"), resultSet.getInt("id_classe")),
                         resultSet.getInt("id_classe")
                 );
                 return rubrique;
@@ -101,11 +101,11 @@ public class RubriqueDAO implements DAO<Rubrique>{
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Rubrique rubrique = new Rubrique(
-                        resultSet.getInt("id"),
+                        resultSet.getInt("id_rubriqueClasse"),
                         resultSet.getDouble("montant"),
                         resultSet.getString("intitule"),
                         resultSet.getString("description"),
-                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id"), resultSet.getInt("id_classe"), new AnneeScolaireDAO().readLastId()),
+                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id_rubriqueClasse"), resultSet.getInt("id_classe")),
                         resultSet.getInt("id_classe")
                 );
                 rubriques.add(rubrique);
@@ -131,11 +131,11 @@ public class RubriqueDAO implements DAO<Rubrique>{
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Rubrique rubrique = new Rubrique(
-                        resultSet.getInt("id"),
+                        resultSet.getInt("id_rubriqueClasse"),
                         resultSet.getDouble("montant"),
                         resultSet.getString("intitule"),
                         resultSet.getString("description"),
-                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id"), resultSet.getInt("id_classe"), new AnneeScolaireDAO().readLastId()),
+                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id_rubriqueClasse"), resultSet.getInt("id_classe")),
                         resultSet.getInt("id_classe")
                 );
                 rubriques.add(rubrique);

@@ -1,6 +1,5 @@
 package com.schooltrack.controller;
 
-import com.schooltrack.controller.secretaire.SecretaryHomeController;
 import com.schooltrack.models.Utilisateur;
 import com.schooltrack.models.datasource.UtilisateurDAO;
 import com.schooltrack.utils.Alerts;
@@ -56,6 +55,7 @@ public class AuthController {
                     showError("Login ou Mot de passe invalide!");
                 } else {
                     primaryStage.hide();
+                    primaryStage.setUserData(utilisateur);
                     FXMLLoader loader = new FXMLLoader();
                     Stage homeStage = new Stage();
                     homeStage.setTitle("SchoolTrack");
@@ -63,7 +63,6 @@ public class AuthController {
                     homeStage.setOnCloseRequest(event -> {
                         event.consume();
                     });
-                    homeStage.setUserData(utilisateur);
                     switch (utilisateur.getType()) {
                         case "Administateur":
 //                            AdminHomeController adminHomeController = new AdminHomeController();
@@ -75,7 +74,7 @@ public class AuthController {
                             Parent root = loader.load();
                             Scene scene = new Scene(root);
                             homeStage.setScene(scene);
-                            SecretaryHomeController controller = loader.getController();
+                            HomeController controller = loader.getController();
                             controller.setParentStage(primaryStage);
                             controller.setActualStage(homeStage);
                             controller.setUtilisateurConnecte(utilisateur);
@@ -84,9 +83,17 @@ public class AuthController {
                             homeStage.showAndWait();
                             break;
                         case "Caissier":
-//                            CashierHomeController cashierHomeController = new CashierHomeController();
-//                            cashierHomeController.setPrimaryStage(primaryStage);
-//                            cashierHomeController.show();
+                            loader.setLocation(getClass().getResource("/com/schooltrack/view/caissier/root.fxml"));
+                            Parent rootCaissier = loader.load();
+                            Scene sceneCaissier = new Scene(rootCaissier);
+                            homeStage.setScene(sceneCaissier);
+                            HomeController controllerCaissier = loader.getController();
+                            controllerCaissier.setParentStage(primaryStage);
+                            controllerCaissier.setActualStage(homeStage);
+                            controllerCaissier.setUtilisateurConnecte(utilisateur);
+                            controllerCaissier.dashboard();
+                            controllerCaissier.initRootFeatures();
+                            homeStage.showAndWait();
                             break;
                         default:
                             break;

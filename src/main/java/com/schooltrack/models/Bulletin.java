@@ -135,4 +135,17 @@ public class Bulletin {
 		this.id_annee = new SimpleIntegerProperty(id_annee);
 		
 	}
+	
+	@Override
+	public String toString() {
+		return "Bulletin{" +
+				"id=" + id +
+				", trimestre=" + trimestre +
+				", moyenne=" + moyenne +
+				", notes=" + notes +
+				", id_eleve=" + id_eleve +
+				", id_classe=" + id_classe +
+				", id_annee=" + id_annee +
+				'}';
+	}
 }

@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Matiere {
+public class Matiere implements java.io.Serializable {
 	private IntegerProperty id;
 	private StringProperty nom;
 	private StringProperty description;

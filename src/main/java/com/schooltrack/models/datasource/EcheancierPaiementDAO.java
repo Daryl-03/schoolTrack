@@ -44,8 +44,7 @@ public class EcheancierPaiementDAO implements DAO<EcheancierPaiement>{
                         resultSet.getDouble("montant"),
                         FXCollections.observableArrayList(readEcheances(resultSet.getInt("id"))),
                         resultSet.getInt("id_classe"),
-                        resultSet.getInt("id_rubrique"),
-                        resultSet.getInt("id_annee")
+                        resultSet.getInt("id_rubrique")
                 );
                 return echeancierPaiement;
             }
@@ -63,12 +62,11 @@ public class EcheancierPaiementDAO implements DAO<EcheancierPaiement>{
     @Override
     public void update(EcheancierPaiement echeancierPaiement) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
-            String sql = "UPDATE echeancier SET montant = ?, id_classe = ?, id_rubrique = ?, id_annee = ? WHERE id = ?";
+            String sql = "UPDATE echeancier SET montant = ?, id_classe = ?, id_rubrique = ? WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDouble(1, echeancierPaiement.getMontant());
             preparedStatement.setInt(2, echeancierPaiement.getId_classe());
             preparedStatement.setInt(3, echeancierPaiement.getId_rubrique());
-            preparedStatement.setInt(4, echeancierPaiement.getId_annee());
             preparedStatement.setInt(5, echeancierPaiement.getId());
             preparedStatement.executeUpdate();
             for (LocalDate echeance: echeancierPaiement.getEcheances()) {
@@ -119,8 +117,7 @@ public class EcheancierPaiementDAO implements DAO<EcheancierPaiement>{
                         resultSet.getDouble("montant"),
                         FXCollections.observableArrayList(readEcheances(resultSet.getInt("id"))),
                         resultSet.getInt("id_classe"),
-                        resultSet.getInt("id_rubrique"),
-                        resultSet.getInt("id_annee")
+                        resultSet.getInt("id_rubrique")
                 );
                 echeancierPaiements.add(echeancierPaiement);
             }
@@ -153,33 +150,31 @@ public class EcheancierPaiementDAO implements DAO<EcheancierPaiement>{
     }
     
     /**
-     * Lit l'échéancier de paiement d'une rubrique d'une classe pour une année dans la base de données
-     * @param id_rubrique, idClasse, idAnnee
+     * Lit l'échéancier de paiement d'une rubrique d'une classe
+     * @param id_rubrique, idClasse
      * @return
      * @throws DAOException
      */
-     public EcheancierPaiement readEcheancierPaiement(int id_rubrique, int idClasse, int idAnnee) throws DAOException {
-         try (Connection connection = DBManager.getConnection()) {
-             String sql = "SELECT * FROM echeancierPaiement WHERE id_rubrique = ? AND id_classe = ? AND id_annee = ?";
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             preparedStatement.setInt(1, id_rubrique);
-             preparedStatement.setInt(2, idClasse);
-             preparedStatement.setInt(3, idAnnee);
-             ResultSet resultSet = preparedStatement.executeQuery();
-             if (resultSet.next()) {
-                 EcheancierPaiement echeancierPaiement = new EcheancierPaiement(
-                         resultSet.getInt("id"),
-                         resultSet.getDouble("montant"),
-                         FXCollections.observableArrayList(readEcheances(resultSet.getInt("id"))),
+    public EcheancierPaiement readEcheancierPaiement(int id_rubrique, int idClasse) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM echeancier WHERE id_rubrique = ? AND id_classe = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id_rubrique);
+            preparedStatement.setInt(2, idClasse);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                EcheancierPaiement echeancierPaiement = new EcheancierPaiement(
+                        resultSet.getInt("id"),
+                        resultSet.getDouble("montant"),
+                        FXCollections.observableArrayList(readEcheances(resultSet.getInt("id"))),
                         resultSet.getInt("id_classe"),
-                        resultSet.getInt("id_rubrique"),
-                        resultSet.getInt("id_annee")
-                 );
-                 return echeancierPaiement;
-             }
-         } catch (DBHandlingException | SQLException e) {
-             throw new DAOException(e.getMessage(),e.getCause());
-         }
-         return null;
-     }
+                        resultSet.getInt("id_rubrique")
+                );
+                return echeancierPaiement;
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return null;
+    }
 }
