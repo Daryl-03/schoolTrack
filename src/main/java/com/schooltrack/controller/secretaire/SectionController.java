@@ -4,6 +4,7 @@ import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.models.*;
 import com.schooltrack.models.datasource.*;
 import com.schooltrack.utils.Alerts;
+import com.schooltrack.utils.Constantes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -96,15 +97,11 @@ public class SectionController {
     private Stage getParentStage() {
         return (Stage) sectionLayout.getScene().getWindow();
     }
-    
-    private AnneeScolaire getAnneeScolaire(){
-        return (AnneeScolaire) getParentStage().getUserData();
-    }
 
     @FXML
     void addMat(ActionEvent event) {
         try{
-            if (getAnneeScolaire().getId() == new AnneeScolaireDAO().readLastId())  {
+            if (Constantes.CURRENT_YEAR.getId() == new AnneeScolaireDAO().readLastId())  {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/MatiereEdit.fxml"));
                 AnchorPane matiereEdit = loader.load();
@@ -151,7 +148,7 @@ public class SectionController {
             if(!Alerts.showConfirmation(getParentStage(), "Voulez-vous vraiment supprimer cette matière?"))
                 return;
             try {
-                    if (getAnneeScolaire().getId() == new AnneeScolaireDAO().readLastId()) {
+                    if (Constantes.CURRENT_YEAR.getId() == new AnneeScolaireDAO().readLastId()) {
                         Matiere matiere = matTable.getSelectionModel().getSelectedItem();
                         if (matiere != null) {
                             MatiereDAO matiereDAO = new MatiereDAO();
@@ -178,7 +175,7 @@ public class SectionController {
     void editMat(ActionEvent event) {
         if (matTable.getSelectionModel().getSelectedItem() != null){
             try {
-                if (getAnneeScolaire().getId() == new AnneeScolaireDAO().readLastId()) {
+                if (Constantes.CURRENT_YEAR.getId() == new AnneeScolaireDAO().readLastId()) {
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/MatiereEdit.fxml"));
                     AnchorPane matiereEdit = loader.load();
@@ -219,7 +216,7 @@ public class SectionController {
     @FXML
     void handleAddEleve(ActionEvent event) {
         try {
-            if(getAnneeScolaire().getId() == new AnneeScolaireDAO().readLastId()) {
+            if(Constantes.CURRENT_YEAR.getId() == new AnneeScolaireDAO().readLastId()) {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/EleveEdit.fxml"));
                 AnchorPane eleveEdit = loader.load();
@@ -293,7 +290,7 @@ public class SectionController {
     @FXML
     void handleDeleteEleve(ActionEvent event) {
         try {
-            if(eleveTable.getSelectionModel().getSelectedItem() != null && getAnneeScolaire().getId() == new AnneeScolaireDAO().readLastId() && eleveTable.getSelectionModel().getSelectedItem() != null) {
+            if(eleveTable.getSelectionModel().getSelectedItem() != null && Constantes.CURRENT_YEAR.getId() == new AnneeScolaireDAO().readLastId() && eleveTable.getSelectionModel().getSelectedItem() != null) {
                 if (Alerts.showConfirmation(getParentStage(), "Voulez-vous vraiment supprimer cet élève?")) {
                     try {
                         Eleve eleve = eleveTable.getSelectionModel().getSelectedItem();
@@ -427,7 +424,7 @@ public class SectionController {
         int sectionId = getSectionId();
         List<Eleve> eleves = null;
         try {
-            eleves = new EleveDAO().readAllByClasse(getClasseId(),getAnneeScolaire().getId());
+            eleves = new EleveDAO().readAllByClasse(getClasseId(),Constantes.CURRENT_YEAR.getId());
              //récupérer les élèves de la classe
             sections.get(sectionId-1).getClasses().get(getClasseIndex()).setEleves(eleves!=null?FXCollections.observableArrayList(eleves):FXCollections.observableArrayList()); //mettre à jour la liste des élèves de la classe
             eleveTable.getItems().clear();
@@ -440,7 +437,7 @@ public class SectionController {
     
     public void initSectionChoiceBox() {
         try {
-            sections = new SectionDAO().readAll(((AnneeScolaire) getParentStage().getUserData()).getId());
+            sections = new SectionDAO().readAll(Constantes.CURRENT_YEAR.getId());
         } catch (DAOException e) {
             Alerts.showError(getParentStage(), "Erreur lors de la lecture des sections"+e.getMessage());
         } catch (Exception e) {

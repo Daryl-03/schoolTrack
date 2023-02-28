@@ -142,4 +142,29 @@ public class AnneeScolaireDAO implements DAO<AnneeScolaire> {
         }
         return null;
     }
+    
+    /**
+     * retourne la derniere annee scolaire
+     * @return AnneeScolaire
+     */
+    public AnneeScolaire readLast() throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM anneeScolaire WHERE id = (SELECT MAX(id) FROM anneeScolaire)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                AnneeScolaire anneeScolaire = new AnneeScolaire();
+                anneeScolaire.setId(resultSet.getInt("id"));
+                anneeScolaire.setIntitule(resultSet.getString("intitule"));
+                if (resultSet.getDate("date_debut") != null)
+                    anneeScolaire.setDateDebut(resultSet.getDate("date_debut").toLocalDate());
+                if (resultSet.getDate("date_fin") != null)
+                    anneeScolaire.setDateFin(resultSet.getDate("date_fin").toLocalDate());
+                return anneeScolaire;
+            }
+        } catch (DBHandlingException | SQLException e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return null;
+    }
 }

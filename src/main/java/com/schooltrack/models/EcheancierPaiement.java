@@ -7,11 +7,11 @@ import java.time.LocalDate;
 
 public class EcheancierPaiement {
 	private IntegerProperty id;
-	private DoubleProperty montant;
 	private ListProperty<LocalDate> echeances;
 	private IntegerProperty id_classe;
 	private IntegerProperty id_rubrique;
-	
+	private IntegerProperty id_annee;
+
 	public int getId() {
 		return id.get();
 	}
@@ -34,18 +34,6 @@ public class EcheancierPaiement {
 
 	public void setEcheances(ObservableList<LocalDate> echeances) {
 		this.echeances.set(echeances);
-	}
-	
-	public double getMontant() {
-		return montant.get();
-	}
-	
-	public DoubleProperty montantProperty() {
-		return montant;
-	}
-	
-	public void setMontant(double montant) {
-		this.montant.set(montant);
 	}
 	
 	public int getId_classe() {
@@ -72,20 +60,32 @@ public class EcheancierPaiement {
 		this.id_rubrique.set(id_rubrique);
 	}
 	
+	public int getId_annee() {
+		return id_annee.get();
+	}
+	
+	public IntegerProperty id_anneeProperty() {
+		return id_annee;
+	}
+	
+	public void setId_annee(int id_annee) {
+		this.id_annee.set(id_annee);
+	}
+	
 	public EcheancierPaiement() {
 		this.id = new SimpleIntegerProperty();
-		this.montant = new SimpleDoubleProperty();
 		this.echeances = new SimpleListProperty<LocalDate>();
 		this.id_classe = new SimpleIntegerProperty();
 		this.id_rubrique = new SimpleIntegerProperty();
+		this.id_annee = new SimpleIntegerProperty();
 	}
 	
-	public EcheancierPaiement(int id, double montant, ObservableList<LocalDate> echeances, int id_classe, int id_rubrique) {
+	public EcheancierPaiement(int id, ObservableList<LocalDate> echeances, int id_classe, int id_rubrique, int id_annee) {
 		this.id = new SimpleIntegerProperty(id);
-		this.montant = new SimpleDoubleProperty(montant);
 		this.echeances = new SimpleListProperty<LocalDate>(echeances);
 		this.id_classe = new SimpleIntegerProperty(id_classe);
 		this.id_rubrique = new SimpleIntegerProperty(id_rubrique);
+		this.id_annee = new SimpleIntegerProperty(id_annee);
 	}
 	
 }

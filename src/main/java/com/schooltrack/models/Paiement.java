@@ -16,7 +16,7 @@ public class Paiement {
 	public int getId() {
 		return id.get();
 	}
-
+	
 	public IntegerProperty idProperty() {
 		return id;
 	}

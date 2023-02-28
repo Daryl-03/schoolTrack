@@ -8,10 +8,12 @@ import com.schooltrack.models.AnneeScolaire;
 import com.schooltrack.models.Utilisateur;
 import com.schooltrack.models.datasource.AnneeScolaireDAO;
 import com.schooltrack.utils.Alerts;
+import com.schooltrack.utils.Constantes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -26,6 +28,8 @@ public class HomeController {
     private ChoiceBox<String> anneeScolaireChoiceBox;
     @FXML
     private Label loggedUserLabel;
+    @FXML
+    private TextField promptRechercheTextField;
     
     
     public void setActualStage(Stage actualStage) {
@@ -76,7 +80,7 @@ public class HomeController {
     }
     
     public void initRootFeatures(){
-        loggedUserLabel.setText(((Utilisateur)(parentStage.getUserData())).getLogin());
+        loggedUserLabel.setText(Constantes.CURRENT_USER.getLogin());
         try {
             AnneeScolaireDAO anneeScolaireDAO = new AnneeScolaireDAO();
             anneeScolaireChoiceBox.getItems().addAll(anneeScolaireDAO.readAllIntitules());
@@ -110,6 +114,26 @@ public class HomeController {
     }
     
     @FXML
+    private void searchEleve() {
+        if(promptRechercheTextField.getText().isBlank()) {
+            Alerts.showError(parentStage, "Veuillez saisir un nom ou un prénom");
+            return;
+        }
+         try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/com/schooltrack/view/searchResult.fxml"));
+                AnchorPane searchEleve = loader.load();
+                SearchResultController searchResultController = loader.getController();
+                searchResultController.setPrompt(promptRechercheTextField.getText());
+                rootLayout.getChildren().setAll(searchEleve);
+            } catch (Exception e){
+                System.out.println("In Secretaire-searchEleve() method");
+                e.printStackTrace();
+                Alerts.showError(parentStage, e.getMessage()+e.getCause());
+            }
+    }
+    
+    @FXML
     private void paiement() {
     
     }
@@ -121,7 +145,7 @@ public class HomeController {
             try {
                 AnneeScolaireDAO anneeScolaireDAO = new AnneeScolaireDAO();
                 AnneeScolaire anneeScolaire = anneeScolaireDAO.readByIntitule(newValue);
-                actualStage.setUserData(anneeScolaire);
+                Constantes.CURRENT_YEAR = anneeScolaire;
             } catch (DAOException e) {
                 e.printStackTrace();
                 Alerts.showError(actualStage, e.getMessage()+e.getCause());

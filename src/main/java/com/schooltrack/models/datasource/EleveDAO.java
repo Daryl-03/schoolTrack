@@ -381,4 +381,45 @@ public class EleveDAO implements DAO<Eleve>{
         }
         return eleves;
     }
+    
+    /**
+     * Recherche des élèves par leur prénom ou nom
+     * @param promptText
+     * @return eleve ou null si aucun élève n'existe
+     * @throws DAOException
+     */
+    public List<Eleve> readByPromptText(String promptText) throws DAOException {
+        List<Eleve> eleves = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM eleve WHERE nom LIKE ? OR prenom LIKE ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + promptText + "%");
+            preparedStatement.setString(2, "%" + promptText + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                List<Paiement> paiements = new PaiementDAO().readAllByEleveAndAnnee(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
+                List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
+                Eleve eleve = new Eleve(
+                        resultSet.getInt("id"),
+                        resultSet.getString("matricule"),
+                        resultSet.getString("nom"),
+                        resultSet.getString("prenom"),
+                        resultSet.getString("adresse"),
+                        resultSet.getDate("dtNaiss").toLocalDate(),
+                        resultSet.getString("lieuNaiss"),
+                        resultSet.getString("numTel"),
+                        resultSet.getString("email"),
+                        resultSet.getString("sexe"),
+                        paiements != null ? FXCollections.observableArrayList(paiements) : FXCollections.observableArrayList(),
+                        bulletins != null ? FXCollections.observableArrayList(bulletins) : FXCollections.observableArrayList(),
+                        resultSet.getInt("id_classe")
+                );
+                eleve.setClasse(new ClasseDAO().readNom(resultSet.getInt("id_classe")));
+                eleves.add(eleve);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return eleves;
+    }
 }

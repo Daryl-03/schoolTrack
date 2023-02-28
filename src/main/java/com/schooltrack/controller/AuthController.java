@@ -1,8 +1,11 @@
 package com.schooltrack.controller;
 
+import com.schooltrack.models.AnneeScolaire;
 import com.schooltrack.models.Utilisateur;
+import com.schooltrack.models.datasource.AnneeScolaireDAO;
 import com.schooltrack.models.datasource.UtilisateurDAO;
 import com.schooltrack.utils.Alerts;
+import com.schooltrack.utils.Constantes;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -54,8 +57,9 @@ public class AuthController {
                 if(utilisateur == null) {
                     showError("Login ou Mot de passe invalide!");
                 } else {
+                    Constantes.CURRENT_USER = utilisateur;
+                    Constantes.CURRENT_YEAR = new AnneeScolaireDAO().readLast();
                     primaryStage.hide();
-                    primaryStage.setUserData(utilisateur);
                     FXMLLoader loader = new FXMLLoader();
                     Stage homeStage = new Stage();
                     homeStage.setTitle("SchoolTrack");

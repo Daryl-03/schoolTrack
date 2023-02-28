@@ -3,6 +3,7 @@ package com.schooltrack.models.datasource;
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Rubrique;
+import com.schooltrack.utils.Constantes;
 import javafx.collections.FXCollections;
 
 import java.sql.Connection;
@@ -56,7 +57,7 @@ public class RubriqueDAO implements DAO<Rubrique>{
                         resultSet.getDouble("montant"),
                         resultSet.getString("intitule"),
                         resultSet.getString("description"),
-                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id_rubriqueClasse"), resultSet.getInt("id_classe")),
+                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id_rubriqueClasse"), resultSet.getInt("id_classe"), Constantes.CURRENT_YEAR.getId()),
                         resultSet.getInt("id_classe")
                 );
                 return rubrique;
@@ -105,7 +106,7 @@ public class RubriqueDAO implements DAO<Rubrique>{
                         resultSet.getDouble("montant"),
                         resultSet.getString("intitule"),
                         resultSet.getString("description"),
-                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id_rubriqueClasse"), resultSet.getInt("id_classe")),
+                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id_rubriqueClasse"), resultSet.getInt("id_classe"), Constantes.CURRENT_YEAR.getId()),
                         resultSet.getInt("id_classe")
                 );
                 rubriques.add(rubrique);
@@ -135,7 +136,7 @@ public class RubriqueDAO implements DAO<Rubrique>{
                         resultSet.getDouble("montant"),
                         resultSet.getString("intitule"),
                         resultSet.getString("description"),
-                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id_rubriqueClasse"), resultSet.getInt("id_classe")),
+                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id_rubriqueClasse"), resultSet.getInt("id_classe"), Constantes.CURRENT_YEAR.getId()),
                         resultSet.getInt("id_classe")
                 );
                 rubriques.add(rubrique);

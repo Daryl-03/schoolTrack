@@ -176,4 +176,25 @@ public class ClasseDAO implements DAO<Classe>{
         }
         return classes;
     }
+    
+    /**
+     * lit le nom d'une classe à partir de son id
+     * @param id
+     * @return le nom de la classe
+     * @throws DAOException
+     */
+    public String readNom(int id) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT nom FROM classe WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString("nom");
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return null;
+    }
 }
