@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public class Paiement {
 	private IntegerProperty id;
+	private StringProperty numero;
 	private ObjectProperty<LocalDate> date;
 	private StringProperty observation;
 	private DoubleProperty montant;
@@ -101,6 +102,18 @@ public class Paiement {
 		this.id_annee.set(id_annee);
 	}
 	
+	public String getNumero() {
+		return numero.get();
+	}
+	
+	public StringProperty numeroProperty() {
+		return numero;
+	}
+	
+	public void setNumero(String numero) {
+		this.numero.set(numero);
+	}
+	
 	public Paiement() {
 		this.id = new SimpleIntegerProperty();
 		this.date = new SimpleObjectProperty<LocalDate>();
@@ -109,6 +122,7 @@ public class Paiement {
 		this.id_rubrique = new SimpleIntegerProperty();
 		this.id_eleve = new SimpleIntegerProperty();
 		this.id_annee = new SimpleIntegerProperty();
+		this.numero = new SimpleStringProperty();
 	}
 	
 	public Paiement(int id, LocalDate datePaiement, String observation, double montant) {
@@ -116,10 +130,15 @@ public class Paiement {
 		this.date = new SimpleObjectProperty<LocalDate>(datePaiement);
 		this.observation = new SimpleStringProperty(observation);
 		this.montant = new SimpleDoubleProperty(montant);
+		this.id_rubrique = new SimpleIntegerProperty();
+		this.id_eleve = new SimpleIntegerProperty();
+		this.id_annee = new SimpleIntegerProperty();
+		this.numero = new SimpleStringProperty();
 	}
 	
-	public Paiement(int id, LocalDate date, String observation, double montant, int id_rubrique, int id_eleve, int id_annee) {
+	public Paiement(int id, String numero, LocalDate date, String observation, double montant, int id_rubrique, int id_eleve, int id_annee) {
 		this.id = new SimpleIntegerProperty(id);
+		this.numero = new SimpleStringProperty(numero);
 		this.date = new SimpleObjectProperty<LocalDate>(date);
 		this.observation = new SimpleStringProperty(observation);
 		this.montant = new SimpleDoubleProperty(montant);

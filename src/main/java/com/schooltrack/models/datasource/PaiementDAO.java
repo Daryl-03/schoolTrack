@@ -19,18 +19,40 @@ public class PaiementDAO implements DAO<Paiement> {
     @Override
     public void create(Paiement paiement) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
-            String sql = "INSERT INTO paiement(montant, observation, dateP, id_rubrique, id_eleve, id_annee) VALUES (?, ?, ?, ?, ?, ?)";
+            paiement.setNumero(generateNumero());
+            String sql = "INSERT INTO paiement(numero, montant, observation, date, id_rubrique, id_eleve, id_annee) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setDouble(1, paiement.getMontant());
-            preparedStatement.setString(2, paiement.getObservation());
-            preparedStatement.setDate(3, Date.valueOf(paiement.getDate()));
-            preparedStatement.setInt(4, paiement.getId_rubrique());
-            preparedStatement.setInt(5, paiement.getId_eleve());
-            preparedStatement.setInt(6, paiement.getId_annee());
+            preparedStatement.setString(1, paiement.getNumero());
+            preparedStatement.setDouble(2, paiement.getMontant());
+            preparedStatement.setString(3, paiement.getObservation());
+            preparedStatement.setDate(4, Date.valueOf(paiement.getDate()));
+            preparedStatement.setInt(5, paiement.getId_rubrique());
+            preparedStatement.setInt(6, paiement.getId_eleve());
+            preparedStatement.setInt(7, paiement.getId_annee());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
         }
+    }
+    
+    /**
+     * générer un numéro de paiement
+     * @return String numero
+     * @throws DAOException
+     */
+    public String generateNumero() throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT MAX(id) AS id FROM paiement";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                return String.format("%06d", id + 3);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return null;
     }
 
     /**
@@ -49,6 +71,7 @@ public class PaiementDAO implements DAO<Paiement> {
             if (resultSet.next()) {
                 Paiement paiement = new Paiement(
                         resultSet.getInt("id"),
+                        resultSet.getString("numero"),
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
@@ -72,15 +95,16 @@ public class PaiementDAO implements DAO<Paiement> {
     @Override
     public void update(Paiement paiement) throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
-            String sql = "UPDATE paiement SET montant = ?, date = ?, observation = ?, id_rubrique = ?, id_eleve = ?, id_annee = ? WHERE id = ?";
+            String sql = "UPDATE paiement SET numero = ?, montant = ?, date = ?, observation = ?, id_rubrique = ?, id_eleve = ?, id_annee = ? WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setDouble(1, paiement.getMontant());
-            preparedStatement.setDate(2, Date.valueOf(paiement.getDate()));
-            preparedStatement.setString(3, paiement.getObservation());
-            preparedStatement.setInt(4, paiement.getId_rubrique());
-            preparedStatement.setInt(5, paiement.getId_eleve());
-            preparedStatement.setInt(6, paiement.getId_annee());
-            preparedStatement.setInt(7, paiement.getId());
+            preparedStatement.setString(1, paiement.getNumero());
+            preparedStatement.setDouble(2, paiement.getMontant());
+            preparedStatement.setDate(3, Date.valueOf(paiement.getDate()));
+            preparedStatement.setString(4, paiement.getObservation());
+            preparedStatement.setInt(5, paiement.getId_rubrique());
+            preparedStatement.setInt(6, paiement.getId_eleve());
+            preparedStatement.setInt(7, paiement.getId_annee());
+            preparedStatement.setInt(8, paiement.getId());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
@@ -114,6 +138,7 @@ public class PaiementDAO implements DAO<Paiement> {
             while (resultSet.next()) {
                 Paiement paiement = new Paiement(
                         resultSet.getInt("id"),
+                        resultSet.getString("numero"),
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
@@ -146,6 +171,7 @@ public class PaiementDAO implements DAO<Paiement> {
             while (resultSet.next()) {
                 Paiement paiement = new Paiement(
                         resultSet.getInt("id"),
+                        resultSet.getString("numero"),
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
@@ -179,6 +205,7 @@ public class PaiementDAO implements DAO<Paiement> {
             while (resultSet.next()) {
                 Paiement paiement = new Paiement(
                         resultSet.getInt("id"),
+                        resultSet.getString("numero"),
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
@@ -212,6 +239,7 @@ public class PaiementDAO implements DAO<Paiement> {
             while (resultSet.next()) {
                 Paiement paiement = new Paiement(
                         resultSet.getInt("id"),
+                        resultSet.getString("numero"),
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
@@ -246,6 +274,7 @@ public class PaiementDAO implements DAO<Paiement> {
             while (resultSet.next()) {
                 Paiement paiement = new Paiement(
                         resultSet.getInt("id"),
+                        resultSet.getString("numero"),
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
@@ -280,6 +309,7 @@ public class PaiementDAO implements DAO<Paiement> {
             while (resultSet.next()) {
                 Paiement paiement = new Paiement(
                         resultSet.getInt("id"),
+                        resultSet.getString("numero"),
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
@@ -312,6 +342,7 @@ public class PaiementDAO implements DAO<Paiement> {
             while (resultSet.next()) {
                 Paiement paiement = new Paiement(
                         resultSet.getInt("id"),
+                        resultSet.getString("numero"),
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
@@ -345,6 +376,7 @@ public class PaiementDAO implements DAO<Paiement> {
             while (resultSet.next()) {
                 Paiement paiement = new Paiement(
                         resultSet.getInt("id"),
+                        resultSet.getString("numero"),
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),
@@ -378,6 +410,7 @@ public class PaiementDAO implements DAO<Paiement> {
             while (resultSet.next()) {
                 Paiement paiement = new Paiement(
                         resultSet.getInt("id"),
+                        resultSet.getString("numero"),
                         resultSet.getDate("date").toLocalDate(),
                         resultSet.getString("observation"),
                         resultSet.getDouble("montant"),

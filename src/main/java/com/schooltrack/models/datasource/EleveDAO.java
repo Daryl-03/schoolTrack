@@ -21,7 +21,7 @@ public class EleveDAO implements DAO<Eleve>{
      */
     @Override
     public void create(Eleve eleve) throws DAOException {
-        eleve.setMatricule(generateMatricule(eleve));
+        eleve.setMatricule(generateMatricule());
         try (Connection connection = DBManager.getConnection()) {
             // Insertion de l'élève
             String sql = "INSERT INTO eleve (matricule, nom, prenom, adresse, dtNaiss, lieuNaiss, numTel, email, sexe, id_classe) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
@@ -51,20 +51,18 @@ public class EleveDAO implements DAO<Eleve>{
     
     /**
      * Génère un matricule pour un élève en fonction de son année d'inscription et de son id
-     * @param eleve
      * @return matricule
      */
-    public String generateMatricule(Eleve eleve) throws DAOException {
+    public String generateMatricule() throws DAOException {
         try (Connection connection = DBManager.getConnection()) {
-            int id_annee = new AnneeScolaireDAO().readLastId();
-            AnneeScolaire anneeScolaire = new AnneeScolaireDAO().read(id_annee);
+            AnneeScolaire anneeScolaire = new AnneeScolaireDAO().readLast();
             int indexTiret = anneeScolaire.getIntitule().indexOf('-');
             String sql = "SELECT COUNT(id_eleve) FROM inscription WHERE id_annee = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id_annee);
+            preparedStatement.setInt(1, anneeScolaire.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return "10" + new AnneeScolaireDAO().read(id_annee).getIntitule().substring(indexTiret - 2, indexTiret) + new AnneeScolaireDAO().read(id_annee).getIntitule().substring(indexTiret + 1, indexTiret+3) + String.format("%03d", resultSet.getInt(1) + 1);
+                return "10" + anneeScolaire.getIntitule().substring(indexTiret - 2, indexTiret) + anneeScolaire.getIntitule().substring(indexTiret + 1, indexTiret+3) + String.format("%03d", resultSet.getInt(1) + 1);
             }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
