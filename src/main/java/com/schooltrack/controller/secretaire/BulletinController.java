@@ -102,29 +102,32 @@ public class BulletinController {
     private void leftBulletin(ActionEvent event) {
         if(indexEleve > 0) {
             indexEleve--;
-            eleve = classe.getEleves().get(indexEleve);
-            initLayoutFeatures();
-            updateNotesTable();
         } else {
             indexEleve = classe.getEleves().size() - 1;
         }
+        eleve = classe.getEleves().get(indexEleve);
+        initLayoutFeatures();
+        updateNotesTable();
     }
     
     @FXML
     private void rightBulletin(ActionEvent event) {
         if(indexEleve < classe.getEleves().size() - 1) {
             indexEleve++;
-            eleve = classe.getEleves().get(indexEleve);
-            initLayoutFeatures();
-            updateNotesTable();
         } else {
             indexEleve = 0;
         }
+        eleve = classe.getEleves().get(indexEleve);
+        initLayoutFeatures();
+        updateNotesTable();
     }
     
     public void setClasse(Classe classe) {
         this.classe = classe;
-        indexEleve = classe.getEleves().indexOf(eleve);
+    }
+    
+    public void setIndexEleve(int indexEleve) {
+        this.indexEleve = indexEleve;
     }
     
     public void setEleve(Eleve eleve) {

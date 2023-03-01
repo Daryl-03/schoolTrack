@@ -272,9 +272,9 @@ public class SectionController {
                 for (int i = 0; i < eleve.getBulletins().size(); i++) {
                     new NoteDAO().generateNotes(eleve.getBulletins().get(i).getId());
                 }
-                eleve.setBulletins((ObservableList<Bulletin>) new BulletinDAO().readAllByYear(eleve.getId(), Constantes.CURRENT_YEAR.getId()));
-                controller.setEleve(eleve);
+                controller.setEleve(new EleveDAO().read(eleve.getId()));
                 controller.setClasse(new ClasseDAO().read(getClasseId()));
+                controller.setIndexEleve(eleveTable.getSelectionModel().getSelectedIndex());
                 controller.initLayoutFeatures();
                 dialogStage.showAndWait();
             } else {

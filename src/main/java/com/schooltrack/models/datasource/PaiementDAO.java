@@ -2,6 +2,7 @@ package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.jdbc.DBManager;
+import com.schooltrack.models.Eleve;
 import com.schooltrack.models.Paiement;
 import com.schooltrack.utils.Constantes;
 import javafx.collections.FXCollections;
@@ -659,6 +660,45 @@ public class PaiementDAO implements DAO<Paiement> {
             throw new DAOException(e.getMessage(), e.getCause());
         }
         return paiements;
+    }
+    
+    /**
+     * vérifie si la rubrique d'intitulé Inscription a été payée pour l'élève donné
+     * @throws DAOException
+     */
+    public boolean isPayedInscription(int id) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM paiement WHERE id_eleve = ? AND id_rubrique IN (SELECT id_rubriqueClasse FROM rubrique JOIN rubriqueclasse ON rubrique.id = rubriqueclasse.id_rubrique WHERE intitule = ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, "Inscription");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
+    
+    /**
+     * retourne le nombre de paiements pour l'élève donné pour la rubrique d'intitulé "Scolarité"
+     * @param id
+     * @return  int
+     * @throws DAOException
+     */
+    public int countScolarite(int id) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT COUNT(*) FROM paiement WHERE id_eleve = ? AND id_rubrique IN (SELECT id_rubriqueClasse FROM rubrique JOIN rubriqueclasse ON rubrique.id = rubriqueclasse.id_rubrique WHERE intitule = ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, "Scolarité");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return 0;
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
     }
 }
 

@@ -13,9 +13,13 @@ import com.schooltrack.utils.Constantes;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -65,17 +69,71 @@ public class PaiementController {
     
      @FXML
     void handleAdd(ActionEvent event) {
-
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/com/schooltrack/view/caissier/PaiementEdit.fxml"));
+            AnchorPane paiementEdit = (AnchorPane) loader.load();
+            
+            Stage dialogStage = new Stage();
+            Scene scene = new Scene(paiementEdit);
+            dialogStage.setScene(scene);
+            PaiementEditController controller = loader.getController();
+            controller.setParentStage(parentStage);
+            controller.setActualStage(dialogStage);
+            controller.initRubriqueChoiceBox();
+            dialogStage.showAndWait();
+            updatePaiementTable();
+        } catch (Exception e) {
+            System.out.println("Erreur lors de l'ajout de paiement");
+            e.printStackTrace();
+            Alerts.showError(parentStage, "Erreur lors de l'ajout de paiement :"+e.getMessage());
+        }
     }
 
     @FXML
     void handleDelete(ActionEvent event) {
-
+        if(paiementTable.getSelectionModel().getSelectedItem() == null) {
+            Alerts.showError(parentStage, "Aucun paiement n'est selectionné");
+            return;
+        }
+        if(Alerts.showConfirmation(parentStage, "Voulez-vous vraiment supprimer ce paiement ?")) {
+            try {
+                new PaiementDAO().delete(paiementTable.getSelectionModel().getSelectedItem().getPaiement().getId());
+                updatePaiementTable();
+            } catch (DAOException e) {
+                System.out.println("Erreur lors de la suppression du paiement");
+                e.printStackTrace();
+                Alerts.showError(parentStage, "Erreur lors de la suppression du paiement :"+e.getMessage());
+            }
+        }
     }
 
     @FXML
     void handleEdit(ActionEvent event) {
-
+        if (paiementTable.getSelectionModel().getSelectedItem() == null) {
+            Alerts.showError(parentStage, "Aucun paiement n'est selectionné");
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/com/schooltrack/view/caissier/PaiementEdit.fxml"));
+            AnchorPane paiementEdit = (AnchorPane) loader.load();
+            
+            Stage dialogStage = new Stage();
+            Scene scene = new Scene(paiementEdit);
+            dialogStage.setScene(scene);
+            PaiementEditController controller = loader.getController();
+            controller.setParentStage(parentStage);
+            controller.setActualStage(dialogStage);
+            controller.initRubriqueChoiceBox();
+            controller.setPaiement(paiementTable.getSelectionModel().getSelectedItem().getPaiement());
+            dialogStage.showAndWait();
+            updatePaiementTable();
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la modification de paiement");
+            e.printStackTrace();
+            Alerts.showError(parentStage, "Erreur lors de la modification de paiement :"+e.getMessage());
+        }
     }
 
     @FXML
