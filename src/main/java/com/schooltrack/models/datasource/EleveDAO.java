@@ -115,7 +115,7 @@ public class EleveDAO implements DAO<Eleve>{
             if (resultSet.next()) {
                 List<Paiement> paiements = new PaiementDAO().readAllByEleveAndAnnee(id, new AnneeScolaireDAO().readLastId());
                 List<Bulletin> bulletins = new BulletinDAO().readAllByYear(id, new AnneeScolaireDAO().readLastId());
-                return new Eleve(
+                Eleve eleve = new Eleve(
                         resultSet.getInt("id"),
                         resultSet.getString("matricule"),
                         resultSet.getString("nom"),
@@ -130,6 +130,8 @@ public class EleveDAO implements DAO<Eleve>{
                         bulletins!=null?FXCollections.observableArrayList(bulletins):FXCollections.observableArrayList(),
                         resultSet.getInt("id_classe")
                 );
+                eleve.setClasse(new ClasseDAO().readNom(resultSet.getInt("id_classe")));
+                return eleve;
             }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
@@ -209,7 +211,7 @@ public class EleveDAO implements DAO<Eleve>{
             while (resultSet.next()) {
                 List<Paiement> paiements = new PaiementDAO().readAllByEleveAndAnnee(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
                 List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
-                eleves.add(new Eleve(
+                Eleve eleve = new Eleve(
                         resultSet.getInt("id"),
                         resultSet.getString("matricule"),
                         resultSet.getString("nom"),
@@ -223,7 +225,9 @@ public class EleveDAO implements DAO<Eleve>{
                         paiements!=null?FXCollections.observableArrayList(paiements):FXCollections.observableArrayList(),
                         bulletins!=null?FXCollections.observableArrayList(bulletins):FXCollections.observableArrayList(),
                         resultSet.getInt("id_classe")
-                ));
+                );
+                eleve.setClasse(new ClasseDAO().readNom(resultSet.getInt("id_classe")));
+                eleves.add(eleve);
             }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
@@ -249,7 +253,7 @@ public class EleveDAO implements DAO<Eleve>{
             while (resultSet.next()) {
                 List<Paiement> paiements = paiementDAO.readAllByEleveAndAnnee(resultSet.getInt("id"), id_annee);
                 List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), id_annee);
-                eleves.add(new Eleve(
+                Eleve eleve = new Eleve(
                         resultSet.getInt("id"),
                         resultSet.getString("matricule"),
                         resultSet.getString("nom"),
@@ -263,7 +267,9 @@ public class EleveDAO implements DAO<Eleve>{
                         paiements!=null?FXCollections.observableArrayList(paiements):FXCollections.observableArrayList(),
                         bulletins!=null?FXCollections.observableArrayList(bulletins):FXCollections.observableArrayList(),
                         resultSet.getInt("id_classe")
-                ));
+                );
+                eleve.setClasse(new ClasseDAO().readNom(resultSet.getInt("id_classe")));
+                eleves.add(eleve);
             }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
@@ -287,7 +293,7 @@ public class EleveDAO implements DAO<Eleve>{
             if (resultSet.next()) {
                 List<Paiement> paiements = new PaiementDAO().readAllByEleveAndAnnee(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
                 List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
-                return new Eleve(
+                Eleve eleve = new Eleve(
                         resultSet.getInt("id"),
                         resultSet.getString("matricule"),
                         resultSet.getString("nom"),
@@ -302,6 +308,8 @@ public class EleveDAO implements DAO<Eleve>{
                         bulletins != null ? FXCollections.observableArrayList(bulletins) : FXCollections.observableArrayList(),
                         resultSet.getInt("id_classe")
                 );
+                eleve.setClasse(new ClasseDAO().readNom(resultSet.getInt("id_classe")));
+                return eleve;
             }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(), e.getCause());
@@ -322,7 +330,7 @@ public class EleveDAO implements DAO<Eleve>{
             if (resultSet.next()) {
                 List<Paiement> paiements = new PaiementDAO().readAllByEleveAndAnnee(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
                 List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
-                return new Eleve(
+                Eleve eleve = new Eleve(
                         resultSet.getInt("id"),
                         resultSet.getString("matricule"),
                         resultSet.getString("nom"),
@@ -337,6 +345,8 @@ public class EleveDAO implements DAO<Eleve>{
                         bulletins != null ? FXCollections.observableArrayList(bulletins) : FXCollections.observableArrayList(),
                         resultSet.getInt("id_classe")
                 );
+                eleve.setClasse(new ClasseDAO().readNom(resultSet.getInt("id_classe")));
+                return eleve;
             }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(), e.getCause());
@@ -358,7 +368,7 @@ public class EleveDAO implements DAO<Eleve>{
             while (resultSet.next()) {
                 List<Paiement> paiements = new PaiementDAO().readAllByEleveAndAnnee(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
                 List<Bulletin> bulletins = new BulletinDAO().readAllByYear(resultSet.getInt("id"), new AnneeScolaireDAO().readLastId());
-                eleves.add(new Eleve(
+                Eleve eleve = new Eleve(
                         resultSet.getInt("id"),
                         resultSet.getString("matricule"),
                         resultSet.getString("nom"),
@@ -369,10 +379,12 @@ public class EleveDAO implements DAO<Eleve>{
                         resultSet.getString("numTel"),
                         resultSet.getString("email"),
                         resultSet.getString("sexe"),
-                        paiements != null ? FXCollections.observableArrayList(paiements) : FXCollections.observableArrayList(),
-                        bulletins != null ? FXCollections.observableArrayList(bulletins) : FXCollections.observableArrayList(),
+                        paiements!=null?FXCollections.observableArrayList(paiements):FXCollections.observableArrayList(),
+                        bulletins!=null?FXCollections.observableArrayList(bulletins):FXCollections.observableArrayList(),
                         resultSet.getInt("id_classe")
-                ));
+                );
+                eleve.setClasse(new ClasseDAO().readNom(resultSet.getInt("id_classe")));
+                eleves.add(eleve);
             }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(), e.getCause());

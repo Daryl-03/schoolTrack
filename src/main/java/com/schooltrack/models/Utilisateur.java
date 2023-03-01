@@ -126,4 +126,17 @@ public  abstract class Utilisateur {
 		this.email = new SimpleStringProperty(email);
 		this.telephone = new SimpleStringProperty(telephone);
 	}
+	
+	@Override
+	public String toString() {
+		return "Utilisateur{" +
+				"id=" + id +
+				", nom=" + nom +
+				", prenom=" + prenom +
+				", login=" + login +
+				", password=" + password +
+				", email=" + email +
+				", telephone=" + telephone +
+				'}';
+	}
 }

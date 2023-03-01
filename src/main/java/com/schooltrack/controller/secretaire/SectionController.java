@@ -99,7 +99,7 @@ public class SectionController {
     }
 
     @FXML
-    void addMat(ActionEvent event) {
+    private void addMat(ActionEvent event) {
         try{
             if (Constantes.CURRENT_YEAR.getId() == new AnneeScolaireDAO().readLastId())  {
                 FXMLLoader loader = new FXMLLoader();
@@ -172,7 +172,7 @@ public class SectionController {
     }
 
     @FXML
-    void editMat(ActionEvent event) {
+    private void editMat(ActionEvent event) {
         if (matTable.getSelectionModel().getSelectedItem() != null){
             try {
                 if (Constantes.CURRENT_YEAR.getId() == new AnneeScolaireDAO().readLastId()) {
@@ -214,7 +214,7 @@ public class SectionController {
     }
 
     @FXML
-    void handleAddEleve(ActionEvent event) {
+    private void handleAddEleve(ActionEvent event) {
         try {
             if(Constantes.CURRENT_YEAR.getId() == new AnneeScolaireDAO().readLastId()) {
                 FXMLLoader loader = new FXMLLoader();
@@ -250,7 +250,7 @@ public class SectionController {
     }
 
     @FXML
-    void handleBulletin(ActionEvent event) {
+    private void handleBulletin(ActionEvent event) {
         try {
             if (eleveTable.getSelectionModel().getSelectedItem() != null) {
                 FXMLLoader loader = new FXMLLoader();
@@ -272,9 +272,9 @@ public class SectionController {
                 for (int i = 0; i < eleve.getBulletins().size(); i++) {
                     new NoteDAO().generateNotes(eleve.getBulletins().get(i).getId());
                 }
-                eleve.setBulletins((ObservableList<Bulletin>) new BulletinDAO().readAllByYear(eleve.getId(), new AnneeScolaireDAO().readLastId()));
+                eleve.setBulletins((ObservableList<Bulletin>) new BulletinDAO().readAllByYear(eleve.getId(), Constantes.CURRENT_YEAR.getId()));
                 controller.setEleve(eleve);
-                controller.setClasse(sections.get(getSectionId()-1).getClasses().get(getClasseIndex()));
+                controller.setClasse(new ClasseDAO().read(getClasseId()));
                 controller.initLayoutFeatures();
                 dialogStage.showAndWait();
             } else {
@@ -288,7 +288,7 @@ public class SectionController {
     }
 
     @FXML
-    void handleDeleteEleve(ActionEvent event) {
+    private void handleDeleteEleve(ActionEvent event) {
         try {
             if(eleveTable.getSelectionModel().getSelectedItem() != null && Constantes.CURRENT_YEAR.getId() == new AnneeScolaireDAO().readLastId() && eleveTable.getSelectionModel().getSelectedItem() != null) {
                 if (Alerts.showConfirmation(getParentStage(), "Voulez-vous vraiment supprimer cet élève?")) {
@@ -313,7 +313,7 @@ public class SectionController {
     }
 
     @FXML
-    void handleEditEleve(ActionEvent event) {
+    private void handleEditEleve(ActionEvent event) {
         try {
             if(eleveTable.getSelectionModel().getSelectedItem() != null) {
                 FXMLLoader loader = new FXMLLoader();
@@ -348,9 +348,13 @@ public class SectionController {
             Alerts.showError(getParentStage(), e.getMessage()+e.getCause());
         }
     }
+    
+    @FXML
+    private void handlePaiement(){
+    }
 
     @FXML
-    void importCsv(ActionEvent event) {
+    private void importCsv(ActionEvent event) {
 
     }
     

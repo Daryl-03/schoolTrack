@@ -3,6 +3,7 @@ package com.schooltrack.models.datasource;
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Paiement;
+import com.schooltrack.utils.Constantes;
 import javafx.collections.FXCollections;
 
 import java.sql.*;
@@ -132,9 +133,11 @@ public class PaiementDAO implements DAO<Paiement> {
     public List<Paiement> readAll() throws DAOException {
         List<Paiement> paiements = FXCollections.observableArrayList();
         try (Connection connection = DBManager.getConnection()) {
-            String sql = "SELECT * FROM paiement";
+            String sql = "SELECT * FROM paiement WHERE id_annee = ?";
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, Constantes.CURRENT_YEAR.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Paiement paiement = new Paiement(
                         resultSet.getInt("id"),
@@ -422,6 +425,238 @@ public class PaiementDAO implements DAO<Paiement> {
             }
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
+        }
+        return paiements;
+    }
+    
+    /**
+     * retourne la liste des paiements journaliers
+     * @return  List<Paiement>
+     * @throws DAOException
+     */
+    public List<Paiement> readAllByDate() throws DAOException {
+        List<Paiement> paiements = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM paiement WHERE date = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, Date.valueOf(LocalDate.now()));
+    
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Paiement paiement = new Paiement(
+                        resultSet.getInt("id"),
+                        resultSet.getString("numero"),
+                        resultSet.getDate("date").toLocalDate(),
+                        resultSet.getString("observation"),
+                        resultSet.getDouble("montant"),
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
+                );
+                paiements.add(paiement);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return paiements;
+    }
+    
+    /**
+     * retourne la liste des paiements hebdomadaires
+     * @return  List<Paiement>
+     * @throws DAOException
+     */
+    public List<Paiement> readAllByWeek() throws DAOException {
+        List<Paiement> paiements = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM paiement WHERE date BETWEEN ? AND ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, Date.valueOf(LocalDate.now().minusDays(7)));
+            preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
+    
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Paiement paiement = new Paiement(
+                        resultSet.getInt("id"),
+                        resultSet.getString("numero"),
+                        resultSet.getDate("date").toLocalDate(),
+                        resultSet.getString("observation"),
+                        resultSet.getDouble("montant"),
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
+                );
+                paiements.add(paiement);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return paiements;
+    }
+    
+    /**
+     * retourne la liste des paiements mensuels
+     * @return  List<Paiement>
+     * @throws DAOException
+     */
+    public List<Paiement> readAllByMonth() throws DAOException {
+        List<Paiement> paiements = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM paiement WHERE date BETWEEN ? AND ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, Date.valueOf(LocalDate.now().minusDays(30)));
+            preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
+    
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Paiement paiement = new Paiement(
+                        resultSet.getInt("id"),
+                        resultSet.getString("numero"),
+                        resultSet.getDate("date").toLocalDate(),
+                        resultSet.getString("observation"),
+                        resultSet.getDouble("montant"),
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
+                );
+                paiements.add(paiement);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return paiements;
+    }
+    
+    /**
+     * retourne la liste des paiements journaliers pour toutes les rubriques d'intitulé donné
+     * @param intitule
+     * @return  List<Paiement>
+     * @throws DAOException
+     */
+    public List<Paiement> readAllByDateAndRubrique(String intitule) throws DAOException {
+        List<Paiement> paiements = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM paiement WHERE date = ? AND id_rubrique IN (SELECT id_rubriqueClasse FROM rubrique JOIN rubriqueclasse ON rubrique.id = rubriqueclasse.id_rubrique WHERE intitule = ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, Date.valueOf(LocalDate.now()));
+            preparedStatement.setString(2, intitule);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Paiement paiement = new Paiement(
+                        resultSet.getInt("id"),
+                        resultSet.getString("numero"),
+                        resultSet.getDate("date").toLocalDate(),
+                        resultSet.getString("observation"),
+                        resultSet.getDouble("montant"),
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
+                );
+                paiements.add(paiement);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return paiements;
+    }
+    
+    /**
+     * retourne la liste des paiements hebdomadaires pour toutes les rubriques d'intitulé donné
+     * @param intitule
+     * @return  List<Paiement>
+     * @throws DAOException
+     */
+    public List<Paiement> readAllByWeekAndRubrique(String intitule) throws DAOException {
+        List<Paiement> paiements = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM paiement WHERE date BETWEEN ? AND ? AND id_rubrique IN (SELECT id_rubriqueClasse FROM rubrique JOIN rubriqueclasse ON rubrique.id = rubriqueclasse.id_rubrique WHERE intitule = ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, Date.valueOf(LocalDate.now().minusDays(7)));
+            preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
+            preparedStatement.setString(3, intitule);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Paiement paiement = new Paiement(
+                        resultSet.getInt("id"),
+                        resultSet.getString("numero"),
+                        resultSet.getDate("date").toLocalDate(),
+                        resultSet.getString("observation"),
+                        resultSet.getDouble("montant"),
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
+                );
+                paiements.add(paiement);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return paiements;
+    }
+    
+    /**
+     * retourne la liste des paiements mensuels pour toutes les rubriques d'intitulé donné
+     * @param intitule
+     * @return  List<Paiement>
+     * @throws DAOException
+     */
+    public List<Paiement> readAllByMonthAndRubrique(String intitule) throws DAOException {
+        List<Paiement> paiements = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM paiement WHERE date BETWEEN ? AND ? AND id_rubrique IN (SELECT id_rubriqueClasse FROM rubrique JOIN rubriqueclasse ON rubrique.id = rubriqueclasse.id_rubrique WHERE intitule = ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, Date.valueOf(LocalDate.now().minusDays(30)));
+            preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
+            preparedStatement.setString(3, intitule);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Paiement paiement = new Paiement(
+                        resultSet.getInt("id"),
+                        resultSet.getString("numero"),
+                        resultSet.getDate("date").toLocalDate(),
+                        resultSet.getString("observation"),
+                        resultSet.getDouble("montant"),
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
+                );
+                paiements.add(paiement);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return paiements;
+    }
+    
+    /**
+     * retourne la liste des paiements pour toutes les rubriques d'intitulé donné
+     * @param intitule
+     * @return  List<Paiement>
+     * @throws DAOException
+     */
+    public List<Paiement> readAllByRubrique(String intitule) throws DAOException {
+        List<Paiement> paiements = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM paiement WHERE id_rubrique IN (SELECT id_rubriqueClasse FROM rubrique JOIN rubriqueclasse ON rubrique.id = rubriqueclasse.id_rubrique WHERE intitule = ?) AND id_annee = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, intitule);
+            preparedStatement.setInt(2, Constantes.CURRENT_YEAR.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Paiement paiement = new Paiement(
+                        resultSet.getInt("id"),
+                        resultSet.getString("numero"),
+                        resultSet.getDate("date").toLocalDate(),
+                        resultSet.getString("observation"),
+                        resultSet.getDouble("montant"),
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
+                );
+                paiements.add(paiement);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
         }
         return paiements;
     }

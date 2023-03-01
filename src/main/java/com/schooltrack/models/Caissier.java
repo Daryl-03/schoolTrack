@@ -1,6 +1,6 @@
 package com.schooltrack.models;
 
-public class Caissier extends Secretaire{
+public class Caissier extends Utilisateur{
 
 	public Caissier() {
 		super();

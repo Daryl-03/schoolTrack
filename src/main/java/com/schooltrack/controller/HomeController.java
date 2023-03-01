@@ -1,5 +1,6 @@
 package com.schooltrack.controller;
 
+import com.schooltrack.controller.caissier.PaiementController;
 import com.schooltrack.controller.secretaire.DashboardController;
 import com.schooltrack.controller.secretaire.InscriptionController;
 import com.schooltrack.controller.secretaire.SectionController;
@@ -48,7 +49,11 @@ public class HomeController {
     private void classes() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/sections.fxml"));
+            if (Constantes.CURRENT_USER.getType().equals("Secretaire"))
+                loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/sections.fxml"));
+            else if (Constantes.CURRENT_USER.getType().equals("Caissier"))
+                loader.setLocation(getClass().getResource("/com/schooltrack/view/caissier/sections.fxml"));
+            
             AnchorPane sections = loader.load();
             rootLayout.getChildren().setAll(sections);
             SectionController sectionController = loader.getController();
@@ -135,7 +140,21 @@ public class HomeController {
     
     @FXML
     private void paiement() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/com/schooltrack/view/caissier/paiement.fxml"));
+            AnchorPane paiement = loader.load();
     
+            PaiementController paiementController = loader.getController();
+            paiementController.setParentStage(parentStage);
+            paiementController.initChoiceBoxes();
+            
+            rootLayout.getChildren().setAll(paiement);
+        } catch (Exception e){
+            System.out.println("In Secretaire-paiement() method");
+            e.printStackTrace();
+            Alerts.showError(parentStage, e.getMessage()+e.getCause());
+        }
     }
     
     @FXML
