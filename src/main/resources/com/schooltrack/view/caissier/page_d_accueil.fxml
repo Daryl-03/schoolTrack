@@ -2,9 +2,6 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -20,10 +17,10 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="-1.0" layoutY="-4.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <left>
+         <top>
             <Pane prefHeight="212.0" prefWidth="800.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="34.0" layoutY="27.0" prefHeight="37.0" prefWidth="122.0" text="Dashboard" textAlignment="CENTER">
+                  <Label layoutX="34.0" layoutY="27.0" prefHeight="37.0" prefWidth="131.0" text="Dashboard :" textAlignment="CENTER">
                      <font>
                         <Font name="Cambria" size="24.0" />
                      </font>
@@ -44,10 +41,10 @@
                            <children>
                               <Label layoutX="16.0" layoutY="60.0" prefHeight="42.0" prefWidth="127.0" text="Inscrit(e)" textFill="WHITE">
                                  <font>
-                                    <Font size="24.0" />
+                                    <Font name="System Bold Italic" size="24.0" />
                                  </font>
                               </Label>
-                              <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="175.0" layoutY="82.0" size="40" text="" wrappingWidth="27.0" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="183.0" layoutY="64.0" size="40" text="" wrappingWidth="27.0" />
                               <Label layoutX="14.0" prefHeight="53.0" prefWidth="43.0" text="50" textFill="WHITE">
                                  <font>
                                     <Font size="36.0" />
@@ -63,30 +60,30 @@
                         </Pane>
                         <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="235.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to right  ,#4f80e2,#15cdca);" GridPane.rowIndex="1">
                            <children>
-                              <Label layoutX="17.0" layoutY="61.0" prefHeight="42.0" prefWidth="127.0" text="Caisse" textFill="WHITE">
+                              <Label layoutX="13.0" layoutY="70.0" prefHeight="42.0" prefWidth="127.0" text="Caisse" textFill="WHITE">
                                  <font>
-                                    <Font size="24.0" />
+                                    <Font name="System Bold Italic" size="24.0" />
                                  </font>
                               </Label>
-                              <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="174.0" layoutY="97.0" size="40" text="" wrappingWidth="27.0" />
-                              <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="117.0" text="50 XOF" textFill="WHITE">
+                              <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="124.0" text="50 XOF" textFill="WHITE">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
                               </Label>
+                              <FontAwesomeIconView fill="WHITE" glyphName="DOLLAR" layoutX="187.0" layoutY="64.0" size="40" />
                            </children>
                            <GridPane.margin>
                               <Insets bottom="10.0" />
                            </GridPane.margin>
                         </Pane>
-                        <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="235.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to right ,#15cdca,#4fe0b6);" GridPane.rowIndex="2">
+                        <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="235.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to right ,#15cdca,#15cdca,#4fe0b6);" GridPane.rowIndex="2">
                            <children>
-                              <Label layoutX="14.0" layoutY="67.0" prefHeight="42.0" prefWidth="127.0" text="Froid/Clim" textFill="WHITE">
+                              <Label layoutX="14.0" layoutY="67.0" prefHeight="42.0" prefWidth="127.0" text="Rubrique" textFill="WHITE">
                                  <font>
-                                    <Font size="24.0" />
+                                    <Font name="System Bold Italic" size="24.0" />
                                  </font>
                               </Label>
-                              <FontAwesomeIconView fill="WHITE" glyphName="USERS" layoutX="158.0" layoutY="54.0" size="40" text="" wrappingWidth="27.0" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="" layoutX="184.0" layoutY="76.0" size="40" text="" wrappingWidth="27.0" />
                               <Label layoutX="14.0" layoutY="12.0" prefHeight="53.0" prefWidth="43.0" text="50" textFill="WHITE">
                                  <font>
                                     <Font size="36.0" />
@@ -102,14 +99,11 @@
                               <Insets bottom="10.0" />
                            </GridPane.margin>
                            <children>
-                              <LineChart layoutX="-7.0" layoutY="-9.0" prefHeight="148.0" prefWidth="250.0">
-                                <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
-                                </xAxis>
-                                <yAxis>
-                                  <NumberAxis side="LEFT" />
-                                </yAxis>
-                              </LineChart>
+                              <Pane layoutX="78.0" layoutY="19.0" prefHeight="83.0" prefWidth="79.0" rotate="43.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+                                 <children>
+                                    <FontAwesomeIconView fill="#08deff" glyphName="UNIVERSITY" layoutX="19.0" layoutY="47.0" rotate="-42.9" selectionEnd="40" size="30" />
+                                 </children>
+                              </Pane>
                            </children>
                         </Pane>
                      </children>
@@ -119,18 +113,19 @@
                         <Image url="@../image/Investment data-rafiki.png" />
                      </image>
                   </ImageView>
-                  <Pane layoutX="-8.0" layoutY="72.0" prefHeight="87.0" prefWidth="511.0" style="-fx-background-color: linear-gradient(to right ,#3E53D4,#4f80e2); -fx-background-radius: 15;">
+                  <Pane layoutX="-8.0" layoutY="72.0" prefHeight="87.0" prefWidth="330.0" style="-fx-background-color: linear-gradient(to right  ,#4f80e2,#15cdca); -fx-background-radius: 15;">
                      <children>
-                        <Label layoutX="316.0" layoutY="19.0" prefHeight="53.0" prefWidth="109.0" text="LOGIN" textAlignment="JUSTIFY" textFill="WHITE">
+                        <Label layoutX="57.0" layoutY="17.0" prefHeight="53.0" prefWidth="124.0" text="LOGIN" textAlignment="JUSTIFY" textFill="WHITE">
                            <font>
-                              <Font size="36.0" />
+                              <Font name="System Bold Italic" size="36.0" />
                            </font>
                         </Label>
                      </children>
                   </Pane>
+                  <Pane layoutX="35.0" layoutY="60.0" prefHeight="4.0" prefWidth="284.0" style="-fx-background-color: linear-gradient(to right  ,#4f80e2,#15cdca); -fx-border-radius: 25;" />
                </children>
             </Pane>
-         </left>
+         </top>
       </BorderPane>
    </children>
 </AnchorPane>
