@@ -44,6 +44,7 @@ public class PaiementEditController {
     private PaiementDAO paiementDAO = new PaiementDAO();
     private EleveDAO eleveDAO = new EleveDAO();
     private RubriqueDAO rubriqueDAO = new RubriqueDAO();
+    private boolean editMode = false;
     
     public void setParentStage(Stage parentStage) {
         this.parentStage = parentStage;
@@ -61,6 +62,7 @@ public class PaiementEditController {
     
     public void setPaiement(Paiement paiement) {
         this.paiement = paiement;
+        editMode = true;
         if(paiement != null) {
             try {
                 matriculeTextField.setText(eleveDAO.read(paiement.getId_eleve()).getMatricule());
@@ -90,6 +92,9 @@ public class PaiementEditController {
                 } else if(rubrique.getIntitule().equals("Scolarité") && paiementDAO.countScolarite(eleve.getId()) >= Constantes.MAX_SCHOOL_FEE){
                     Alerts.showError(actualStage, "L'élève a déjà payé le maximum de scolarité");
                     return;
+                } else if(rubrique.getIntitule().equals("Scolarité") && paiementDAO.isPayedInscription(eleve.getId()) && eleve.getId_classe()==Constantes.ID_CRECHE){
+                    Alerts.showError(actualStage, "L'élève a déjà payé la scolarité");
+                    return;
                 }
                 paiement.setMontant(rubrique.getMontant());
                 paiement.setDate(LocalDate.now());
@@ -97,7 +102,10 @@ public class PaiementEditController {
                 paiement.setId_eleve(eleve.getId());
                 paiement.setId_rubrique(rubrique.getId());
                 paiement.setObservation(observationsTextArea.getText());
-                paiementDAO.create(paiement);
+                if (editMode)
+                    paiementDAO.update(paiement);
+                else
+                    paiementDAO.create(paiement);
                 actualStage.close();
             } catch (DAOException e) {
                 System.out.println("Erreur lors de la validation des entrées PaiementEditController");

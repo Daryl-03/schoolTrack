@@ -1,5 +1,8 @@
 package com.schooltrack.controller.secretaire;
 
+import com.schooltrack.controller.caissier.PaiementController;
+import com.schooltrack.controller.caissier.PaiementEditController;
+import com.schooltrack.controller.caissier.PaiementEleveController;
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.models.*;
 import com.schooltrack.models.datasource.*;
@@ -351,6 +354,33 @@ public class SectionController {
     
     @FXML
     private void handlePaiement(){
+        try {
+            if(eleveTable.getSelectionModel().getSelectedItem() != null) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/com/schooltrack/view/caissier/paiementEleve.fxml"));
+                AnchorPane paiement = loader.load();
+                
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Paiement de l'élève");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(getParentStage());
+                Scene scene = new Scene(paiement);
+                dialogStage.setScene(scene);
+                dialogStage.setResizable(false);
+                
+                PaiementEleveController controller = loader.getController();
+                controller.setDialogStage(dialogStage);
+                controller.setEleve(eleveTable.getSelectionModel().getSelectedItem());
+                controller.loadFeatures();
+                dialogStage.showAndWait();
+            } else {
+                Alerts.showError(getParentStage(), "Veuillez sélectionner un élève");
+            }
+        } catch (Exception e){
+            System.out.println("In Secretaire-handlePaiement() method");
+            e.printStackTrace();
+            Alerts.showError(getParentStage(), e.getMessage()+e.getCause());
+        }
     }
 
     @FXML

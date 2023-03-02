@@ -20,6 +20,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -77,6 +78,9 @@ public class PaiementController {
             Stage dialogStage = new Stage();
             Scene scene = new Scene(paiementEdit);
             dialogStage.setScene(scene);
+            dialogStage.setTitle("Ajout de paiement");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(parentStage);
             PaiementEditController controller = loader.getController();
             controller.setParentStage(parentStage);
             controller.setActualStage(dialogStage);
@@ -122,6 +126,9 @@ public class PaiementController {
             Stage dialogStage = new Stage();
             Scene scene = new Scene(paiementEdit);
             dialogStage.setScene(scene);
+            dialogStage.setTitle("Modification paiement");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(parentStage);
             PaiementEditController controller = loader.getController();
             controller.setParentStage(parentStage);
             controller.setActualStage(dialogStage);
