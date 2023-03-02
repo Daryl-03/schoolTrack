@@ -152,6 +152,14 @@ public class BulletinController {
     
         trimestreChoiceBox.getItems().addAll("1er Trimestre", "2eme Trimestre", "3eme Trimestre");
         
+        // vérifier la validité de la valeur saisie dans la colonne note lors de la soumission
+        noteColumn.setOnEditCommit((TableColumn.CellEditEvent<Note, Double> t) -> {
+            // vérifier que la note est comprise entre 0 et 20
+            if(t.getNewValue() < 0 || t.getNewValue() > 20) {
+                Alerts.showError(dialogStage, "Valeur de note incorrecte :\n La note doit être comprise entre 0 et 20");
+                return;
+            }
+        });
     }
     
     private void updateNotesTable() {

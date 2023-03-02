@@ -53,7 +53,8 @@ public class HomeController {
                 loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/sections.fxml"));
             else if (Constantes.CURRENT_USER.getType().equals("Caissier"))
                 loader.setLocation(getClass().getResource("/com/schooltrack/view/caissier/sections.fxml"));
-            
+            else
+                loader.setLocation(getClass().getResource("/com/schooltrack/view/adminR/sections.fxml"));
             AnchorPane sections = loader.load();
             rootLayout.getChildren().setAll(sections);
             SectionController sectionController = loader.getController();

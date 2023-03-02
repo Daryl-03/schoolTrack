@@ -227,4 +227,34 @@ public class RubriqueDAO implements DAO<Rubrique>{
         }
         return null;
     }
+    
+    /**
+     * récupération de la rubrique Scolarité à partir de l'id de la classe
+     * @param id_classe
+     * @return Rubrique
+     * @throws DAOException
+     */
+    public Rubrique readScolariteByClasse(int id_classe) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM rubrique JOIN rubriqueClasse ON rubrique.id = rubriqueClasse.id_rubrique WHERE rubrique.intitule = ? AND rubriqueClasse.id_classe = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "Scolarité");
+            preparedStatement.setInt(2, id_classe);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Rubrique rubrique = new Rubrique(
+                        resultSet.getInt("id_rubriqueClasse"),
+                        resultSet.getDouble("montant"),
+                        resultSet.getString("intitule"),
+                        resultSet.getString("description"),
+                        new EcheancierPaiementDAO().readEcheancierPaiement(resultSet.getInt("id_rubriqueClasse"), resultSet.getInt("id_classe"), Constantes.CURRENT_YEAR.getId()),
+                        resultSet.getInt("id_classe")
+                );
+                return rubrique;
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return null;
+    }
 }

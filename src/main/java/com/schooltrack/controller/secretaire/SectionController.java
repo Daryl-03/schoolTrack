@@ -18,9 +18,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.converter.LocalDateStringConverter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -82,6 +84,15 @@ public class SectionController {
     private TableColumn<Eleve, String> sexeColumn;
     
     @FXML
+    private TableColumn<EcheanceTableModel, LocalDate> echeanceColumn;
+
+    @FXML
+    private TableView<EcheanceTableModel> echeanceTable;
+    
+    @FXML
+    private TableColumn<EcheanceTableModel, String> intituleColumn;
+    
+    @FXML
     private AnchorPane sectionLayout;
     private List<Section> sections;
     
@@ -99,6 +110,34 @@ public class SectionController {
     
     private Stage getParentStage() {
         return (Stage) sectionLayout.getScene().getWindow();
+    }
+    
+    @FXML
+    void saveEcheance(ActionEvent event) {
+        try {
+            echeanceTable.setEditable(false);
+            echeanceColumn.setEditable(false);
+            List<LocalDate> echeances = new ArrayList<>();
+            for (EcheanceTableModel echeance : echeanceTable.getItems()) {
+                echeances.add(echeance.getDate());
+            }
+            Rubrique rubrique = new RubriqueDAO().readScolariteByClasse(getClasseId());
+            rubrique.getEcheancier().setEcheances(echeances==null?FXCollections.observableArrayList():FXCollections.observableArrayList(echeances));
+            sections.get(getSectionId()).getClasses().get(getClasseIndex()).getRubriques().setAll(new RubriqueDAO().readAllByClasse(getClasseId()));
+            Alerts.showSuccess(getParentStage(), "Modification effectuée avec succès !");
+        } catch (DAOException e) {
+            System.out.println("In Secretaire-saveEcheance() method");
+            e.printStackTrace();
+            Alerts.showError(getParentStage(), "Une erreur est survenue lors de l'enregistrement des échéances");
+        }
+    }
+    
+    @FXML
+    void editEcheance(ActionEvent event) {
+        // rendre la table éditable
+        echeanceTable.setEditable(true);
+        echeanceColumn.setEditable(true);
+        echeanceColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LocalDateStringConverter()));
     }
 
     @FXML
@@ -394,6 +433,9 @@ public class SectionController {
         mapEleveTableToData();
         // Map the columns of the matTable to the properties of the Matiere class
         mapMatTableToData();
+        // Map the columns of the echeanceTable to the properties of the Echeance class
+        if (Constantes.CURRENT_USER.getType().equals("Administrateur"))
+            mapEcheanceTableToData();
         // add listener to sectionChoiceBox and update the classeChoiceBox when the section is changed then update the eleveTable
         sectionChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 //            System.out.println("Section changed from "+oldValue+" to "+newValue);
@@ -407,8 +449,37 @@ public class SectionController {
             if (newValue != null){
                 updateEleveTable();
                 updateMatTable();
+                if (Constantes.CURRENT_USER.getType().equals("Administrateur"))
+                    updateEcheanceTable();
             }
         });
+    }
+    
+    private void updateEcheanceTable() {
+        try {
+            echeanceTable.getItems().clear();
+            List<EcheanceTableModel> echeances = new ArrayList<>();
+            RubriqueDAO rubriqueDAO = new RubriqueDAO();
+            for (Rubrique rubrique : sections.get(getSectionId()).getClasses().get(getClasseIndex()).getRubriques()) {
+                if(rubrique.getIntitule().equals("Scolarité")){
+                    int i = 2;
+                    for (LocalDate echeance : rubrique.getEcheancier().getEcheances()) {
+                        echeances.add(new EcheanceTableModel(echeance, "Tranche "+i++));
+                    }
+                }
+            }
+            
+            echeanceTable.getItems().addAll(echeances!=null?FXCollections.observableArrayList(echeances):FXCollections.emptyObservableList());
+        } catch (Exception e) {
+            System.out.println("In Secretaire-updateEcheanceTable() method");
+            e.printStackTrace();
+            Alerts.showError(getParentStage(), e.getMessage());
+        }
+    }
+    
+    private void mapEcheanceTableToData() {
+        echeanceColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
+        intituleColumn.setCellValueFactory(cellData -> cellData.getValue().labelProperty());
     }
     
     private void mapMatTableToData() {

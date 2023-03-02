@@ -68,10 +68,18 @@ public class AuthController {
                         event.consume();
                     });
                     switch (utilisateur.getType()) {
-                        case "Administateur":
-//                            AdminHomeController adminHomeController = new AdminHomeController();
-//                            adminHomeController.setPrimaryStage(primaryStage);
-//                            adminHomeController.show();
+                        case "Administrateur":
+                            loader.setLocation(getClass().getResource("/com/schooltrack/view/adminR/root.fxml"));
+                            Parent rootAdmin = loader.load();
+                            Scene sceneAdmin = new Scene(rootAdmin);
+                            homeStage.setScene(sceneAdmin);
+                            HomeController controllerAdmin = loader.getController();
+                            controllerAdmin.setParentStage(primaryStage);
+                            controllerAdmin.setActualStage(homeStage);
+                            controllerAdmin.setUtilisateurConnecte(utilisateur);
+                            controllerAdmin.dashboard();
+                            controllerAdmin.initRootFeatures();
+                            homeStage.showAndWait();
                             break;
                         case "Secretaire":
                             loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/root.fxml"));
