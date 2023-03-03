@@ -20,7 +20,7 @@
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
                   <ImageView fitHeight="261.0" fitWidth="269.0" layoutX="314.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -85,7 +85,7 @@
                         </ImageView>
                         <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="109.0" text="admin" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <GridPane.margin>
-                              <Insets top="120.0" />
+                              <Insets top="130.0" />
                            </GridPane.margin>
                         </RadioButton>
                         <ImageView fitHeight="141.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
@@ -95,7 +95,7 @@
                         </ImageView>
                         <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="109.0" text="secretaire" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="5">
                            <GridPane.margin>
-                              <Insets top="120.0" />
+                              <Insets top="130.0" />
                            </GridPane.margin>
                         </RadioButton>
                         <ImageView fitHeight="141.0" fitWidth="253.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5">
@@ -105,7 +105,7 @@
                         </ImageView>
                         <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="109.0" text="caissiere" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="5">
                            <GridPane.margin>
-                              <Insets top="125.0" />
+                              <Insets top="130.0" />
                            </GridPane.margin>
                         </RadioButton>
                      </children>
