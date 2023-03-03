@@ -113,17 +113,24 @@ public class SectionController {
     }
     
     @FXML
-    void saveEcheance(ActionEvent event) {
+    private void saveEcheance(ActionEvent event) {
         try {
+            if(!echeanceTable.isEditable())
+                return;
             echeanceTable.setEditable(false);
             echeanceColumn.setEditable(false);
             List<LocalDate> echeances = new ArrayList<>();
+//            récupérer les échéances de la table
             for (EcheanceTableModel echeance : echeanceTable.getItems()) {
                 echeances.add(echeance.getDate());
             }
             Rubrique rubrique = new RubriqueDAO().readScolariteByClasse(getClasseId());
+            
             rubrique.getEcheancier().setEcheances(echeances==null?FXCollections.observableArrayList():FXCollections.observableArrayList(echeances));
-            sections.get(getSectionId()).getClasses().get(getClasseIndex()).getRubriques().setAll(new RubriqueDAO().readAllByClasse(getClasseId()));
+            
+            EcheancierPaiement echeancierPaiement = rubrique.getEcheancier();
+            new EcheancierPaiementDAO().update(echeancierPaiement);
+            sections.get(getSectionId()-1).getClasses().get(getClasseIndex()).getRubriques().setAll(new RubriqueDAO().readAllByClasse(getClasseId()));
             Alerts.showSuccess(getParentStage(), "Modification effectuée avec succès !");
         } catch (DAOException e) {
             System.out.println("In Secretaire-saveEcheance() method");
@@ -133,7 +140,7 @@ public class SectionController {
     }
     
     @FXML
-    void editEcheance(ActionEvent event) {
+    private void editEcheance(ActionEvent event) {
         // rendre la table éditable
         echeanceTable.setEditable(true);
         echeanceColumn.setEditable(true);
@@ -460,7 +467,7 @@ public class SectionController {
             echeanceTable.getItems().clear();
             List<EcheanceTableModel> echeances = new ArrayList<>();
             RubriqueDAO rubriqueDAO = new RubriqueDAO();
-            for (Rubrique rubrique : sections.get(getSectionId()).getClasses().get(getClasseIndex()).getRubriques()) {
+            for (Rubrique rubrique : sections.get(getSectionId()-1).getClasses().get(getClasseIndex()).getRubriques()) {
                 if(rubrique.getIntitule().equals("Scolarité")){
                     int i = 2;
                     for (LocalDate echeance : rubrique.getEcheancier().getEcheances()) {

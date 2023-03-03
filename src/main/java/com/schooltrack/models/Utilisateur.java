@@ -139,4 +139,8 @@ public  abstract class Utilisateur {
 				", telephone=" + telephone +
 				'}';
 	}
+	
+	public StringProperty typeProperty() {
+		return new SimpleStringProperty(getType());
+	}
 }

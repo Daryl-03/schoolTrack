@@ -98,10 +98,11 @@ public class EcheancierPaiementDAO implements DAO<EcheancierPaiement>{
             preparedStatement.setInt(4, echeancierPaiement.getId());
             preparedStatement.executeUpdate();
             for (LocalDate echeance: echeancierPaiement.getEcheances()) {
-                String sql2 = "UPDATE echeance SET date_echeance = ? WHERE id_echeancier = ?";
+                String sql2 = "UPDATE echeance SET date_echeance = ? WHERE id_echeancier = ? AND numero = ?";
                 PreparedStatement preparedStatement2 = connection.prepareStatement(sql2);
-                preparedStatement2.setInt(1, echeancierPaiement.getId());
-                preparedStatement2.setDate(2, java.sql.Date.valueOf(echeance));
+                preparedStatement2.setDate(1, java.sql.Date.valueOf(echeance));
+                preparedStatement2.setInt(2, echeancierPaiement.getId());
+                preparedStatement2.setInt(3, echeancierPaiement.getEcheances().indexOf(echeance) + 1);
                 preparedStatement2.executeUpdate();
             }
         } catch (Exception e) {

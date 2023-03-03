@@ -70,7 +70,9 @@ public class PaiementEleveController {
     
     @FXML
     private void handleClose(){
-        dialogStage.close();
+        if(Alerts.showConfirmation(dialogStage, "quitter?")){
+            dialogStage.close();
+        }
     }
     
     @FXML
@@ -111,7 +113,7 @@ public class PaiementEleveController {
             // scolarité
             if(eleve.getId_classe()!= Constantes.ID_CRECHE) {
                 int nombrePaiementScolarite = paiementDAO.countScolarite(eleve.getId());
-                scolariteCountLabel.setText(String.valueOf(nombrePaiementScolarite));
+                scolariteCountLabel.setText(String.valueOf(nombrePaiementScolarite+1));
                 if (nombrePaiementScolarite < 9) {
                     Rubrique rubriqueScolarite = rubriqueDAO.readByIntituleAndMatricule("Scolarité", eleve.getMatricule());
                     if (LocalDate.now().isAfter(rubriqueScolarite.getEcheancier().getEcheances().get(nombrePaiementScolarite))) {

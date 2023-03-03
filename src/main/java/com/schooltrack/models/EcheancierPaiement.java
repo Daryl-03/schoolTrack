@@ -88,4 +88,15 @@ public class EcheancierPaiement {
 		this.id_annee = new SimpleIntegerProperty(id_annee);
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "EcheancierPaiement{" +
+				"id=" + id +
+				", echeances=" + echeances +
+				", id_classe=" + id_classe +
+				", id_rubrique=" + id_rubrique +
+				", id_annee=" + id_annee +
+				'}';
+	}
 }

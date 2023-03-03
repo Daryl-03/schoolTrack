@@ -17,5 +17,6 @@ module com.schooltrack.schooltrack {
     opens com.schooltrack to javafx.fxml, javafx.graphics;
     opens com.schooltrack.controller.secretaire to javafx.fxml;
     opens com.schooltrack.controller.caissier to javafx.fxml;
+    opens com.schooltrack.controller.administateur to javafx.fxml;
     opens com.schooltrack.controller to javafx.fxml;
 }

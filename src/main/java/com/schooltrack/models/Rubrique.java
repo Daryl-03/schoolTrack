@@ -106,4 +106,16 @@ public class Rubrique {
 		this.echeancier = new SimpleObjectProperty<EcheancierPaiement>(echeancier);
 		this.id_classe = new SimpleIntegerProperty(id_classe);
 	}
+	
+	@Override
+	public String toString() {
+		return "Rubrique{" +
+				"id=" + id +
+				", intitule=" + intitule +
+				", description=" + description +
+				", montant=" + montant +
+				", echeancier=" + echeancier +
+				", id_classe=" + id_classe +
+				'}';
+	}
 }

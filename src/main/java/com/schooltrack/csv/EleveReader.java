@@ -5,6 +5,8 @@ import com.schooltrack.models.Eleve;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -51,24 +53,53 @@ public class EleveReader implements CSVReader<Eleve> {
     }
     
     /**
-     * Crée des objets contact à partir de données csv traitées
+     * Crée des objets Eleve à partir de données csv traitées
      * @param data Une liste de chaîne de caractères contenant les données traitées
-     * @return une liste de contacts
+     * @return une liste d'Eleve
      */
     @Override
     public List<Eleve> csvToObjects(List<String[]> data) throws CSVReaderException {
         List<Eleve> eleves = new ArrayList<>();
         try{
             for (String[] row : data) {
-                // vérifier si les données sont valides
                 String nom = row[0];
                 String prenom = row[1];
+                String sexe = row[2];
+                LocalDate dateNaissance = LocalDate.parse(row[3]);
+                String lieuNaissance = row[4];
+                String adresse = row[5];
+                String telephone = row[6];
+                String email = row[7];
+                
+                //vérifier si les données sont valides
+                if (nom.isBlank() || prenom.isBlank())
+                    continue;
+                if(!sexe.equals("Masculin") && !sexe.equals("Feminin"))
+                    continue;
+                if (lieuNaissance.isBlank() || adresse.isBlank() || telephone.isBlank() || email.isBlank())
+                    continue;
+                // checker le format de l'email
+                if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$"))
+                    continue;
+                    
+                Eleve eleve = new Eleve();
+                eleve.setNom(nom);
+                eleve.setPrenom(prenom);
+                eleve.setSexe(sexe);
+                eleve.setDateDeNaissance(dateNaissance);
+                eleve.setLieuDeNaissance(lieuNaissance);
+                eleve.setAdresse(adresse);
+                eleve.setNumtelephone(telephone);
+                eleve.setEmail(email);
+                eleves.add(eleve);
             }
+        } catch (DateTimeParseException e) {
+            throw new CSVReaderException("date invalide");
         } catch (IndexOutOfBoundsException e) {
             throw new CSVReaderException("données manquantes");
         } catch (Exception e) {
             throw new CSVReaderException(e.getMessage());
         }
-        return null;
+        return eleves;
     }
 }

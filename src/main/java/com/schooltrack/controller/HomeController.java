@@ -1,5 +1,6 @@
 package com.schooltrack.controller;
 
+import com.schooltrack.controller.administateur.UserController;
 import com.schooltrack.controller.caissier.PaiementController;
 import com.schooltrack.controller.secretaire.DashboardController;
 import com.schooltrack.controller.secretaire.InscriptionController;
@@ -171,6 +172,22 @@ public class HomeController {
                 Alerts.showError(actualStage, e.getMessage()+e.getCause());
             }
         });
+    }
+    
+    @FXML
+    public void users() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/com/schooltrack/view/adminR/utilisateurs.fxml"));
+            AnchorPane users = loader.load();
+            rootLayout.getChildren().setAll(users);
+            UserController usersController = loader.getController();
+            usersController.initTable();
+        } catch (Exception e){
+            System.out.println("In Secretaire-users() method");
+            e.printStackTrace();
+            Alerts.showError(parentStage, e.getMessage()+e.getCause());
+        }
     }
     
     @FXML
