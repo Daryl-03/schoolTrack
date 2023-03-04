@@ -1,7 +1,6 @@
 package com.schooltrack.controller.secretaire;
 
 import com.schooltrack.exceptions.DAOException;
-import com.schooltrack.models.AnneeScolaire;
 import com.schooltrack.models.Classe;
 import com.schooltrack.models.Eleve;
 import com.schooltrack.models.Section;
@@ -118,7 +117,7 @@ public class InscriptionController {
     
     public void initSectionChoiceBox() {
         try {
-            sections = new SectionDAO().readAll(new AnneeScolaireDAO().readLastId());
+            sections = new SectionDAO().readAllSimple(new AnneeScolaireDAO().readLastId());
             System.out.println("Sections : "+sections);
         } catch (DAOException e) {
             Alerts.showError(parentStage, "Erreur lors de la lecture des sections"+e.getMessage());

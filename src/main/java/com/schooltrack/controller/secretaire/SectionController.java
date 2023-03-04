@@ -1,6 +1,7 @@
 package com.schooltrack.controller.secretaire;
 
 import com.schooltrack.controller.caissier.PaiementEleveController;
+import com.schooltrack.csv.EleveReader;
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.models.*;
 import com.schooltrack.models.datasource.*;
@@ -369,12 +370,12 @@ public class SectionController {
     private void handleDeleteEleve(ActionEvent event) {
         try {
             if(eleveTable.getSelectionModel().getSelectedItem() != null && Constantes.CURRENT_YEAR.getId() == new AnneeScolaireDAO().readLastId() && eleveTable.getSelectionModel().getSelectedItem() != null) {
-                if (Alerts.showConfirmation(getParentStage(), "Voulez-vous vraiment supprimer cet élève?")) {
+                if (Alerts.showConfirmation(getParentStage(), "Voulez-vous vraiment retirer cet élève?")) {
                     try {
                         Eleve eleve = eleveTable.getSelectionModel().getSelectedItem();
                         new EleveDAO().retirer(eleve.getId());
                         updateEleveTable();
-                        Alerts.showInfo(getParentStage(), "L'élève a été supprimé avec succès");
+                        Alerts.showInfo(getParentStage(), "L'élève a été retiré avec succès");
                     } catch (DAOException e) {
                         Alerts.showError(getParentStage(), e.getMessage());
                     }
@@ -382,7 +383,7 @@ public class SectionController {
             } else if(eleveTable.getSelectionModel().getSelectedItem() == null){
                 Alerts.showError(getParentStage(), "Veuillez sélectionner un élève");
             } else {
-                Alerts.showError(getParentStage(), "Vous ne pouvez pas supprimer un élève d'une année scolaire passée");
+                Alerts.showError(getParentStage(), "Vous ne pouvez pas retirer un élève d'une année scolaire passée");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -428,6 +429,38 @@ public class SectionController {
     }
     
     @FXML
+    private void handleReaffecter(){
+        try {
+            if(eleveTable.getSelectionModel().getSelectedItem() != null) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/ChangeClass.fxml"));
+                AnchorPane reaffecter = loader.load();
+                
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle("Réaffecter un élève");
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(getParentStage());
+                Scene scene = new Scene(reaffecter);
+                dialogStage.setScene(scene);
+                dialogStage.setResizable(false);
+                
+                ReaffectationController controller = loader.getController();
+                controller.setDialogStage(dialogStage);
+                controller.setEleve(eleveTable.getSelectionModel().getSelectedItem());
+                controller.initSectionChoiceBox();
+                dialogStage.showAndWait();
+                updateEleveTable();
+            } else {
+                Alerts.showError(getParentStage(), "Veuillez sélectionner un élève");
+            }
+        } catch (Exception e){
+            System.out.println("In Secretaire-handleReaffecter() method");
+            e.printStackTrace();
+            Alerts.showError(getParentStage(), e.getMessage()+e.getCause());
+        }
+    }
+    
+    @FXML
     private void handlePaiement(){
         try {
             if(eleveTable.getSelectionModel().getSelectedItem() != null) {
@@ -460,7 +493,27 @@ public class SectionController {
 
     @FXML
     private void importCsv(ActionEvent event) {
-
+        Alerts.showInfo(getParentStage(), "Le fichier CSV doit être de la forme suivante: Nom, Prenom, Sexe, Date de naissance(jj/mm/aaaa), Lieu de naissance, Adresse, Telephone.\nLe fichier ne comprend pas d'entête.\nToutes les données sont obligatoires.\nLes lignes incorrectes seront ignorées.");
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Choisir le fichier CSV");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+            );
+            File file = fileChooser.showOpenDialog(getParentStage());
+            if (file != null) {
+                EleveReader reader = new EleveReader();
+                List<Eleve> eleves = reader.csvToObjects(reader.getData(reader.readFile(file)));
+                for (Eleve eleve : eleves) {
+                    eleve.setId_classe(getClasseId());
+                    new EleveDAO().create(eleve);
+                }
+                Alerts.showInfo(getParentStage(), "Les élèves ont été importés avec succès");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alerts.showError(getParentStage(), e.getMessage());
+        }
     }
     
     @FXML

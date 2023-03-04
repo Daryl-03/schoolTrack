@@ -178,6 +178,70 @@ public class ClasseDAO implements DAO<Classe>{
     }
     
     /**
+     * Retourne la liste des classes d'une section avec juste l'id et le nom
+     * @param idSection
+     * @return la liste des classes
+     * @throws DAOException
+     */
+    public List<Classe> readAllSimple(int idSection) throws DAOException {
+        List<Classe> classes = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM classe WHERE id_section = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, idSection);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Classe classe = new Classe(
+                        resultSet.getInt("id"),
+                        resultSet.getString("nom"),
+                        null,
+                        null,
+                        null,
+                        resultSet.getInt("id_section")
+                );
+                classes.add(classe);
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur in ClasseDAO.readAllSimple(int idSection)");
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return classes;
+    }
+    
+    /**
+     * Retourne la liste des classes d'une section avec tout sauf les élèves
+     * @param idSection
+     * @return la liste des classes
+     * @throws DAOException
+     */
+    public List<Classe> readAllWithoutEleves(int idSection) throws DAOException {
+        List<Classe> classes = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM classe WHERE id_section = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, idSection);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                List<Rubrique> rubriques = new RubriqueDAO().readAllByClasse(resultSet.getInt("id"));
+                List<Matiere> matieres = new MatiereDAO().readAllByClasse(resultSet.getInt("id"));
+                Classe classe = new Classe(
+                        resultSet.getInt("id"),
+                        resultSet.getString("nom"),
+                        rubriques != null ? FXCollections.observableArrayList(rubriques) : FXCollections.observableArrayList(),
+                        matieres != null ? FXCollections.observableArrayList(matieres) : FXCollections.observableArrayList(),
+                        null,
+                        resultSet.getInt("id_section")
+                );
+                classes.add(classe);
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur in ClasseDAO.readAllWithoutEleves(int idSection)");
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return classes;
+    }
+    
+    /**
      * lit le nom d'une classe à partir de son id
      * @param id
      * @return le nom de la classe

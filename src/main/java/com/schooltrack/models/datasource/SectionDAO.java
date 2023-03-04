@@ -101,6 +101,62 @@ public class SectionDAO implements DAO<Section>{
     }
     
     /**
+     * Retourne toutes les sections en fonction de l'année scolaire. Les classes ne contiendront pas les élèves. Version optimisée
+     * @param id_annee
+     * @return List<Section> sections
+     * @throws DAOException
+     */
+    public List<Section> readAllWithoutStudents(int id_annee) throws DAOException {
+        List<Section> sections = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM section";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                List<Classe> classes = new ClasseDAO().readAllWithoutEleves(resultSet.getInt("id"));
+                Section section = new Section(
+                        resultSet.getInt("id"),
+                        resultSet.getString("intitule"),
+                        classes != null ? FXCollections.observableArrayList(classes) : FXCollections.observableArrayList()
+                );
+                sections.add(section);
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur: " + e.getMessage());
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return sections;
+    }
+    
+    /**
+     * Retourne toutes les sections en fonction de l'année scolaire. Les classes ne contiendront que l'id et le nom. Version optimisée pour l'incription
+     * @param id_annee
+     * @return List<Section> sections
+     * @throws DAOException
+     */
+    public List<Section> readAllSimple(int id_annee) throws DAOException {
+        List<Section> sections = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM section";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                List<Classe> classes = new ClasseDAO().readAllSimple(resultSet.getInt("id"));
+                Section section = new Section(
+                        resultSet.getInt("id"),
+                        resultSet.getString("intitule"),
+                        classes != null ? FXCollections.observableArrayList(classes) : FXCollections.observableArrayList()
+                );
+                sections.add(section);
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur: " + e.getMessage());
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return sections;
+    }
+    
+    /**
     * Retourne une section en fonction de son nom
      * @param nom
      * @return Section

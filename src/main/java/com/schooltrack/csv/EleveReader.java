@@ -6,6 +6,7 @@ import com.schooltrack.models.Eleve;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,8 @@ public class EleveReader implements CSVReader<Eleve> {
                 String nom = row[0];
                 String prenom = row[1];
                 String sexe = row[2];
-                LocalDate dateNaissance = LocalDate.parse(row[3]);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate dateNaissance = formatter.parse(row[3], LocalDate::from);
                 String lieuNaissance = row[4];
                 String adresse = row[5];
                 String telephone = row[6];
@@ -74,12 +76,17 @@ public class EleveReader implements CSVReader<Eleve> {
                 //vérifier si les données sont valides
                 if (nom.isBlank() || prenom.isBlank())
                     continue;
-                if(!sexe.equals("Masculin") && !sexe.equals("Feminin"))
+                if(!sexe.equals("Masculin") && !sexe.equals("Féminin"))
                     continue;
                 if (lieuNaissance.isBlank() || adresse.isBlank() || telephone.isBlank() || email.isBlank())
                     continue;
                 // checker le format de l'email
                 if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$"))
+                    continue;
+                // checker le format du numéro de téléphone
+                if (!telephone.matches("^[0-9]{7,}$"))
+                    continue;
+                if (dateNaissance.isAfter(LocalDate.now()))
                     continue;
                     
                 Eleve eleve = new Eleve();

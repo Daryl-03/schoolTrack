@@ -85,12 +85,12 @@
                         <TextField fx:id="adrTextField" layoutX="182.0" layoutY="160.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
-                              <RadioButton fx:id="hommeBR" mnemonicParsing="false" selected="true" text="Homme">
+                              <RadioButton fx:id="hommeBR" mnemonicParsing="false" selected="true" text="Masculin">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="genre" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton fx:id="FemmeBR" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" text="Femme" toggleGroup="$genre" />
+                              <RadioButton fx:id="FemmeBR" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" text="Féminin" toggleGroup="$genre" />
                            </children>
                         </HBox>
                      </children>

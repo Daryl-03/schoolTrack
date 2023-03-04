@@ -14,9 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.converter.LocalDateStringConverter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -113,7 +111,8 @@ public class PaiementEleveController {
             // scolarité
             if(eleve.getId_classe()!= Constantes.ID_CRECHE) {
                 int nombrePaiementScolarite = paiementDAO.countScolarite(eleve.getId());
-                scolariteCountLabel.setText(String.valueOf(nombrePaiementScolarite+1));
+                nombrePaiementScolarite += paiementDAO.isPayedInscription(eleve.getId())?1:0;
+                scolariteCountLabel.setText(String.valueOf(nombrePaiementScolarite));
                 if (nombrePaiementScolarite < 9) {
                     Rubrique rubriqueScolarite = rubriqueDAO.readByIntituleAndMatricule("Scolarité", eleve.getMatricule());
                     if (LocalDate.now().isAfter(rubriqueScolarite.getEcheancier().getEcheances().get(nombrePaiementScolarite))) {
