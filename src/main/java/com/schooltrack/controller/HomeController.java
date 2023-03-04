@@ -1,6 +1,7 @@
 package com.schooltrack.controller;
 
 import com.schooltrack.controller.administateur.UserController;
+import com.schooltrack.controller.caissier.DashboardCaissierController;
 import com.schooltrack.controller.caissier.PaiementController;
 import com.schooltrack.controller.secretaire.DashboardController;
 import com.schooltrack.controller.secretaire.InscriptionController;
@@ -71,13 +72,28 @@ public class HomeController {
     @FXML
     public void dashboard() {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/dashboard.fxml"));
-            AnchorPane dashboard = loader.load();
-            rootLayout.getChildren().setAll(dashboard);
-            DashboardController dashboardController = loader.getController();
-            dashboardController.setLoginLabelValue(utilisateurConnecte.getLogin());
-            dashboardController.initSectionSize();
+            switch (Constantes.CURRENT_USER.getType()){
+                case "Secretaire":
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/com/schooltrack/view/secretaire/dashboard.fxml"));
+                    AnchorPane dashboard = loader.load();
+                    rootLayout.getChildren().setAll(dashboard);
+                    DashboardController dashboardController = loader.getController();
+                    dashboardController.setLoginLabelValue(utilisateurConnecte.getLogin());
+                    dashboardController.initSectionSize();
+                    break;
+                case "Caissier":
+                    FXMLLoader loaderCaissier = new FXMLLoader();
+                    loaderCaissier.setLocation(getClass().getResource("/com/schooltrack/view/caissier/dashboard.fxml"));
+                    AnchorPane dashboardCaissier = loaderCaissier.load();
+                    rootLayout.getChildren().setAll(dashboardCaissier);
+                    DashboardCaissierController dashboardCaissierController = loaderCaissier.getController();
+                    dashboardCaissierController.setParentStage(actualStage);
+                    break;
+                case "Administateur":
+                    
+                    break;
+            }
         } catch (Exception e){
             System.out.println("In Secretaire-dashboard() method");
 //            System.out.println(e.getLocalizedMessage());

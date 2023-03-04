@@ -722,5 +722,47 @@ public class PaiementDAO implements DAO<Paiement> {
             throw new DAOException(e.getMessage(), e.getCause());
         }
     }
+    
+    /**
+     * retourne le montant des paiements effectués pour le mois en cours
+     * @return  double montant
+     * @throws DAOException
+     */
+    public double getMontantMois() throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT SUM(montant) FROM paiement WHERE date BETWEEN ? AND ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, Date.valueOf(LocalDate.now().withDayOfMonth(1)));
+            preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getDouble(1);
+            }
+            return 0;
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
+    
+    /**
+     * retourne le nombre de paiements effectués pour l'inscription pour l'anée en cours
+     * @return  int nombre
+     * @throws DAOException
+     */
+    public int getNombreInscription() throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT COUNT(*) FROM paiement WHERE id_rubrique IN (SELECT id_rubriqueClasse FROM rubrique JOIN rubriqueclasse ON rubrique.id = rubriqueclasse.id_rubrique WHERE intitule = ?) AND id_annee = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "Inscription");
+            preparedStatement.setInt(2, Constantes.CURRENT_YEAR.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return 0;
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
 }
 
