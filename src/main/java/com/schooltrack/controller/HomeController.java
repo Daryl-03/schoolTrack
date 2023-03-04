@@ -90,8 +90,11 @@ public class HomeController {
                     DashboardCaissierController dashboardCaissierController = loaderCaissier.getController();
                     dashboardCaissierController.setParentStage(actualStage);
                     break;
-                case "Administateur":
-                    
+                case "Administrateur":
+                    FXMLLoader loaderAdmin = new FXMLLoader();
+                    loaderAdmin.setLocation(getClass().getResource("/com/schooltrack/view/adminR/dashboard.fxml"));
+                    AnchorPane dashboardAdmin = loaderAdmin.load();
+                    rootLayout.getChildren().setAll(dashboardAdmin);
                     break;
             }
         } catch (Exception e){

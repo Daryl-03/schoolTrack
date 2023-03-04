@@ -165,4 +165,23 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
         }
         return null;
     }
+    
+    /**
+     * retourne le nombre d'utilisateur dans la base de données
+     * @return le nombre d'utilisateur
+     * @throws DAOException
+     */
+    public int count() throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT COUNT(*) FROM utilisateur";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return 0;
+    }
 }

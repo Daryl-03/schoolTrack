@@ -493,7 +493,7 @@ public class SectionController {
 
     @FXML
     private void importCsv(ActionEvent event) {
-        Alerts.showInfo(getParentStage(), "Le fichier CSV doit être de la forme suivante: Nom, Prenom, Sexe, Date de naissance(jj/mm/aaaa), Lieu de naissance, Adresse, Telephone.\nLe fichier ne comprend pas d'entête.\nToutes les données sont obligatoires.\nLes lignes incorrectes seront ignorées.");
+        Alerts.showInfo(getParentStage(), "Le fichier CSV doit être de la forme suivante:\n Nom, Prenom, Sexe(Masculin/Féminin), Date de naissance(jj/mm/aaaa), Lieu de naissance, Adresse, Telephone, Email.\nLe fichier ne comprend pas d'entête.\nToutes les données sont obligatoires.\nLes lignes incorrectes seront ignorées.");
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Choisir le fichier CSV");
@@ -509,6 +509,7 @@ public class SectionController {
                     new EleveDAO().create(eleve);
                 }
                 Alerts.showInfo(getParentStage(), "Les élèves ont été importés avec succès");
+                updateEleveTable();
             }
         } catch (Exception e) {
             e.printStackTrace();

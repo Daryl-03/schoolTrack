@@ -48,7 +48,7 @@ public class EleveReader implements CSVReader<Eleve> {
     public List<String[]> getData(List<String> lines) {
         List<String[]> data = new ArrayList<>();
         for (String line : lines) {
-            data.add(line.split(";"));
+            data.add(line.split(","));
         }
         return data;
     }
@@ -101,10 +101,13 @@ public class EleveReader implements CSVReader<Eleve> {
                 eleves.add(eleve);
             }
         } catch (DateTimeParseException e) {
+            e.printStackTrace();
             throw new CSVReaderException("date invalide");
         } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
             throw new CSVReaderException("données manquantes");
         } catch (Exception e) {
+            e.printStackTrace();
             throw new CSVReaderException(e.getMessage());
         }
         return eleves;

@@ -67,7 +67,7 @@ public class CertificatGenerator {
             
             // informations de certificat
             Paragraph certificat = new Paragraph("est régulièrement inscrit(e) dans notre établissement depuis le " + DateTimeFormatter.ofPattern("dd/MM/yyyy").format(new EleveDAO().readDateInscription(eleve.getId())) + " et qu'il/elle est actuellement en classe de " + eleve.getClasse() + ".\n", new Font(Font.FontFamily.TIMES_ROMAN, 12));
-            certificat.setAlignment(Element.ALIGN_JUSTIFIED_ALL);
+            certificat.setAlignment(Element.ALIGN_BASELINE);
             certificat.setSpacingBefore(20f);
             certificat.setSpacingAfter(20f);
             certificat.setIndentationLeft(50f);

@@ -5,7 +5,6 @@ import com.schooltrack.utils.Alerts;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.controlsfx.validation.Validator;
 
 public class EleveEditController {
     
@@ -101,9 +100,9 @@ public class EleveEditController {
             eleve.setDateDeNaissance(dtNaissDatePicker.getValue());
             eleve.setAdresse(adrTextField.getText());
             if (FemmeBR.isSelected()) {
-                eleve.setSexe("Femme");
+                eleve.setSexe("Féminin");
             } else {
-                eleve.setSexe("Homme");
+                eleve.setSexe("Masculin");
             }
             dialogStage.close();
         }
