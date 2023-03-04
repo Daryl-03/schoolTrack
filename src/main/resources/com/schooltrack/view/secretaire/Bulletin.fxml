@@ -56,7 +56,7 @@
                     <buttons>
                         <Button mnemonicParsing="false" onAction="#leftBulletin" text="&lt;" />
                       <Button mnemonicParsing="false" onAction="#handleSave" text="Enregistrer" />
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="92.0" style="-fx-background-color: #3E53D4;" text="Imprimer" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#handlePrint" prefHeight="25.0" prefWidth="92.0" style="-fx-background-color: #3E53D4;" text="Imprimer" textFill="WHITE">
                            <graphic>
                               <FontAwesomeIconView fill="WHITESMOKE" glyphName="FILE_PDF_ALT" />
                            </graphic>

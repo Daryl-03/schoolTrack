@@ -11,6 +11,7 @@ module com.schooltrack.schooltrack {
 //    requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires itextpdf;
     
     opens com.schooltrack.view to javafx.fxml;
     exports com.schooltrack;

@@ -37,13 +37,14 @@ public class Bulletin {
 	}
 	
 	public float getMoyenne() {
-		// calculer la moyenne
-		float sum = 0;
-		for (Note note : notes.get()) {
-			sum += note.getValeur();
+		// calculer la moyenne en tenant compte des coefficients
+		float somme = 0;
+		float sommeCoef = 0;
+		for (Note note : notes) {
+			somme += note.getValeur() * note.getMatiere().getCoefficient();
+			sommeCoef += note.getMatiere().getCoefficient();
 		}
-		moyenne.set(sum / notes.get().size());
-		return moyenne.get();
+		return somme / sommeCoef;
 	}
 	
 	public FloatProperty moyenneProperty() {

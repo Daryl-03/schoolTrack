@@ -1,18 +1,24 @@
 package com.schooltrack.controller.secretaire;
 
 import com.schooltrack.exceptions.DAOException;
+import com.schooltrack.exceptions.PDFException;
+import com.schooltrack.models.Bulletin;
 import com.schooltrack.models.Classe;
 import com.schooltrack.models.Eleve;
 import com.schooltrack.models.Note;
 import com.schooltrack.models.datasource.NoteDAO;
+import com.schooltrack.pdf.BulletinGenerator;
 import com.schooltrack.utils.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
+
+import java.io.File;
 
 public class BulletinController {
     
@@ -87,7 +93,40 @@ public class BulletinController {
     
     @FXML
     private void handlePrint(ActionEvent event) {
-        Alerts.showInfo(dialogStage, "Fonctionnalité non implémentée");
+        // vérifier si le bulletin n'est pas vide
+        if(notesTable.getItems().isEmpty()) {
+            Alerts.showError(dialogStage, "Le bulletin est vide");
+            return;
+        }
+        // Prompt user to choose a file name.
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Enregistrer le bulletin");
+        fileChooser.setInitialFileName("Bulletin_" + eleve.getNom() + "_" + eleve.getPrenom() + ".pdf");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PDF", "*.pdf")
+        );
+        // Show save file dialog
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showSaveDialog(dialogStage);
+        if (file != null) {
+            // Make sure it has the correct extension
+            if (!file.getPath().endsWith(".pdf")) {
+                file = new File(file.getPath() + ".pdf");
+            }
+            // générer le bulletin
+            try {
+                BulletinGenerator bulletinGenerator = new BulletinGenerator();
+                Bulletin bulletin = eleve.getBulletins().get(trimestreChoiceBox.getSelectionModel().getSelectedIndex());
+                String path = file.getAbsolutePath();
+                bulletinGenerator.generate(path, bulletin);
+                Alerts.showInfo(dialogStage, "Bulletin généré avec succès");
+            } catch (PDFException e) {
+                System.out.println("Erreur lors de la génération du bulletin");
+                e.printStackTrace();
+                Alerts.showError(dialogStage, "Erreur lors de la génération du bulletin");
+            }
+        }
     }
     
     @FXML

@@ -1,15 +1,13 @@
 package com.schooltrack.controller.secretaire;
 
-import com.schooltrack.controller.caissier.PaiementController;
-import com.schooltrack.controller.caissier.PaiementEditController;
 import com.schooltrack.controller.caissier.PaiementEleveController;
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.models.*;
 import com.schooltrack.models.datasource.*;
+import com.schooltrack.pdf.CertificatGenerator;
 import com.schooltrack.utils.Alerts;
 import com.schooltrack.utils.Constantes;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,10 +18,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.converter.LocalDateStringConverter;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -261,7 +261,36 @@ public class SectionController {
             Alerts.showError(getParentStage(), "Veuillez sélectionner une matière");
         }
     }
-
+    
+    @FXML
+    private void handleCertificat(){
+        try {
+            if (eleveTable.getSelectionModel().getSelectedItem() != null){
+                // générer un prompt pour sauvegarder le certificat
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Enregistrer le certificat");
+                fileChooser.setInitialFileName("Certificat_"+eleveTable.getSelectionModel().getSelectedItem().getNom()+"_"+eleveTable.getSelectionModel().getSelectedItem().getPrenom());
+                fileChooser.getExtensionFilters().addAll(
+                        new FileChooser.ExtensionFilter("PDF", "*.pdf")
+                );
+                File file = fileChooser.showSaveDialog(getParentStage());
+                if (file != null) {
+                    // générer le certificat
+                    Eleve eleve = eleveTable.getSelectionModel().getSelectedItem();
+                    String path = file.getAbsolutePath();
+                    CertificatGenerator.generate(path, eleve);
+                    Alerts.showInfo(getParentStage(), "Le certificat a été généré avec succès");
+                }
+            } else {
+                Alerts.showError(getParentStage(), "Veuillez sélectionner un élève");
+            }
+        } catch (Exception e) {
+            System.out.println("In Secretaire-handleCertificat() method");
+            e.printStackTrace();
+            Alerts.showError(getParentStage(), e.getMessage() + e.getCause());
+        }
+    }
+    
     @FXML
     private void handleAddEleve(ActionEvent event) {
         try {

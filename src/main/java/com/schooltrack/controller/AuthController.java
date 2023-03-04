@@ -1,6 +1,5 @@
 package com.schooltrack.controller;
 
-import com.schooltrack.models.AnneeScolaire;
 import com.schooltrack.models.Utilisateur;
 import com.schooltrack.models.datasource.AnneeScolaireDAO;
 import com.schooltrack.models.datasource.UtilisateurDAO;

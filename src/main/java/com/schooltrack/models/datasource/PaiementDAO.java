@@ -2,7 +2,6 @@ package com.schooltrack.models.datasource;
 
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.jdbc.DBManager;
-import com.schooltrack.models.Eleve;
 import com.schooltrack.models.Paiement;
 import com.schooltrack.utils.Constantes;
 import javafx.collections.FXCollections;
@@ -694,6 +693,29 @@ public class PaiementDAO implements DAO<Paiement> {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt(1);
+            }
+            return 0;
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
+    
+    /**
+     * détermine le numéro de la tranche d'un paiement de scolarité pour l'élève donné pour la rubrique d'intitulé "Scolarité"
+     * @param paiement
+     * @return  int
+     * @throws DAOException
+     */
+    public int getTranche(Paiement paiement) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT COUNT(*) FROM paiement WHERE id_eleve = (SELECT id_eleve FROM paiement WHERE id = ?) AND id_rubrique IN (SELECT id_rubriqueClasse FROM rubrique JOIN rubriqueclasse ON rubrique.id = rubriqueclasse.id_rubrique WHERE intitule = ?) AND id < ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, paiement.getId_eleve());
+            preparedStatement.setString(2, "Scolarité");
+            preparedStatement.setInt(3, paiement.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) + 2;
             }
             return 0;
         } catch (Exception e) {

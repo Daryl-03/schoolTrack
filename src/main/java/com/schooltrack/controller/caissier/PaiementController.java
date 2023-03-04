@@ -1,6 +1,5 @@
 package com.schooltrack.controller.caissier;
 
-import com.almasb.fxgl.physics.box2d.dynamics.joints.LimitState;
 import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.models.Paiement;
 import com.schooltrack.models.PaiementTableViewModel;
@@ -8,21 +7,23 @@ import com.schooltrack.models.datasource.AnneeScolaireDAO;
 import com.schooltrack.models.datasource.EleveDAO;
 import com.schooltrack.models.datasource.PaiementDAO;
 import com.schooltrack.models.datasource.RubriqueDAO;
+import com.schooltrack.pdf.RecuGenerator;
 import com.schooltrack.utils.Alerts;
 import com.schooltrack.utils.Constantes;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -145,7 +146,34 @@ public class PaiementController {
 
     @FXML
     void handlePrint(ActionEvent event) {
-
+        if(paiementTable.getSelectionModel().getSelectedItem() == null) {
+            Alerts.showError(parentStage, "Aucun paiement n'est selectionné");
+            return;
+        }
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Enregistrer le reçu");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("PDF", "*.pdf")
+            );
+            fileChooser.setInitialFileName("reçu_"+paiementTable.getSelectionModel().getSelectedItem().getPaiement().getNumero());
+            File file = fileChooser.showSaveDialog(parentStage);
+            if(file != null) {
+                
+                Paiement paiement = paiementTable.getSelectionModel().getSelectedItem().getPaiement();
+                String fileName = file.getAbsolutePath();
+                if(!fileName.endsWith(".pdf")) {
+                    fileName += ".pdf";
+                }
+                RecuGenerator generator = new RecuGenerator();
+                generator.generate(fileName, paiement);
+                Alerts.showInfo(parentStage, "Le reçu a été généré avec succès");
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur lors de l'impression du reçu");
+            e.printStackTrace();
+            Alerts.showError(parentStage, "Erreur lors de l'impression du reçu :"+e.getMessage());
+        }
     }
 
     

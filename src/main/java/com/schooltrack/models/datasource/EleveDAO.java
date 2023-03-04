@@ -6,6 +6,7 @@ import com.schooltrack.models.AnneeScolaire;
 import com.schooltrack.models.Bulletin;
 import com.schooltrack.models.Eleve;
 import com.schooltrack.models.Paiement;
+import com.schooltrack.utils.Constantes;
 import javafx.collections.FXCollections;
 
 import java.sql.Connection;
@@ -98,6 +99,28 @@ public class EleveDAO implements DAO<Eleve>{
         } catch (Exception e) {
             throw new DAOException(e.getMessage(),e.getCause());
         }
+    }
+    
+    /**
+     * Lis la date d'inscription d'un élève
+     * @param id
+     * @return date d'inscription
+     * @throws DAOException
+     */
+    public LocalDate readDateInscription(int id) throws DAOException {
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT dateInscription FROM inscription WHERE id_eleve = ? AND id_annee = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, Constantes.CURRENT_YEAR.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getDate("dateInscription").toLocalDate();
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return null;
     }
     
     /**

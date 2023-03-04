@@ -109,7 +109,7 @@ public class HomeController {
             AnchorPane inscription = loader.load();
     
             InscriptionController inscriptionController = loader.getController();
-            inscriptionController.setParentStage(parentStage);
+            inscriptionController.setParentStage(actualStage);
             inscriptionController.initSectionChoiceBox();
             
             rootLayout.getChildren().setAll(inscription);
@@ -148,7 +148,7 @@ public class HomeController {
             AnchorPane paiement = loader.load();
     
             PaiementController paiementController = loader.getController();
-            paiementController.setParentStage(parentStage);
+            paiementController.setParentStage(actualStage);
             paiementController.initChoiceBoxes();
             
             rootLayout.getChildren().setAll(paiement);
