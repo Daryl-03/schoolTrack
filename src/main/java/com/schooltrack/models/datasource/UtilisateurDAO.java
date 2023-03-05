@@ -4,6 +4,7 @@ import com.schooltrack.exceptions.DAOException;
 import com.schooltrack.jdbc.DBManager;
 import com.schooltrack.models.Utilisateur;
 import com.schooltrack.models.factory.UtilisateurFactory;
+import com.schooltrack.utils.PasswordUtil;
 import javafx.collections.FXCollections;
 
 import java.sql.Connection;
@@ -23,7 +24,9 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
             preparedStatement.setString(3, utilisateur.getLogin());
             preparedStatement.setString(4, utilisateur.getEmail());
             preparedStatement.setString(5, utilisateur.getTelephone());
-            preparedStatement.setString(6, utilisateur.getPassword());
+            String password = utilisateur.getPassword();
+            password = PasswordUtil.encrypt(password);
+            preparedStatement.setString(6, password);
             preparedStatement.setString(7, utilisateur.getType());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
@@ -65,7 +68,9 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
             preparedStatement.setString(3, utilisateur.getLogin());
             preparedStatement.setString(4, utilisateur.getEmail());
             preparedStatement.setString(5, utilisateur.getTelephone());
-            preparedStatement.setString(6, utilisateur.getPassword());
+            String password = utilisateur.getPassword();
+            password = PasswordUtil.encrypt(password);
+            preparedStatement.setString(6, password);
             preparedStatement.setString(7, utilisateur.getType());
             preparedStatement.setInt(8, utilisateur.getId());
             preparedStatement.executeUpdate();
@@ -146,7 +151,7 @@ public class UtilisateurDAO implements DAO<Utilisateur>{
             String sql = "SELECT * FROM utilisateur WHERE login = ? AND password = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, login);
-            preparedStatement.setString(2, password);
+            preparedStatement.setString(2, PasswordUtil.encrypt(password));
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Utilisateur utilisateur = null;

@@ -127,6 +127,40 @@
                         </AnchorPane>
                      </content>
                 </Tab>
+                  <Tab text="Rubriques">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <SplitPane dividerPositions="0.4544314381270903" prefHeight="462.6666666666667" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <items>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                       <children>
+                                          <TableView fx:id="rubriqueTable" layoutX="55.0" layoutY="56.0" prefHeight="460.6666666666667" prefWidth="346.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <columns>
+                                              <TableColumn fx:id="rubriqueTblColumn" prefWidth="75.0" text="Rubrique" />
+                                              <TableColumn fx:id="montantRubriqueColumn" prefWidth="75.0" text="Montant" />
+                                            </columns>
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="461.0" prefWidth="393.0">
+                                       <children>
+                                          <ImageView fitHeight="303.0" fitWidth="283.0" layoutX="75.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../image/Credit%20card-rafiki.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
               </tabs>
             </TabPane>
          </center>

@@ -68,6 +68,7 @@ public class UserController {
                 } else {
                     utilisateurDAO.create(utilisateur);
                     userTable.getItems().add(utilisateur);
+                    Alerts.showInfo(parentStage, "Utilisateur ajouté avec succès");
                 }
             }
         } catch (Exception e) {
@@ -86,6 +87,7 @@ public class UserController {
             try {
                 utilisateurDAO.delete(utilisateur.getId());
                 userTable.getItems().remove(utilisateur);
+                Alerts.showInfo(parentStage, "Utilisateur supprimé avec succès");
             } catch (DAOException e) {
                 throw new RuntimeException(e);
             }
@@ -116,6 +118,7 @@ public class UserController {
                     Utilisateur utilisateur = controller.getUtilisateur();
                     utilisateurDAO.update(utilisateur);
                     initTable();
+                    Alerts.showInfo(parentStage, "Utilisateur modifié avec succès");
                 }
             } else{
                 Alerts.showError(parentStage, "Veuillez sélectionner un utilisateur");

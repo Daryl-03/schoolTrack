@@ -30,6 +30,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SectionController {
+
+    @FXML
+    private TableColumn<Rubrique, Double> montantRubriqueColumn;
+    @FXML
+    private TableView<Rubrique> rubriqueTable;
+
+    @FXML
+    private TableColumn<Rubrique, String> rubriqueTblColumn;
     @FXML
     private TableColumn<Eleve, String> adresseColumn;
 
@@ -526,6 +534,9 @@ public class SectionController {
         // Map the columns of the echeanceTable to the properties of the Echeance class
         if (Constantes.CURRENT_USER.getType().equals("Administrateur"))
             mapEcheanceTableToData();
+        // Map the columns of the rubriqueTable to the properties of the Paiement class
+        if (Constantes.CURRENT_USER.getType().equals("Administrateur") || Constantes.CURRENT_USER.getType().equals("Caissier"))
+            mapRubriqueTableToData();
         // add listener to sectionChoiceBox and update the classeChoiceBox when the section is changed then update the eleveTable
         sectionChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 //            System.out.println("Section changed from "+oldValue+" to "+newValue);
@@ -541,8 +552,20 @@ public class SectionController {
                 updateMatTable();
                 if (Constantes.CURRENT_USER.getType().equals("Administrateur"))
                     updateEcheanceTable();
+                if (Constantes.CURRENT_USER.getType().equals("Administrateur") || Constantes.CURRENT_USER.getType().equals("Caissier"))
+                    updateRubriqueTable();
             }
         });
+    }
+    
+    private void updateRubriqueTable() {
+        rubriqueTable.getItems().clear();
+        rubriqueTable.getItems().addAll(sections.get(getSectionId()-1).getClasses().get(getClasseIndex()).getRubriques());
+    }
+    
+    private void mapRubriqueTableToData() {
+        rubriqueTblColumn.setCellValueFactory(cellData -> cellData.getValue().intituleProperty());
+        montantRubriqueColumn.setCellValueFactory(cellData -> cellData.getValue().montantProperty().asObject());
     }
     
     private void updateEcheanceTable() {

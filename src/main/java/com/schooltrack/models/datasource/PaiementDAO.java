@@ -528,6 +528,39 @@ public class PaiementDAO implements DAO<Paiement> {
     }
     
     /**
+     * retourne la liste des paiements annuels
+     * @return  List<Paiement>
+     * @throws DAOException
+     */
+    public List<Paiement> readAllByYear() throws DAOException {
+        List<Paiement> paiements = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM paiement WHERE date BETWEEN ? AND ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, Date.valueOf(LocalDate.now().minusDays(365)));
+            preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
+    
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Paiement paiement = new Paiement(
+                        resultSet.getInt("id"),
+                        resultSet.getString("numero"),
+                        resultSet.getDate("date").toLocalDate(),
+                        resultSet.getString("observation"),
+                        resultSet.getDouble("montant"),
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
+                );
+                paiements.add(paiement);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return paiements;
+    }
+    
+    /**
      * retourne la liste des paiements journaliers pour toutes les rubriques d'intitulé donné
      * @param intitule
      * @return  List<Paiement>
@@ -606,6 +639,40 @@ public class PaiementDAO implements DAO<Paiement> {
             String sql = "SELECT * FROM paiement WHERE date BETWEEN ? AND ? AND id_rubrique IN (SELECT id_rubriqueClasse FROM rubrique JOIN rubriqueclasse ON rubrique.id = rubriqueclasse.id_rubrique WHERE intitule = ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setDate(1, Date.valueOf(LocalDate.now().minusDays(30)));
+            preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
+            preparedStatement.setString(3, intitule);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Paiement paiement = new Paiement(
+                        resultSet.getInt("id"),
+                        resultSet.getString("numero"),
+                        resultSet.getDate("date").toLocalDate(),
+                        resultSet.getString("observation"),
+                        resultSet.getDouble("montant"),
+                        resultSet.getInt("id_rubrique"),
+                        resultSet.getInt("id_eleve"),
+                        resultSet.getInt("id_annee")
+                );
+                paiements.add(paiement);
+            }
+        } catch (Exception e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+        return paiements;
+    }
+    
+    /**
+     * retourne la liste des paiements annuels pour toutes les rubriques d'intitulé donné
+     * @param intitule
+     * @return  List<Paiement>
+     * @throws DAOException
+     */
+    public List<Paiement> readAllByYearAndRubrique(String intitule) throws DAOException {
+        List<Paiement> paiements = FXCollections.observableArrayList();
+        try (Connection connection = DBManager.getConnection()) {
+            String sql = "SELECT * FROM paiement WHERE date BETWEEN ? AND ? AND id_rubrique IN (SELECT id_rubriqueClasse FROM rubrique JOIN rubriqueclasse ON rubrique.id = rubriqueclasse.id_rubrique WHERE intitule = ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, Date.valueOf(LocalDate.now().minusDays(365)));
             preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
             preparedStatement.setString(3, intitule);
             ResultSet resultSet = preparedStatement.executeQuery();

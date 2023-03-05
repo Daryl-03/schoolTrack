@@ -4,13 +4,13 @@ import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 
 public class Bulletin {
-	private final IntegerProperty id;
-	private final IntegerProperty trimestre;
-	private final FloatProperty moyenne;
-	private final ListProperty<Note> notes;
-	private final IntegerProperty id_eleve;
-	private final IntegerProperty id_classe;
-	private final IntegerProperty id_annee;
+	private IntegerProperty id;
+	private IntegerProperty trimestre;
+	private FloatProperty moyenne;
+	private ListProperty<Note> notes;
+	private IntegerProperty id_eleve;
+	private IntegerProperty id_classe;
+	private IntegerProperty id_annee;
 	
 	public int getId() {
 		return id.get();

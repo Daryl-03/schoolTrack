@@ -9,8 +9,8 @@ import java.time.LocalDate;
 
 
 public class Certificat {
-	private final IntegerProperty id;
-	private final ObjectProperty<LocalDate> date;
+	private IntegerProperty id;
+	private ObjectProperty<LocalDate> date;
 
 
 	public int getId() {

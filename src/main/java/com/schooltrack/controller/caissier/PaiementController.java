@@ -221,6 +221,9 @@ public class PaiementController {
                     case "Mensuelle":
                         paiements = new PaiementDAO().readAllByMonth();
                         break;
+                    case "Annuelle":
+                        paiements = new PaiementDAO().readAllByYear();
+                        break;
                 }
             } else {
                 String rubrique = rubriqueChoiceBox.getSelectionModel().getSelectedItem();
@@ -237,6 +240,9 @@ public class PaiementController {
                         break;
                     case "Mensuelle":
                         paiements = new PaiementDAO().readAllByMonthAndRubrique(rubrique);
+                        break;
+                    case "Annuelle":
+                        paiements = new PaiementDAO().readAllByYearAndRubrique(rubrique);
                         break;
                 }
             }
@@ -266,6 +272,7 @@ public class PaiementController {
                 periodeChoiceBox.getItems().add("Aujourd'hui");
                 periodeChoiceBox.getItems().add("Hebdomadaire");
                 periodeChoiceBox.getItems().add("Mensuelle");
+                periodeChoiceBox.getItems().add("Annuelle");
             }
             periodeChoiceBox.getSelectionModel().selectFirst();
         } catch (DAOException e) {

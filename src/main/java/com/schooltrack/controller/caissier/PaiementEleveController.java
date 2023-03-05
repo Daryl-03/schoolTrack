@@ -7,6 +7,7 @@ import com.schooltrack.models.PaiementTableViewModel;
 import com.schooltrack.models.Rubrique;
 import com.schooltrack.models.datasource.PaiementDAO;
 import com.schooltrack.models.datasource.RubriqueDAO;
+import com.schooltrack.pdf.RecuGenerator;
 import com.schooltrack.utils.Alerts;
 import com.schooltrack.utils.Constantes;
 import javafx.collections.FXCollections;
@@ -14,8 +15,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +78,34 @@ public class PaiementEleveController {
     
     @FXML
     private void handlePrint(){
+        if(elevePaiementTable.getSelectionModel().getSelectedItem() == null) {
+            Alerts.showError(dialogStage, "Aucun paiement n'est selectionné");
+            return;
+        }
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Enregistrer le reçu");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("PDF", "*.pdf")
+            );
+            fileChooser.setInitialFileName("reçu_"+elevePaiementTable.getSelectionModel().getSelectedItem().getPaiement().getNumero());
+            File file = fileChooser.showSaveDialog(dialogStage);
+            if(file != null) {
+                
+                Paiement paiement = elevePaiementTable.getSelectionModel().getSelectedItem().getPaiement();
+                String fileName = file.getAbsolutePath();
+                if(!fileName.endsWith(".pdf")) {
+                    fileName += ".pdf";
+                }
+                RecuGenerator generator = new RecuGenerator();
+                generator.generate(fileName, paiement);
+                Alerts.showInfo(dialogStage, "Le reçu a été généré avec succès");
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur lors de l'impression du reçu");
+            e.printStackTrace();
+            Alerts.showError(dialogStage, "Erreur lors de l'impression du reçu :"+e.getMessage());
+        }
     }
     
     @FXML
